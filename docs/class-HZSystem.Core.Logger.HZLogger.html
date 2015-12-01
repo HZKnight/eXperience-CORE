@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class HZSystem\Core\Logger\HZLogger</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-HZSystem.html">
+						HZSystem<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-HZSystem.Core.html">
+						Core<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-HZSystem.Core.Logger.html">
+						Logger<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-HZSystem.Core.Logger.Appenders.html">
+						Appenders					</a>
+
+						</li>
+				<li>
+					<a href="namespace-HZSystem.Core.Logger.Exceptions.html">
+						Exceptions					</a>
+
+						</li>
+							</ul></li></ul></li>
+				<li>
+					<a href="namespace-HZSystem.Exceptions.html">
+						Exceptions					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-HZSystem.Core.Logger.HZLogger.html">HZLogger</a></li>
+				<li><a href="class-HZSystem.Core.Logger.HZLogRow.html">HZLogRow</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-HZSystem.Core.Logger.html" title="Summary of HZSystem\Core\Logger"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class HZLogger</h1>
+
+
+	<div class="description">
+	<p>Logger di sistema</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-HZSystem.html">HZSystem</a>\<a href="namespace-HZSystem.Core.html">Core</a>\<a href="namespace-HZSystem.Core.Logger.html">Logger</a><br>
+		<b>Package:</b> HZSystem\Core\Logger<br>
+
+				<b>Copyright:</b>
+				2015 Luca Liscio<br>
+				<b>License:</b>
+				<a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU/AGPL3</a><br>
+				<b>Author:</b>
+				Luca Liscio <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;">&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;</a><br>
+				<b>Version:</b>
+				0.0.1 2015/11/30 01:44:20<br>
+			<b>Located at</b> <a href="source-class-HZSystem.Core.Logger.HZLogger.html#29-204" title="Go to source code">core/logger/hzlogger.class.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="getLogger" id="_getLogger">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLogger">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#73-87" title="Go to source code">getLogger</a>( <span>string <var>$logname</var></span>, <span>integer <var>$type</var> = <code><a href="class-HZSystem.Core.Logger.HZLogger.html#LOG_APPENDER_FILE">HZSystem\Core\Logger\HZLogger::<b>LOG_APPENDER_FILE</b></a></code></span> )</code>
+
+		<div class="description short">
+			<p>Crea una nuova istanza del logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Crea una nuova istanza del logger</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$logname</var></dt>
+					<dd>nome della nuova istanza del logger da creare</dd>
+					<dt><var>$type</var></dt>
+					<dd>tipo di logger da creare</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></code>
+				</div>
+
+
+				<h4>Example</h4>
+				<div class="list">
+						$miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE);<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getIstances" id="_getIstances">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getIstances">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#89-96" title="Go to source code">getIstances</a>( )</code>
+
+		<div class="description short">
+			<p>Restituisce un array con tutte le istanze del logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Restituisce un array con tutte le istanze del logger</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#98-110" title="Go to source code">__construct</a>( <span>string <var>$logname</var></span>, <span>integer <var>$type</var></span> )</code>
+
+		<div class="description short">
+			<p>Metodo costruttore</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Metodo costruttore</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$logname</var></dt>
+					<dd>nome del logger</dd>
+					<dt><var>$type</var></dt>
+					<dd>tipo di logger da creare</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add_appender" id="_add_appender">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add_appender">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#112-133" title="Go to source code">add_appender</a>( <span>integer <var>$type</var></span> )</code>
+
+		<div class="description short">
+			<p>Aggiunge un nuovo appender al logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Aggiunge un nuovo appender al logger</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>tipo di appender da aggiungere</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="remove_appender" id="_remove_appender">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_remove_appender">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#135-148" title="Go to source code">remove_appender</a>( <span>integer <var>$type</var></span> )</code>
+
+		<div class="description short">
+			<p>Rimuove un appender dal logger</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Rimuove un appender dal logger</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>tipo di appender da rimuovere</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					AppenderNotFoundException
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_appender" id="_get_appender">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-HZSystem.Core.Logger.Appenders.Appender.html">HZSystem\Core\Logger\Appenders\Appender</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_appender">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#150-164" title="Go to source code">get_appender</a>( <span>integer <var>$type</var></span> )</code>
+
+		<div class="description short">
+			<p>restituisce l'appender associato al tipo specifiato</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>restituisce l'appender associato al tipo specifiato</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd>tipo di appender che si vuole ottenere</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-HZSystem.Core.Logger.Appenders.Appender.html">HZSystem\Core\Logger\Appenders\Appender</a></code>
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					AppenderNotFoundException
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setDateFormat" id="_setDateFormat">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setDateFormat">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#166-174" title="Go to source code">setDateFormat</a>( <span>string <var>$date_format</var></span> )</code>
+
+		<div class="description short">
+			<p>setta il formato data del log usa la stessa sintassi del comando date di php</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>setta il formato data del log usa la stessa sintassi del comando date di php</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$date_format</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="append" id="_append">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_append">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#176-180" title="Go to source code">append</a>( <span> <var>$level</var></span>, <span> <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error" id="_error">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#182-185" title="Go to source code">error</a>( <span> <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="warning" id="_warning">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_warning">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#187-190" title="Go to source code">warning</a>( <span> <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="info" id="_info">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_info">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#192-195" title="Go to source code">info</a>( <span> <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="debug" id="_debug">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_debug">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#197-200" title="Go to source code">debug</a>( <span> <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="LOG_FATAL" id="LOG_FATAL">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#44-45" title="Go to source code"><b>LOG_FATAL</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Fatal error - higth level of error</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Fatal error - higth level of error</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_FATAL" class="anchor">#</a>
+				<code><span class="php-num">404</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_ERROR" id="LOG_ERROR">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#46-47" title="Go to source code"><b>LOG_ERROR</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Normal error - medium level of error</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Normal error - medium level of error</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_ERROR" class="anchor">#</a>
+				<code><span class="php-num">403</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_WARNING" id="LOG_WARNING">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#48-49" title="Go to source code"><b>LOG_WARNING</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Warning - low level of error</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Warning - low level of error</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_WARNING" class="anchor">#</a>
+				<code><span class="php-num">402</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_INFO" id="LOG_INFO">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#50-51" title="Go to source code"><b>LOG_INFO</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Info - info message</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Info - info message</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_INFO" class="anchor">#</a>
+				<code><span class="php-num">401</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_DEBUG" id="LOG_DEBUG">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#52-53" title="Go to source code"><b>LOG_DEBUG</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Debug - debug message</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Debug - debug message</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_DEBUG" class="anchor">#</a>
+				<code><span class="php-num">400</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_APPENDER_FILE" id="LOG_APPENDER_FILE">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#56-57" title="Go to source code"><b>LOG_APPENDER_FILE</b></a>
+			</code>
+
+			<div class="description short">
+				<p>File type log</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>File type log</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_APPENDER_FILE" class="anchor">#</a>
+				<code><span class="php-num">501</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_APPENDER_EMAIL" id="LOG_APPENDER_EMAIL">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#58-59" title="Go to source code"><b>LOG_APPENDER_EMAIL</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Email type log</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Email type log</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_APPENDER_EMAIL" class="anchor">#</a>
+				<code><span class="php-num">502</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_APPENDER_DB" id="LOG_APPENDER_DB">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#60-61" title="Go to source code"><b>LOG_APPENDER_DB</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Data base type log</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Data base type log</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_APPENDER_DB" class="anchor">#</a>
+				<code><span class="php-num">503</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="LOG_APPENDER_FIREPHP" id="LOG_APPENDER_FIREPHP">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-HZSystem.Core.Logger.HZLogger.html#62-63" title="Go to source code"><b>LOG_APPENDER_FIREPHP</b></a>
+			</code>
+
+			<div class="description short">
+				<p>Firebug type log</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Firebug type log</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#LOG_APPENDER_FIREPHP" class="anchor">#</a>
+				<code><span class="php-num">504</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
