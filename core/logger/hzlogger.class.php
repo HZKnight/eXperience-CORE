@@ -33,10 +33,10 @@
 	 *  @copyright 2015 Luca Liscio
 	 *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
 	 *
-	 *  @package HZSystem
-	 *  @subpackage Core\Logger
-	 *  @filesource
-	 */
+    *  @package HZSystem
+    *  @subpackage Core\Logger
+    *  @filesource
+    */
 	
     class HZLogger {
         
