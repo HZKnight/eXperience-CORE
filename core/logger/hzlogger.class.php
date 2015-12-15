@@ -1,42 +1,42 @@
 <?php
  
-	namespace HZSystem\Core\Logger;
+    namespace HZSystem\Core\Logger;
  	
-	use HZSystem\Core\Logger\Appenders;
-	use HZSystem\Core\Logger\Appenders\Appender_file;
-	use HZSystem\Core\Logger\Appenders\Appender_email;
-	use HZSystem\Core\Logger\Appenders\Appender_db;
-	use HZSystem\Core\Logger\Appenders\Appender_firephp;
+    use HZSystem\Core\Logger\Appenders;
+    use HZSystem\Core\Logger\Appenders\Appender_file;
+    use HZSystem\Core\Logger\Appenders\Appender_email;
+    use HZSystem\Core\Logger\Appenders\Appender_db;
+    use HZSystem\Core\Logger\Appenders\Appender_firephp;
 	
-	/*
-	 * Copyright (C) 2015 Luca Liscio
-	 *
-	 * This program is free software: you can redistribute it and/or modify
-	 * it under the terms of the GNU Affero General Public License as published by
-	 * the Free Software Foundation, either version 3 of the License, or
-	 * (at your option) any later version.
-	 *
-	 * This program is distributed in the hope that it will be useful,
-	 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	 * GNU Affero General Public License for more details.
-	 *
-	 * You should have received a copy of the GNU Affero General Public License
-	 * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
-	 */
+    /*
+     * Copyright (C) 2015 Luca Liscio
+     *
+     * This program is free software: you can redistribute it and/or modify
+     * it under the terms of the GNU Affero General Public License as published by
+     * the Free Software Foundation, either version 3 of the License, or
+     * (at your option) any later version.
+     *
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     * GNU Affero General Public License for more details.
+     *
+     * You should have received a copy of the GNU Affero General Public License
+     * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
+     */
 	
-	/**
-	 *  Logger di sistema 
-	 *
-	 *  @author  Luca Liscio <hzkight@h0model.org>
-	 *  @version 0.0.1 2015/11/30 01:44:20
-	 *  @copyright 2015 Luca Liscio
-	 *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
-	 *
-    *  @package HZSystem
-    *  @subpackage Core\Logger
-    *  @filesource
-    */
+    /**
+     *  Logger di sistema 
+     *
+     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @version 0.0.1 2015/11/30 01:44:20
+     *  @copyright 2015 Luca Liscio
+     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     *
+     *  @package HZSystem
+     *  @subpackage Core\Logger
+     *  @filesource
+     */
 	
     class HZLogger {
         
@@ -54,13 +54,13 @@
 
         // Appenders type
         /** File type log */
-        const LOG_APPENDER_FILE =	 501;
+        const LOG_APPENDER_FILE =    501;
         /** Email type log */
- 		const LOG_APPENDER_EMAIL =	 502;
- 		/** Data base type log */
- 		const LOG_APPENDER_DB =		 503;
- 		/** Firebug type log */
- 		const LOG_APPENDER_FIREPHP = 504;
+ 	const LOG_APPENDER_EMAIL =   502;
+ 	/** Data base type log */
+ 	const LOG_APPENDER_DB =      503;
+ 	/** Firebug type log */
+ 	const LOG_APPENDER_FIREPHP = 504;
  		
     	//Dati del logger
  		private $logname;
@@ -70,13 +70,13 @@
     	//Contiene le istanze del logger
     	private static $_instace = array();
             
-	   /**
-	    * Crea una nuova istanza del logger
-	    * @param string $logname nome della nuova istanza del logger da creare
-	    * @param integer $type tipo di logger da creare 
-	    * @return \HZSystem\Core\Logger\HZLogger
-	    * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE);
-	    */
+            /**
+	     * Crea una nuova istanza del logger
+	     * @param string $logname nome della nuova istanza del logger da creare
+	     * @param integer $type tipo di logger da creare 
+	     * @return \HZSystem\Core\Logger\HZLogger
+	     * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE);
+	     */
 	    public static function getLogger($logname,$type=LOG_APPENDER_FILE){
 	        
 	        if (!(self::$_instace[$logname] instanceof self)){
