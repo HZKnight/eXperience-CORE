@@ -63,7 +63,7 @@
  	const LOG_APPENDER_FIREPHP = 504;
  		
     	//Dati del logger
- 		private $logname;
+ 	private $logname;
     	private $date_format;
         private $appenders = array();
     	
@@ -74,13 +74,14 @@
 	     * Crea una nuova istanza del logger
 	     * @param string $logname nome della nuova istanza del logger da creare
 	     * @param integer $type tipo di logger da creare 
+             * @param integer $loglevel livello di errore da cui cominciare a registrare il log
 	     * @return \HZSystem\Core\Logger\HZLogger
-	     * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE);
+	     * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE,HZLogger::LOG_INFO);
 	     */
-	    public static function getLogger($logname,$type=LOG_APPENDER_FILE){
+	    public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $errorlevel=self::LOG_INFO){
 	        
 	        if (!(self::$_instace[$logname] instanceof self)){
-	            self::$_instace[$logname] = new self($logname,$type);
+	            self::$_instace[$logname] = new self($logname,$type,$errorlevel);
 	        }
 	        
 	        return self::$_instace[$logname];
@@ -99,16 +100,18 @@
 	     * Metodo costruttore
 	     * @param string $logname nome del logger
 	     * @param integer $type tipo di logger da creare
+             * @param integer $loglevel livello di errore da cui cominciare a registrare il log
 	     */    
-	    public function __construct($logname,$type){
+	    public function __construct($logname,$type,$loglevel){
 	   
 	      $this->logname = $logname;
 	      $this->add_appender($type);
-	      $this->get_appender($type)->setLogLevel(self::LOG_INFO);
+	      $this->get_appender($type)->setLogLevel($loglevel);
 	      $this->date_format = "d-m-Y H:m:s";
 	      
 	    }
-	    
+            
+               
 	    /**
 	     * Aggiunge un nuovo appender al logger
 	     * @param integer $type tipo di appender da aggiungere
