@@ -19,7 +19,7 @@
 		}
 		
 		public function add($log_row){
-			
+			error_log(date($this->date_format).' --> '.$msg."\n",3,$this->logfile);
 		}
 		
 		public function get_log($start=0,$stop){

@@ -29,7 +29,7 @@
      *  Logger di sistema 
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.1 2015/11/30 01:44:20
+     *  @version 1.0.0 2015/12/16 13:01:20
      *  @copyright 2015 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -170,43 +170,74 @@
 	    	
 	    }
 	   
-		/**
-		 * setta il formato data del log usa la stessa sintassi del comando date di php
-		 * @param string $date_format
-		 */
+            /**
+             * setta il formato data del log usa la stessa sintassi del comando date di php
+             * @param string $date_format
+             */
 	    public function setDateFormat($date_format){
 	   
 	    	$this->date_format = $date_format;
 	      
 	    }
+            
+            /**
+             * Aggiunge una riga la log
+             * @param integer $level livello dell'errore
+             * @param string $msg messaggio di errore
+             */
+            public function append($level, $msg){
+                
+                $logrow = new HZLogRow();
+                $logrow->date = date($this->date_format);
+                $logrow->message = $msg;
+                $logrow->type = $level;
+                
+                $keys = array_keys($this->appenders);
+                foreach($keys as $key){
+                    $this->appenders[$key]->add($logrow);
+                }
+                            
+            }
    
-    public function append($level, $msg){
-     
-      if ($level<=$this->loglevel)
-        error_log(date($this->date_format).' --> '.$msg."\n",3,$this->logfile);
-    }
-   
-    public function error($msg){
-      if ($this->loglevel>=constant("LOG_ERROR"))
-        error_log(date($this->date_format).' --> '.$msg."\n",3,$this->logfile);
-    }
-   
-    public function warning($msg){
-      if ($this->loglevel>=constant("LOG_WARNING"))
-        error_log(date($this->date_format).' --> '.$msg."\n",3,$this->logfile);
-    }
-
-    public function info($msg){
-      if ($this->loglevel>=constant("LOG_INFO"))
-        error_log(date($this->date_format).' --> '.$msg."\n",3,$this->logfile);
-    }
-   
-    public function debug($msg){
-      if ($this->loglevel>=constant("LOG_DEBUG"))
-        error_log(date($this->date_format).' --> '.$msg."\n",$this->log_type,$this->logfile);
-    }
-   
-   
-   
+            /**
+             * Aggiunge una riga la log di tipo fatal
+             * @param string $msg messaggio di errore
+             */
+            public function fatal($msg){
+                $this->append(self::LOG_FATAL, $msg);
+            }
+          
+            /**
+             * Aggiunge una riga la log di tipo error
+             * @param string $msg messaggio di errore
+             */
+            public function error($msg){
+                $this->append(self::LOG_ERROR, $msg);
+            }
+            
+            /**
+             * Aggiunge una riga la log di tipo warning
+             * @param string $msg messaggio di errore
+             */
+            public function warning($msg){
+                $this->append(self::LOG_WARNING, $msg);
+            }
+            
+            /**
+             * Aggiunge una riga la log di tipo info
+             * @param string $msg messaggio di errore
+             */
+            public function info($msg){
+                $this->append(self::LOG_INFO, $msg);
+            }
+            
+            /**
+             * Aggiunge una riga la log di tipo debug
+             * @param string $msg messaggio di errore
+             */
+            public function debug($msg){
+                $this->append(self::LOG_DEBUG, $msg);
+            }
+    
   }
 ?> 
