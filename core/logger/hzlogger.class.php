@@ -66,6 +66,7 @@
  	private $logname;
     	private $date_format;
         private $appenders = array();
+        private $loglevel;
     	
     	//Contiene le istanze del logger
     	private static $_instace = array();
@@ -78,10 +79,10 @@
 	     * @return \HZSystem\Core\Logger\HZLogger
 	     * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE,HZLogger::LOG_INFO);
 	     */
-	    public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $errorlevel=self::LOG_INFO){
+	    public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=self::LOG_INFO){
 	        
 	        if (!(self::$_instace[$logname] instanceof self)){
-	            self::$_instace[$logname] = new self($logname,$type,$errorlevel);
+	            self::$_instace[$logname] = new self($logname,$type,$loglevel);
 	        }
 	        
 	        return self::$_instace[$logname];
@@ -104,10 +105,11 @@
 	     */    
 	    public function __construct($logname,$type,$loglevel){
 	   
-	      $this->logname = $logname;
-	      $this->add_appender($type);
-	      $this->get_appender($type)->setLogLevel($loglevel);
-	      $this->date_format = "d-m-Y H:m:s";
+                $this->logname = $logname;
+                $this->loglevel = $loglevel;
+                $this->add_appender($type);
+                $this->get_appender($type)->setLogLevel($this->loglevel);
+                $this->date_format = "d-m-Y H:m:s";
 	      
 	    }
             
@@ -119,19 +121,21 @@
 	    public function add_appender($type){
 	    	
 	    	switch ($type){
-	    		case self::LOG_APPENDER_FILE:
-	    			$this->appenders[$type] = new Appender_file($this->logname);
-	    			break;
-	    		case self::LOG_APPENDER_EMAIL:
-	    			$this->appenders[$type] = new Appender_email($this->logname);
-	    			break;
-	    		case self::LOG_APPENDER_DB:
-	    			$this->appenders[$type] = new Appender_db($this->logname);
-	    			break;
-	    		case self::LOG_APPENDER_FIREPHP:
-	    			$this->appenders[$type] = new Appender_firephp($this->logname);
-	    			break;	    			
+                    case self::LOG_APPENDER_FILE:
+	    		$this->appenders[$type] = new Appender_file($this->logname);
+	    		break;
+                    case self::LOG_APPENDER_EMAIL:
+	    		$this->appenders[$type] = new Appender_email($this->logname);
+	 		break;
+                    case self::LOG_APPENDER_DB:
+	    		$this->appenders[$type] = new Appender_db($this->logname);
+	    		break;
+                    case self::LOG_APPENDER_FIREPHP:
+	    		$this->appenders[$type] = new Appender_firephp($this->logname);
+	    		break;	    			
 	    	}
+                
+                $this->get_appender($type)->setLogLevel($this->loglevel);
 	    	
 	    }
 	    
