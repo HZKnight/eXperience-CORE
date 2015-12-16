@@ -1,6 +1,8 @@
 <?php
 
 	namespace HZSystem\Core\Logger\Appenders;
+        
+        use HZSystem\Core\Logger\HZLogRow;
 	
 	/*
 	 * Copyright (C) 2015 Luca Liscio
@@ -37,7 +39,7 @@
 		
 		private $loglevel;
 		
-		abstract public function add($log_row);
+		abstract public function add(HZLogRow $log_row);
 		abstract public function get_log($start=0,$stop);
 		
 		public function setLogLevel($level){

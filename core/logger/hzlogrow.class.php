@@ -33,6 +33,8 @@
 	 */
 	
 	class HZLogRow {
-		
+            public $type;
+            public $date;
+            public $message;
 	}
 ?>
