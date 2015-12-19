@@ -81,6 +81,7 @@
 				<li><a href="class-HZSystem.Core.Logger.Appenders.Appender_file.html">HZSystem\Core\Logger\Appenders\Appender_file</a></li>
 				<li><a href="class-HZSystem.Core.Logger.Appenders.Appender_firephp.html">HZSystem\Core\Logger\Appenders\Appender_firephp</a></li>
 				<li><a href="class-HZSystem.Core.Logger.Exceptions.AppenderNotFoundException.html">HZSystem\Core\Logger\Exceptions\AppenderNotFoundException</a></li>
+				<li><a href="class-HZSystem.Core.Logger.Exceptions.LogFileNotFoundException.html">HZSystem\Core\Logger\Exceptions\LogFileNotFoundException</a></li>
 				<li><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></li>
 				<li><a href="class-HZSystem.Core.Logger.HZLogRow.html">HZSystem\Core\Logger\HZLogRow</a></li>
 				<li><a href="class-HZSystem.Exceptions.HZException.html">HZSystem\Exceptions\HZException</a></li>
@@ -158,10 +159,10 @@
 </span></span><span id="21" class="l"><a href="#21">21: </a><span class="php-comment">     */</span>
 </span><span id="22" class="l"><a href="#22">22: </a>    
 </span><span id="23" class="l"><a href="#23">23: </a>    <span class="php-comment">/**
-</span></span><span id="24" class="l"><a href="#24">24: </a><span class="php-comment">     *  questa eccezione si verifica quando di sprova a richiamare un appender che non esiste
+</span></span><span id="24" class="l"><a href="#24">24: </a><span class="php-comment">     *  questa eccezione si verifica quando si prova a richiamare un appender che non esiste
 </span></span><span id="25" class="l"><a href="#25">25: </a><span class="php-comment">     *
 </span></span><span id="26" class="l"><a href="#26">26: </a><span class="php-comment">     *  @author  Luca Liscio &lt;hzkight@h0model.org&gt;
-</span></span><span id="27" class="l"><a href="#27">27: </a><span class="php-comment">     *  @version 0.0.1 2015/11/30 01:44:20
+</span></span><span id="27" class="l"><a href="#27">27: </a><span class="php-comment">     *  @version 0.0.2 2015/12/19 16:41:20
 </span></span><span id="28" class="l"><a href="#28">28: </a><span class="php-comment">     *  @copyright 2015 Luca Liscio
 </span></span><span id="29" class="l"><a href="#29">29: </a><span class="php-comment">     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
 </span></span><span id="30" class="l"><a href="#30">30: </a><span class="php-comment">     *
@@ -171,8 +172,8 @@
 </span></span><span id="34" class="l"><a href="#34">34: </a><span class="php-comment">     */</span>
 </span><span id="35" class="l"><a href="#35">35: </a>     
 </span><span id="36" class="l"><a href="#36">36: </a>    <span class="php-keyword1">class</span> AppenderNotFoundException <span class="php-keyword1">extends</span> HZException {
-</span><span id="37" class="l"><a href="#37">37: </a>        
-</span><span id="38" class="l"><a href="#38">38: </a>    }
+</span><span id="37" class="l"><a href="#37">37: </a>            <span class="php-keyword1">protected</span> <span class="php-var">$code</span> = <span class="php-quote">&quot;L01&quot;</span>; 
+</span><span id="38" class="l"><a href="#38">38: </a>        }
 </span><span id="39" class="l"><a href="#39">39: </a><span class="xlang">?&gt;</span></span></code></pre>
 
 	<div id="footer">
@@ -181,6 +182,6 @@
 </div>
 </div>
 <script src="resources/combined.js?b4fe2aec09095d88611679b588a564820803f1d0"></script>
-<script src="elementlist.js?bcdbf1aad74a50272ca99ca4484c0a3d088077db"></script>
+<script src="elementlist.js?ee38bddb10ed4ef961ea950b1171f26431f551b1"></script>
 </body>
 </html>
