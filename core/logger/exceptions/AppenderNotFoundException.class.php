@@ -21,10 +21,10 @@
 	 */
 	
 	/**
-	 *  questa eccezione si verifica quando di sprova a richiamare un appender che non esiste
+	 *  questa eccezione si verifica quando si prova a richiamare un appender che non esiste
 	 *
 	 *  @author  Luca Liscio <hzkight@h0model.org>
-	 *  @version 0.0.1 2015/11/30 01:44:20
+	 *  @version 0.0.2 2015/12/19 16:41:20
 	 *  @copyright 2015 Luca Liscio
 	 *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
 	 *
@@ -34,6 +34,6 @@
 	 */
 	 
 	class AppenderNotFoundException extends HZException {
-		
-	}
+            protected $code = "L01"; 
+        }
 ?>

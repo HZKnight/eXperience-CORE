@@ -38,13 +38,24 @@
 	abstract class Appender {
 		
 		private $loglevel;
-		
-		abstract public function add(HZLogRow $log_row);
+                private $error_identifier;
+                
+                public function __construct() {
+                    $this->error_identifier = array(
+                                                    404 => "FATAL",
+                                                    403 => "ERROR",
+                                                    402 => "WARNING",
+                                                    401 => "INFO",
+                                                    400 => "DEBUG"
+                                                   );
+                }
+
+                abstract public function add(HZLogRow $log_row);
 		abstract public function get_log($start=0,$stop);
 		
 		public function setLogLevel($level){
 		 
-			$this->loglevel = $level;
+                    $this->loglevel = $level;
 		
 		}
 		

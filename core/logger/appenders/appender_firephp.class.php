@@ -25,7 +25,7 @@
          */
 
         /**
-         *  FirBUG appende per HZLogger 
+         *  FirBUG appender per HZLogger 
          *
          *  @author  Luca Liscio <hzkight@h0model.org>
          *  @version 0.0.1 2015/12/16 06:07:20
