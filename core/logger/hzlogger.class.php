@@ -71,172 +71,212 @@
     	//Contiene le istanze del logger
     	private static $_instace = array();
             
-            /**
-	     * Crea una nuova istanza del logger
-	     * @param string $logname nome della nuova istanza del logger da creare
-	     * @param integer $type tipo di logger da creare 
-             * @param integer $loglevel livello di errore da cui cominciare a registrare il log
-	     * @return \HZSystem\Core\Logger\HZLogger
-	     * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE,HZLogger::LOG_INFO);
-	     */
-	    public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=self::LOG_INFO){
+        /**
+	 * Crea una nuova istanza del logger
+         * @param string $logname nome della nuova istanza del logger da creare
+	 * @param integer $type tipo di logger da creare 
+         * @param integer $loglevel livello di errore da cui cominciare a registrare il log
+	 * @return \HZSystem\Core\Logger\HZLogger
+	 * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE,HZLogger::LOG_INFO);
+	 */
+	public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=self::LOG_INFO){
 	        
-	        if (!(self::$_instace[$logname] instanceof self)){
-	            self::$_instace[$logname] = new self($logname,$type,$loglevel);
-	        }
-	        
-	        return self::$_instace[$logname];
+	    if (!(self::$_instace[$logname] instanceof self)){
+	        self::$_instace[$logname] = new self($logname,$type,$loglevel);
 	    }
 	    
-	    /**
-	     * Restituisce un array con tutte le istanze del logger
-	     * @return HZSystem\Core\Logger\HZLogger
-	     */
-	    public static function getIstances(){
+	    return self::$_instace[$logname];
+	}
+	    
+	/**
+	 * Restituisce un array con tutte le istanze del logger
+	 * @return HZSystem\Core\Logger\HZLogger
+	 */
+	public static function getIstances(){
 	    	
-	    	return self::$_instace;
-	    }
+            return self::$_instace;
+	            
+        }
 	    
-	    /**
-	     * Metodo costruttore
-	     * @param string $logname nome del logger
-	     * @param integer $type tipo di logger da creare
-             * @param integer $loglevel livello di errore da cui cominciare a registrare il log
-	     */    
-	    private function __construct($logname,$type,$loglevel){
+	/**
+         * Metodo costruttore
+	 * @param string $logname nome del logger
+	 * @param integer $type tipo di logger da creare
+         * @param integer $loglevel livello di errore da cui cominciare a registrare il log
+	 */ 
+	private function __construct($logname,$type,$loglevel){
 	   
-                $this->logname = $logname;
-                $this->loglevel = $loglevel;
-                $this->add_appender($type);
-                $this->get_appender($type)->setLogLevel($this->loglevel);
-                $this->date_format = "d-m-Y H:m:s";
+            $this->logname = $logname;
+            $this->loglevel = $loglevel;
+            $this->add_appender($type);
+            $this->get_appender($type)->setLogLevel($this->loglevel);
+            $this->date_format = "d-m-Y H:m:s";
 	      
-	    }
+	}
             
-            /**
-	     * Aggiunge un nuovo appender al logger
-	     * @param integer $type tipo di appender da aggiungere
-	     */
-	    public function add_appender($type){
+        /**
+	 * Aggiunge un nuovo appender al logger
+	 * @param integer $type tipo di appender da aggiungere
+	 */
+	public function add_appender($type){
 	    	
-	    	switch ($type){
+	    switch ($type){
+                case self::LOG_APPENDER_FILE:
+                    $this->appenders[$type] = new Appender_file($this->logname);
+                    break;
+                case self::LOG_APPENDER_EMAIL:
+                    $this->appenders[$type] = new Appender_email($this->logname);
+                    break;
+                case self::LOG_APPENDER_DB:
+                    $this->appenders[$type] = new Appender_db($this->logname);
+                    break;
+                case self::LOG_APPENDER_FIREPHP:
+                    $this->appenders[$type] = new Appender_firephp($this->logname);
+                    break;	    			
+	    }
+                
+            $this->get_appender($type)->setLogLevel($this->loglevel);
+	    	
+	}
+	    
+	/**
+	 * Rimuove un appender dal logger
+	 * @param integer $type tipo di appender da rimuovere
+	 * @throws AppenderNotFoundException
+	 */
+	public function remove_appender($type){
+	    	
+	    if(isset($this->appenders[$type])){
+	    	unset($this->appenders[$type]);	
+	    } else {
+	    	throw new AppenderNotFoundException("Appender richiesto non trovato");
+	    }
+	    
+	}
+	    
+	/**
+	 * restituisce l'appender associato al tipo specifiato
+	 * @param integer $type tipo di appender che si vuole ottenere
+	 * @throws AppenderNotFoundException
+	 * @return HZSystem\Core\Logger\Appenders\Appender
+	 */
+	public function get_appender($type){
+	    	
+	    if(isset($this->appenders[$type])){
+	    	return $this->appenders[$type];
+	    } else {
+	    	throw new AppenderNotFoundException("Appender richiesto non trovato");
+	    }
+	    	
+	}
+        
+        /**
+         * Restituisce la lista degli appenders attivi sotto forma di array 
+         * bidimensionale [codice][tipo]
+         * @return string
+         */
+        public function get_appenders_list(){
+            
+            $list = array();
+            
+            $keys = array_keys($this->appenders); 
+            
+            foreach($keys as $key){
+                
+                switch ($key){
                     case self::LOG_APPENDER_FILE:
-	    		$this->appenders[$type] = new Appender_file($this->logname);
-	    		break;
+                        $list[][0] = self::LOG_APPENDER_FILE;
+                        $list[][1] = "FILE";
+                        break;
                     case self::LOG_APPENDER_EMAIL:
-	    		$this->appenders[$type] = new Appender_email($this->logname);
-	 		break;
+                        $list[][0] = self::LOG_APPENDER_EMAIL;
+                        $list[][1] = "EMAIL";
+                        break;
                     case self::LOG_APPENDER_DB:
-	    		$this->appenders[$type] = new Appender_db($this->logname);
-	    		break;
+                        $list[][0] = self::LOG_APPENDER_DB;
+                        $list[][1] = "DB";
+                        break;
                     case self::LOG_APPENDER_FIREPHP:
-	    		$this->appenders[$type] = new Appender_firephp($this->logname);
-	    		break;	    			
-	    	}
-                
-                $this->get_appender($type)->setLogLevel($this->loglevel);
-	    	
-	    }
-	    
-	    /**
-	     * Rimuove un appender dal logger
-	     * @param integer $type tipo di appender da rimuovere
-	     * @throws AppenderNotFoundException
-	     */
-	    public function remove_appender($type){
-	    	
-	    	if(isset($this->appenders[$type])){
-	    		unset($this->appenders[$type]);	
-	    	} else {
-	    		throw new AppenderNotFoundException("Appender richiesto non trovato");
-	    	}
-	    
-	    }
-	    
-	    /**
-	     * restituisce l'appender associato al tipo specifiato
-	     * @param integer $type tipo di appender che si vuole ottenere
-	     * @throws AppenderNotFoundException
-	     * @return HZSystem\Core\Logger\Appenders\Appender
-	     */
-	    public function get_appender($type){
-	    	
-	    	if(isset($this->appenders[$type])){
-	    		return $this->appenders[$type];
-	    	} else {
-	    		throw new AppenderNotFoundException("Appender richiesto non trovato");
-	    	}
-	    	
-	    }
-	   
-            /**
-             * setta il formato data del log usa la stessa sintassi del comando date di php
-             * @param string $date_format
-             */
-	    public function setDateFormat($date_format){
-	   
-	    	$this->date_format = $date_format;
-	      
-	    }
-            
-            /**
-             * Aggiunge una riga la log
-             * @param integer $level livello dell'errore
-             * @param string $msg messaggio di errore
-             */
-            public function append($level, $msg){
-                
-                $logrow = new HZLogRow();
-                $logrow->date = date($this->date_format);
-                $logrow->message = $msg;
-                $logrow->type = $level;
-                
-                $keys = array_keys($this->appenders);
-                foreach($keys as $key){
-                    $this->appenders[$key]->add($logrow);
+                        $list[][0] = self::LOG_APPENDER_FIREPHP;
+                        $list[][1] = "FIREPHP";
+                        break;	    			
                 }
+                
+            }
+            
+            return $list;
+            
+        }
+	   
+        /**
+         * setta il formato data del log usa la stessa sintassi del comando date di php
+         * @param string $date_format
+         */
+	public function setDateFormat($date_format){
+	
+	   $this->date_format = $date_format;
+	      
+	}
+            
+        /**
+         * Aggiunge una riga la log
+         * @param integer $level livello dell'errore
+         * @param string $msg messaggio di errore
+         */
+        public function append($level, $msg){
+                
+            $logrow = new HZLogRow();
+            $logrow->date = date($this->date_format);
+            $logrow->message = $msg;
+            $logrow->type = $level;
+                
+            $keys = array_keys($this->appenders);
+                
+            foreach($keys as $key){
+                $this->appenders[$key]->add($logrow);
+            }
                             
-            }
+        }
    
-            /**
-             * Aggiunge una riga la log di tipo fatal
-             * @param string $msg messaggio di errore
-             */
-            public function fatal($msg){
-                $this->append(self::LOG_FATAL, $msg);
-            }
+        /**
+         * Aggiunge una riga la log di tipo fatal
+         * @param string $msg messaggio di errore
+         */
+        public function fatal($msg){
+            $this->append(self::LOG_FATAL, $msg);
+        }
           
-            /**
-             * Aggiunge una riga la log di tipo error
-             * @param string $msg messaggio di errore
-             */
-            public function error($msg){
-                $this->append(self::LOG_ERROR, $msg);
-            }
+        /**
+         * Aggiunge una riga la log di tipo error
+         * @param string $msg messaggio di errore
+         */
+        public function error($msg){
+            $this->append(self::LOG_ERROR, $msg);
+        }
             
-            /**
-             * Aggiunge una riga la log di tipo warning
-             * @param string $msg messaggio di errore
-             */
-            public function warning($msg){
-                $this->append(self::LOG_WARNING, $msg);
-            }
+        /**
+         * Aggiunge una riga la log di tipo warning
+         * @param string $msg messaggio di errore
+         */
+        public function warning($msg){
+            $this->append(self::LOG_WARNING, $msg);
+        }
             
-            /**
-             * Aggiunge una riga la log di tipo info
-             * @param string $msg messaggio di errore
-             */
-            public function info($msg){
-                $this->append(self::LOG_INFO, $msg);
-            }
+        /**
+         * Aggiunge una riga la log di tipo info
+         * @param string $msg messaggio di errore
+         */
+        public function info($msg){
+            $this->append(self::LOG_INFO, $msg);
+        }
             
-            /**
-             * Aggiunge una riga la log di tipo debug
-             * @param string $msg messaggio di errore
-             */
-            public function debug($msg){
-                $this->append(self::LOG_DEBUG, $msg);
-            }
+        /**
+         * Aggiunge una riga la log di tipo debug
+         * @param string $msg messaggio di errore
+         */
+        public function debug($msg){
+            $this->append(self::LOG_DEBUG, $msg);
+        }
     
-  }
+    }
 ?> 
