@@ -103,7 +103,7 @@
 	     * @param integer $type tipo di logger da creare
              * @param integer $loglevel livello di errore da cui cominciare a registrare il log
 	     */    
-	    public function __construct($logname,$type,$loglevel){
+	    private function __construct($logname,$type,$loglevel){
 	   
                 $this->logname = $logname;
                 $this->loglevel = $loglevel;
@@ -113,8 +113,7 @@
 	      
 	    }
             
-               
-	    /**
+            /**
 	     * Aggiunge un nuovo appender al logger
 	     * @param integer $type tipo di appender da aggiungere
 	     */
