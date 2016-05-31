@@ -1,22 +1,67 @@
 <?php
-	namespace HZSystem\Exceptions;
+    
+    /*
+     * Copyright (C) 2016 Luca Liscio
+     *
+     * This program is free software: you can redistribute it and/or modify
+     * it under the terms of the GNU Affero General Public License as published by
+     * the Free Software Foundation, either version 3 of the License, or
+     * (at your option) any later version.
+     *
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     * GNU Affero General Public License for more details.
+     *
+     * You should have received a copy of the GNU Affero General Public License
+     * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
+     */
+
 	
-	interface IException
-	{
-		/* Protected methods inherited from Exception class */
-		public function getMessage();                 // Exception message
-		public function getCode();                    // User-defined Exception code
-		public function getFile();                    // Source filename
-		public function getLine();                    // Source line
-		public function getTrace();                   // An array of the backtrace()
-		public function getTraceAsString();           // Formated string of trace
+    namespace HZSystem\Exceptions;
+
+    /**
+     * Interfaccia generica per le eccezioni basata sulla interfaccia
+     * prevista dal linguaggio PHP
+     *
+     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @version 0.0.1 2016/05/31 12:14:20
+     *  @copyright 2016 Luca Liscio
+     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     *
+     *  @package HZSystem
+     *  @subpackage exceptions
+     *  @filesource
+     */
+    interface IException
+    {
+        /* Protected methods inherited from Exception class */
+	public function getMessage();                 // Exception message
+	public function getCode();                    // User-defined Exception code
+	public function getFile();                    // Source filename
+	public function getLine();                    // Source line
+	public function getTrace();                   // An array of the backtrace()
+	public function getTraceAsString();           // Formated string of trace
 	
-		/* Overrideable methods inherited from Exception class */
-		public function __toString();                 // formated string for display
-		public function __construct($message = null, $code = 0);
-	}
+	/* Overrideable methods inherited from Exception class */
+	public function __toString();                 // formated string for display
+	public function __construct($message = null, $code = 0);
+    }
 	
-	abstract class HZException extends Exception implements IException
+
+    /**
+     * Eccezione generica per HZSystem
+     *
+     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @version 0.0.1 2016/05/31 12:14:20
+     *  @copyright 2016 Luca Liscio
+     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     *
+     *  @package HZSystem
+     *  @subpackage exceptions
+     *  @filesource
+     */
+    abstract class HZException extends Exception implements IException
 	{
 		protected $message = 'Unknown exception';     // Exception message
 		private   $string;                            // Unknown
