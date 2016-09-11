@@ -38,7 +38,7 @@
 	abstract class Appender {
 		
 		private $loglevel;
-                private $error_identifier;
+                static $error_identifier;
                 
                 public function __construct() {
                     $this->error_identifier = array(

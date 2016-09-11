@@ -42,17 +42,17 @@
 		
             public function __construct($logname){
                 
-                self::parent();
-                $this->logfile_basedir = "log";
+                parent::__construct();
+                $this->logfile_basedir = $_SESSION["hzSystem_path"]."log";
                 $this->logfile_basename = $logname;
-                $this->logfile = $this->logfile_basedir."/".$this->logfile_basename."_".date("dmY").".log";
+                $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
                 
             }
 		
             public function add(HZLogRow $log_row){
                 
-                if($log_row->type>=$this->loglevel)
-                    error_log("(".$log_row->date.") [".$hils->error_identifier[$log_row->type]."] --> ".$log_row->message."\n",3,$this->logfile);
+                if($log_row->type >= $this->loglevel)
+                    error_log("(".$log_row->date.") [".$this->error_identifier[$log_row->type]."] --> ".$log_row->message."\n",3,$this->logfile);
                 
             }
 		
@@ -70,5 +70,9 @@
                 }
                                         
             }
-		
+            
+            public function setLogDir($dir){
+                $this->logfile_basedir = $dir;
+                $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
+            }		
 	}

@@ -2,8 +2,6 @@
 
 	namespace HZSystem\Core\Logger\Appenders;
 	
-	require 'appender.class.php';
-	
 	/**
 	 * @author luca
 	 * 

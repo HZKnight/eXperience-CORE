@@ -110,7 +110,7 @@
             $this->loglevel = $loglevel;
             $this->add_appender($type);
             $this->get_appender($type)->setLogLevel($this->loglevel);
-            $this->date_format = "d-m-Y H:m:s";
+            $this->date_format = "d-m-Y H:i:s";
 	      
 	}
             
