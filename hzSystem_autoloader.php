@@ -32,7 +32,7 @@
 session_start();
 
 $_SESSION["hzSystem_path"] = dirname(__DIR__).DIRECTORY_SEPARATOR;
-putenv("HZSVER=v0.1.0");
+putenv("HZSVER=v0.1.0-Alfa");
 
 //First step set internazionalizzation
 
