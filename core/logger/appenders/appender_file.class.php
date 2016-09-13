@@ -40,6 +40,11 @@
             private $logfile_basename;
             private $logfile_basedir;
 		
+            /**
+             * Construntor method
+             * 
+             * @param String $logname log name
+             */
             public function __construct($logname){
                 
                 parent::__construct();
@@ -48,7 +53,12 @@
                 $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
                 
             }
-		
+	
+            /**
+             * Save one row in the log file
+             * 
+             * @param HZLogRow $log_row
+             */
             public function add(HZLogRow $log_row){
                 
                 if($log_row->type >= $this->loglevel)
@@ -56,6 +66,14 @@
                 
             }
 		
+            /**
+             * Return a part of log file
+             * 
+             * @param integer $start start row
+             * @param integer $stop end row
+             * @return list of log row
+             * @throws LogFileNotFoundExceprions 
+             */
             public function get_log($start=0,$stop){
                    
                 if (file_exists($this->logfile)) {
@@ -66,11 +84,16 @@
                         return array_slice($log, $start, $stop-$start);
                     }
                 } else {
-                    throw new LogFileNotFoundExceprions("File di log non trovato");
+                    throw new LogFileNotFoundExceprions(dgettext("hzSystem","Log file not found"));
                 }
                                         
             }
-            
+           
+            /**
+             * change the log directory
+             * 
+             * @param string $dir log dirrectory
+             */
             public function setLogDir($dir){
                 $this->logfile_basedir = $dir;
                 $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";

@@ -149,7 +149,7 @@
 	    if(isset($this->appenders[$type])){
 	    	unset($this->appenders[$type]);	
 	    } else {
-	    	throw new AppenderNotFoundException("Appender richiesto non trovato");
+	    	throw new AppenderNotFoundException(dgettext("hzSystem","Appender requested not found"));
 	    }
 	    
 	}
@@ -165,7 +165,7 @@
 	    if(isset($this->appenders[$type])){
 	    	return $this->appenders[$type];
 	    } else {
-	    	throw new AppenderNotFoundException("Appender richiesto non trovato");
+	    	throw new AppenderNotFoundException(dgettext("hzSystem","Appender requested not found"));
 	    }
 	    	
 	}

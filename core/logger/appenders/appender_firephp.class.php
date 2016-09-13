@@ -41,6 +41,11 @@
         
     class Appender_firephp extends Appender {
 
+        /**
+         * Save one row in the log file
+         * 
+         * @param HZLogRow $log_row
+         */
         public function add(HZLogRow $log_row){
             
             $firephp = \FirePHP::getInstance(true);
@@ -64,10 +69,15 @@
             }
                     
 	}
-		
+	
+        /**
+         * Method not applicable
+         * 
+         * @throws HzNotApplicableMethodException
+         */
 	public function get_log($start=0,$stop){
                     
-            throw new HzNotApplicableMethodException("Method not applicable");
+            throw new HzNotApplicableMethodException(dgettext("hzSystem","Method not applicable"));
                     
 	}
 		
