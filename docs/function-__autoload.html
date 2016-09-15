@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Function fb | hzsystem</title>
+	<title>Function __autoload | hzsystem</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -30,6 +30,11 @@
 					</a>
 
 						<ul>
+				<li>
+					<a href="namespace-HZSystem.Core.HZMailer.html">
+						HZMailer					</a>
+
+						</li>
 				<li>
 					<a href="namespace-HZSystem.Core.Logger.html">
 						Logger<span></span>
@@ -58,11 +63,6 @@
 						None					</a>
 
 						</li>
-				<li>
-					<a href="namespace-PHP.html">
-						PHP					</a>
-
-						</li>
 			</ul>
 		</div>
 
@@ -70,11 +70,6 @@
 
 
 		<div id="elements">
-			<h3>Classes</h3>
-			<ul>
-				<li><a href="class-FB.html">FB</a></li>
-				<li><a href="class-FirePHP.html">FirePHP</a></li>
-			</ul>
 
 
 
@@ -82,7 +77,8 @@
 
 			<h3>Functions</h3>
 			<ul>
-				<li class="active"><a href="function-fb.html">fb</a></li>
+				<li class="active"><a href="function-__autoload.html">__autoload</a></li>
+				<li><a href="function-hzSystemAutoload.html">hzSystemAutoload</a></li>
 			</ul>
 		</div>
 	</div>
@@ -113,71 +109,58 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
 <div id="content" class="function">
-	<h1>Function fb</h1>
+	<h1>Function __autoload</h1>
 
 
 	<div class="description">
-	<p>Sends the given data to the FirePHP Firefox Extension.
-The data can be displayed in the Firebug Console or in the
-"Server" request tab.</p>
+	<p>Fall back to traditional autoload for old PHP versions</p>
 	</div>
 
 	<div class="info">
 		
-		<b>Package:</b> FirePHPCore<br>
+		<b>Package:</b> hzSystem<br>
 				<b>Copyright:</b>
-				Copyright (C) 2007+ Christoph Dorn<br>
+				Copyright 2016 Luca Liscio<br>
 				<b>License:</b>
-				<a href="[MIT">License](http://www.opensource.org/licenses/mit-license.php)</a><br>
+				<a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU/AGPL3</a><br>
 				<b>Author:</b>
-				Christoph Dorn <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#99;h&#x72;&#x69;&#115;&#116;&#x6f;&#x70;&#104;&#64;c&#x68;&#x72;&#105;&#115;&#x74;&#x6f;&#112;&#104;d&#x6f;&#x72;&#110;&#46;&#x63;&#x6f;&#109;">&#99;h&#x72;&#x69;&#115;&#116;&#x6f;&#x70;&#104;&#64;c&#x68;&#x72;&#105;&#115;&#x74;&#x6f;&#112;&#104;d&#x6f;&#x72;&#110;&#46;&#x63;&#x6f;&#109;</a><br>
-				<b>See:</b>
-				http://www.firephp.org/Wiki/Reference/Fb<br>
+				Luca Liscio <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;">&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;</a><br>
 		<b>Located at</b>
-		<a href="source-function-fb.html#44-60" title="Go to source code">
-			core/logger/libs/FirePHPCore/fb.php
+		<a href="source-function-__autoload.html#77-84" title="Go to source code">
+			hzSystem_autoloader.php
 		</a><br>
 	</div>
 
 
 	<table class="summary" id="parameters">
 	<caption>Parameters summary</caption>
-	<tr id="$Object">
-		<td class="name"><code>mixed</code></td>
-		<td class="value"><code><var>$Object</var>,…</code></td>
-		<td></td>
+	<tr id="$classname">
+		<td class="name"><code>string</code></td>
+		<td class="value"><code><var>$classname</var></code></td>
+		<td>The name of the class to load</td>
 	</tr>
 	</table>
 
-	<table class="summary" id="returns">
-	<caption>Return value summary</caption>
-	<tr>
-		<td class="name"><code>
-			true
-		</code></td>
-		<td>
-			true
-		</td>
-	</tr>
-	</table>
 
-	<table class="summary" id="throws">
-	<caption>Thrown exceptions summary</caption>
-	<tr>
-		<td class="name"><code>
-			<code><a href="class-Exception.html">Exception</a></code>
-		</code></td>
-		<td>
-			Exception
-		</td>
-	</tr>
-	</table>
 
 </div>
 
@@ -186,7 +169,7 @@ The data can be displayed in the Firebug Console or in the
 	</div>
 </div>
 </div>
-<script src="resources/combined.js?b4fe2aec09095d88611679b588a564820803f1d0"></script>
-<script src="elementlist.js?ee38bddb10ed4ef961ea950b1171f26431f551b1"></script>
+<script src="resources/combined.js?e52358429e80a7010bca7d3bc2619d91d9d3f5a4"></script>
+<script src="elementlist.js?4a7fe60e19f063807ae11b8c7354af1baa60181d"></script>
 </body>
 </html>

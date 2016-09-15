@@ -29,7 +29,7 @@
      *  @copyright 2015 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package HZSystem
+     *  @package hzSystem
      *  @subpackage Core\Logger\Exception
      *  @filesource
      */

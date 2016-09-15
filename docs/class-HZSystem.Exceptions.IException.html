@@ -31,6 +31,11 @@
 
 						<ul>
 				<li>
+					<a href="namespace-HZSystem.Core.HZMailer.html">
+						HZMailer					</a>
+
+						</li>
+				<li>
 					<a href="namespace-HZSystem.Core.Logger.html">
 						Logger<span></span>
 					</a>
@@ -58,11 +63,6 @@
 						None					</a>
 
 						</li>
-				<li>
-					<a href="namespace-PHP.html">
-						PHP					</a>
-
-						</li>
 			</ul>
 		</div>
 
@@ -73,6 +73,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-HZSystem.Exceptions.HZException.html">HZException</a></li>
+				<li><a href="class-HZSystem.Exceptions.HzNotApplicableMethodException.html">HzNotApplicableMethodException</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
@@ -112,8 +113,21 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -121,6 +135,10 @@
 	<h1>Interface IException</h1>
 
 
+	<div class="description">
+	<p>Interfaccia generica per le eccezioni basata sulla interfaccia
+prevista dal linguaggio PHP</p>
+	</div>
 
 
 
@@ -134,7 +152,8 @@
 	<div>
 		<h4>Indirect known implementers</h4>
 			<a href="class-HZSystem.Core.Logger.Exceptions.AppenderNotFoundException.html">HZSystem\Core\Logger\Exceptions\AppenderNotFoundException</a>, 
-			<a href="class-HZSystem.Core.Logger.Exceptions.LogFileNotFoundException.html">HZSystem\Core\Logger\Exceptions\LogFileNotFoundException</a>
+			<a href="class-HZSystem.Core.Logger.Exceptions.LogFileNotFoundException.html">HZSystem\Core\Logger\Exceptions\LogFileNotFoundException</a>, 
+			<a href="class-HZSystem.Exceptions.HzNotApplicableMethodException.html">HZSystem\Exceptions\HzNotApplicableMethodException</a>
 	</div>
 
 
@@ -143,9 +162,17 @@
 		
 		
 		<b>Namespace:</b> <a href="namespace-HZSystem.html">HZSystem</a>\<a href="namespace-HZSystem.Exceptions.html">Exceptions</a><br>
-		
+		<b>Package:</b> hzSystem\exceptions<br>
 
-			<b>Located at</b> <a href="source-class-HZSystem.Exceptions.IException.html#4-17" title="Go to source code">exceptions/hzexception.class.php</a>
+				<b>Copyright:</b>
+				2016 Luca Liscio<br>
+				<b>License:</b>
+				<a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU/AGPL3</a><br>
+				<b>Author:</b>
+				Luca Liscio <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;">&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;</a><br>
+				<b>Version:</b>
+				0.0.1 2016/05/31 12:14:20<br>
+			<b>Located at</b> <a href="source-class-HZSystem.Exceptions.IException.html#23-49" title="Go to source code">exceptions/hzexception.class.php</a>
 		<br>
 	</div>
 
@@ -165,7 +192,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getMessage">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#7" title="Go to source code">getMessage</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#39" title="Go to source code">getMessage</a>( )</code>
 
 		<div class="description short">
 			
@@ -195,7 +222,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getCode">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#8" title="Go to source code">getCode</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#40" title="Go to source code">getCode</a>( )</code>
 
 		<div class="description short">
 			
@@ -225,7 +252,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getFile">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#9" title="Go to source code">getFile</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#41" title="Go to source code">getFile</a>( )</code>
 
 		<div class="description short">
 			
@@ -255,7 +282,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getLine">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#10" title="Go to source code">getLine</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#42" title="Go to source code">getLine</a>( )</code>
 
 		<div class="description short">
 			
@@ -285,7 +312,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTrace">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#11" title="Go to source code">getTrace</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#43" title="Go to source code">getTrace</a>( )</code>
 
 		<div class="description short">
 			
@@ -315,7 +342,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTraceAsString">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#12" title="Go to source code">getTraceAsString</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#44" title="Go to source code">getTraceAsString</a>( )</code>
 
 		<div class="description short">
 			
@@ -345,7 +372,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___toString">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#15" title="Go to source code">__toString</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#47" title="Go to source code">__toString</a>( )</code>
 
 		<div class="description short">
 			
@@ -375,7 +402,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.IException.html#16" title="Go to source code">__construct</a>( <span> <var>$message</var> = <span class="php-keyword1">null</span></span>, <span> <var>$code</var> = <span class="php-num">0</span></span> )</code>
+		<code><a href="source-class-HZSystem.Exceptions.IException.html#48" title="Go to source code">__construct</a>( <span> <var>$message</var> = <span class="php-keyword1">null</span></span>, <span> <var>$code</var> = <span class="php-num">0</span></span> )</code>
 
 		<div class="description short">
 			

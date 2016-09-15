@@ -29,7 +29,7 @@
      *  @copyright 2016 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package HZSystem
+     *  @package hzSystem
      *  @subpackage exceptions
      *  @filesource
      */
@@ -57,7 +57,7 @@
      *  @copyright 2016 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package HZSystem
+     *  @package hzSystem
      *  @subpackage exceptions
      *  @filesource
      */
@@ -70,7 +70,13 @@
 	protected $line;                              // Source line of exception
 	private   $trace;                             // Unknown
 	
-	public function __construct($message = null, $code = 0)
+	/**
+         * Constructor
+         * 
+         * @param String $message Error Message
+         * @param String $code Error Code
+         */
+        public function __construct($message = null, $code = 0)
 	{
             if (!$message) {
                 $this->message = dgettext("hzSystem",'Unknown exception ');
@@ -79,31 +85,66 @@
             parent::__construct($message, $code);
 	}
 	
+        /**
+         * To String Method 
+         * 
+         * @return String
+         */
 	public function __toString()
 	{
             return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n" . "{$this->getTraceAsString()}";
 	}
-
+        
+        /**
+         * Return the error code
+         * 
+         * @return String
+         */
         public function getCode() {
             return parent::getCode();
         }
-
+        
+        /**
+         * It returns the file where the exception occurred
+         * 
+         * @return String
+         */
         public function getFile() {
             return parent::getFile();
         }
 
+        /**
+         * It returns the line in file where the exception occurred
+         * 
+         * @return integer
+         */
         public function getLine() {
             return parent::getLine();
         }
 
+        /**
+         * It returns the exception message
+         * 
+         * @return type
+         */
         public function getMessage() {
             return parent::getMessage();
         }
 
+        /**
+         * It returns the exception trace
+         * 
+         * @return array
+         */
         public function getTrace() {
             return parent::getTrace();
         }
 
+        /**
+         * It returns the exception trace
+         * 
+         * @return string
+         */
         public function getTraceAsString() {
             return parent::getTraceAsString();
         }

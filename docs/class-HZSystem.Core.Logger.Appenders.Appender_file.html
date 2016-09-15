@@ -30,6 +30,11 @@
 					</a>
 
 						<ul>
+				<li>
+					<a href="namespace-HZSystem.Core.HZMailer.html">
+						HZMailer					</a>
+
+						</li>
 				<li class="active">
 					<a href="namespace-HZSystem.Core.Logger.html">
 						Logger<span></span>
@@ -56,11 +61,6 @@
 				<li>
 					<a href="namespace-None.html">
 						None					</a>
-
-						</li>
-				<li>
-					<a href="namespace-PHP.html">
-						PHP					</a>
 
 						</li>
 			</ul>
@@ -112,8 +112,21 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -151,7 +164,7 @@
 		
 		
 		<b>Namespace:</b> <a href="namespace-HZSystem.html">HZSystem</a>\<a href="namespace-HZSystem.Core.html">Core</a>\<a href="namespace-HZSystem.Core.Logger.html">Logger</a>\<a href="namespace-HZSystem.Core.Logger.Appenders.html">Appenders</a><br>
-		<b>Package:</b> HZSystem\Core\Logger\Appenders<br>
+		<b>Package:</b> hzSystem\Core\Logger\Appenders<br>
 
 				<b>Copyright:</b>
 				2015 Luca Liscio<br>
@@ -161,7 +174,7 @@
 				Luca Liscio <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;">&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;</a><br>
 				<b>Version:</b>
 				0.0.1 2015/12/19 19:20:20<br>
-			<b>Located at</b> <a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#25-74" title="Go to source code">core/logger/appenders/appender_file.class.php</a>
+			<b>Located at</b> <a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#25-101" title="Go to source code">core/logger/appenders/appender_file.class.php</a>
 		<br>
 	</div>
 
@@ -181,16 +194,21 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#43-50" title="Go to source code">__construct</a>( <span> <var>$logname</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#43-55" title="Go to source code">__construct</a>( <span>String <var>$logname</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Construntor method</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Construntor method</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$logname</var></dt>
+					<dd>log name</dd>
+				</dl></div>
 
 
 
@@ -213,16 +231,21 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_add">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#52-57" title="Go to source code">add</a>( <span><code><a href="class-HZSystem.Core.Logger.HZLogRow.html">HZSystem\Core\Logger\HZLogRow</a></code> <var>$log_row</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#57-67" title="Go to source code">add</a>( <span><code><a href="class-HZSystem.Core.Logger.HZLogRow.html">HZSystem\Core\Logger\HZLogRow</a></code> <var>$log_row</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Save one row in the log file</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Save one row in the log file</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$log_row</var></dt>
+					<dd></dd>
+				</dl></div>
 
 
 
@@ -236,23 +259,73 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			list
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_log">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#59-72" title="Go to source code">get_log</a>( <span> <var>$start</var></span>, <span> <var>$stop</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#69-90" title="Go to source code">get_log</a>( <span>integer <var>$start</var></span>, <span>integer <var>$stop</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Return a part of log file</p>
 		</div>
 
 		<div class="description detailed hidden">
+			<p>Return a part of log file</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$start</var></dt>
+					<dd>start row</dd>
+					<dt><var>$stop</var></dt>
+					<dd>end row</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					list<br>of log row
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					LogFileNotFoundExceprions
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setLogDir" id="_setLogDir">
+
+		<td class="attributes"><code>
+			 public 
+
 			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setLogDir">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.Appenders.Appender_file.html#92-100" title="Go to source code">setLogDir</a>( <span>string <var>$dir</var></span> )</code>
+
+		<div class="description short">
+			<p>change the log directory</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>change the log directory</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dir</var></dt>
+					<dd>log dirrectory</dd>
+				</dl></div>
 
 
 
@@ -283,6 +356,14 @@
 
 
 
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-HZSystem.Core.Logger.Appenders.Appender.html#properties">HZSystem\Core\Logger\Appenders\Appender</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-HZSystem.Core.Logger.Appenders.Appender.html#$error_identifier"><var>$error_identifier</var></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 

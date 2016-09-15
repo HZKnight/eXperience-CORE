@@ -27,14 +27,14 @@
      */
 
     /**
-     *  FirBUG appender per HZLogger 
+     *  FireBUG appender per HZLogger 
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
      *  @version 0.0.2 2016/08/03 15:35:20
      *  @copyright 2016 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package HZSystem
+     *  @package hzSystem
      *  @subpackage Core\Logger\Appenders
      *  @filesource
      */

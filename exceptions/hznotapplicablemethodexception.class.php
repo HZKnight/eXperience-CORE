@@ -1,6 +1,9 @@
 <?php
 
+    namespace HZSystem\Exceptions;
+    
     use HZSystem\Exceptions\HZException;
+    
     /*
      * Copyright (C) 2016 Luca Liscio
      *
@@ -22,11 +25,11 @@
      *  questa eccezione si verifica quando si prova usare un metodo non applicabile ad un particolare ogetto
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.1 2016/08/02 17:41:20
+     *  @version 0.0.2 2016/09/15 06:40:20
      *  @copyright 2016 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package HZSystem
+     *  @package hzSystem
      *  @subpackage Core\Logger\Exception
      *  @filesource
      */

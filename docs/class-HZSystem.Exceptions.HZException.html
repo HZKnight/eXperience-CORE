@@ -31,6 +31,11 @@
 
 						<ul>
 				<li>
+					<a href="namespace-HZSystem.Core.HZMailer.html">
+						HZMailer					</a>
+
+						</li>
+				<li>
 					<a href="namespace-HZSystem.Core.Logger.html">
 						Logger<span></span>
 					</a>
@@ -58,11 +63,6 @@
 						None					</a>
 
 						</li>
-				<li>
-					<a href="namespace-PHP.html">
-						PHP					</a>
-
-						</li>
 			</ul>
 		</div>
 
@@ -73,6 +73,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li class="active"><a href="class-HZSystem.Exceptions.HZException.html">HZException</a></li>
+				<li><a href="class-HZSystem.Exceptions.HzNotApplicableMethodException.html">HzNotApplicableMethodException</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
@@ -112,8 +113,21 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -121,6 +135,9 @@
 	<h1>Class HZException</h1>
 
 
+	<div class="description">
+	<p>Eccezione generica per HZSystem</p>
+	</div>
 
 	<dl class="tree">
 		<dd style="padding-left:0px">
@@ -142,7 +159,8 @@ HZSystem\Exceptions\Exception
 	<div>
 		<h4>Direct known subclasses</h4>
 			<a href="class-HZSystem.Core.Logger.Exceptions.AppenderNotFoundException.html">HZSystem\Core\Logger\Exceptions\AppenderNotFoundException</a>, 
-			<a href="class-HZSystem.Core.Logger.Exceptions.LogFileNotFoundException.html">HZSystem\Core\Logger\Exceptions\LogFileNotFoundException</a>
+			<a href="class-HZSystem.Core.Logger.Exceptions.LogFileNotFoundException.html">HZSystem\Core\Logger\Exceptions\LogFileNotFoundException</a>, 
+			<a href="class-HZSystem.Exceptions.HzNotApplicableMethodException.html">HZSystem\Exceptions\HzNotApplicableMethodException</a>
 	</div>
 
 
@@ -154,9 +172,17 @@ HZSystem\Exceptions\Exception
 		<b>Abstract</b><br>
 		
 		<b>Namespace:</b> <a href="namespace-HZSystem.html">HZSystem</a>\<a href="namespace-HZSystem.Exceptions.html">Exceptions</a><br>
-		
+		<b>Package:</b> hzSystem\exceptions<br>
 
-			<b>Located at</b> <a href="source-class-HZSystem.Exceptions.HZException.html#19-41" title="Go to source code">exceptions/hzexception.class.php</a>
+				<b>Copyright:</b>
+				2016 Luca Liscio<br>
+				<b>License:</b>
+				<a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU/AGPL3</a><br>
+				<b>Author:</b>
+				Luca Liscio <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;">&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;</a><br>
+				<b>Version:</b>
+				0.0.1 2016/05/31 12:14:20<br>
+			<b>Located at</b> <a href="source-class-HZSystem.Exceptions.HZException.html#52-152" title="Go to source code">exceptions/hzexception.class.php</a>
 		<br>
 	</div>
 
@@ -176,16 +202,23 @@ HZSystem\Exceptions\Exception
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.HZException.html#28-34" title="Go to source code">__construct</a>( <span> <var>$message</var> = <span class="php-keyword1">null</span></span>, <span> <var>$code</var> = <span class="php-num">0</span></span> )</code>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#73-86" title="Go to source code">__construct</a>( <span>String <var>$message</var> = <span class="php-keyword1">null</span></span>, <span>String <var>$code</var> = <span class="php-num">0</span></span> )</code>
 
 		<div class="description short">
-			
+			<p>Constructor</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Constructor</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$message</var></dt>
+					<dd>Error Message</dd>
+					<dt><var>$code</var></dt>
+					<dd>Error Code</dd>
+				</dl></div>
 
 
 
@@ -201,24 +234,28 @@ HZSystem\Exceptions\Exception
 		<td class="attributes"><code>
 			 public 
 
-			
+			String
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___toString">#</a>
-		<code><a href="source-class-HZSystem.Exceptions.HZException.html#36-40" title="Go to source code">__toString</a>( )</code>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#88-96" title="Go to source code">__toString</a>( )</code>
 
 		<div class="description short">
-			
+			<p>To String Method</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>To String Method</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					String
+				</div>
 
 
 
@@ -228,21 +265,224 @@ HZSystem\Exceptions\Exception
 		</div>
 		</div></td>
 	</tr>
-	</table>
+	<tr data-order="getCode" id="_getCode">
 
-	<table class="summary inherited">
-	<caption>Methods inherited from <a href="class-HZSystem.Exceptions.IException.html#methods">HZSystem\Exceptions\IException</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-HZSystem.Exceptions.IException.html#_getCode">getCode()</a>, 
-			<a href="class-HZSystem.Exceptions.IException.html#_getFile">getFile()</a>, 
-			<a href="class-HZSystem.Exceptions.IException.html#_getLine">getLine()</a>, 
-			<a href="class-HZSystem.Exceptions.IException.html#_getMessage">getMessage()</a>, 
-			<a href="class-HZSystem.Exceptions.IException.html#_getTrace">getTrace()</a>, 
-			<a href="class-HZSystem.Exceptions.IException.html#_getTraceAsString">getTraceAsString()</a>
-		</code></td>
+		<td class="attributes"><code>
+			 public 
+
+			String
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCode">#</a>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#98-105" title="Go to source code">getCode</a>( )</code>
+
+		<div class="description short">
+			<p>Return the error code</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return the error code</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					String
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-HZSystem.Exceptions.IException.html#_getCode">HZSystem\Exceptions\IException::getCode()</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFile" id="_getFile">
+
+		<td class="attributes"><code>
+			 public 
+
+			String
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFile">#</a>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#107-114" title="Go to source code">getFile</a>( )</code>
+
+		<div class="description short">
+			<p>It returns the file where the exception occurred</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>It returns the file where the exception occurred</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					String
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-HZSystem.Exceptions.IException.html#_getFile">HZSystem\Exceptions\IException::getFile()</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getLine" id="_getLine">
+
+		<td class="attributes"><code>
+			 public 
+
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLine">#</a>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#116-123" title="Go to source code">getLine</a>( )</code>
+
+		<div class="description short">
+			<p>It returns the line in file where the exception occurred</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>It returns the line in file where the exception occurred</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					integer
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-HZSystem.Exceptions.IException.html#_getLine">HZSystem\Exceptions\IException::getLine()</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMessage" id="_getMessage">
+
+		<td class="attributes"><code>
+			 public 
+
+			type
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMessage">#</a>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#125-132" title="Go to source code">getMessage</a>( )</code>
+
+		<div class="description short">
+			<p>It returns the exception message</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>It returns the exception message</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					type
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-HZSystem.Exceptions.IException.html#_getMessage">HZSystem\Exceptions\IException::getMessage()</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getTrace" id="_getTrace">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getTrace">#</a>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#134-141" title="Go to source code">getTrace</a>( )</code>
+
+		<div class="description short">
+			<p>It returns the exception trace</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>It returns the exception trace</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-HZSystem.Exceptions.IException.html#_getTrace">HZSystem\Exceptions\IException::getTrace()</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getTraceAsString" id="_getTraceAsString">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getTraceAsString">#</a>
+		<code><a href="source-class-HZSystem.Exceptions.HZException.html#143-150" title="Go to source code">getTraceAsString</a>( )</code>
+
+		<div class="description short">
+			<p>It returns the exception trace</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>It returns the exception trace</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-HZSystem.Exceptions.IException.html#_getTraceAsString">HZSystem\Exceptions\IException::getTraceAsString()</a></code></div>
+		</div>
+		</div></td>
 	</tr>
 	</table>
+
 
 
 
@@ -263,7 +503,7 @@ HZSystem\Exceptions\Exception
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-HZSystem.Exceptions.HZException.html#21" title="Go to source code"><var>$message</var></a>
+				<a href="source-class-HZSystem.Exceptions.HZException.html#66" title="Go to source code"><var>$message</var></a>
 
 			<div class="description short">
 				
@@ -277,7 +517,7 @@ HZSystem\Exceptions\Exception
 		<td class="value">
 			<div>
 				<a href="#$message" class="anchor">#</a>
-				<code><span class="php-quote">'Unknown exception'</span></code>
+				<code><span class="php-quote">&quot;&quot;</span></code>
 			</div>
 		</td>
 	</tr>
@@ -288,7 +528,7 @@ HZSystem\Exceptions\Exception
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-HZSystem.Exceptions.HZException.html#23" title="Go to source code"><var>$code</var></a>
+				<a href="source-class-HZSystem.Exceptions.HZException.html#68" title="Go to source code"><var>$code</var></a>
 
 			<div class="description short">
 				
@@ -313,7 +553,7 @@ HZSystem\Exceptions\Exception
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-HZSystem.Exceptions.HZException.html#24" title="Go to source code"><var>$file</var></a>
+				<a href="source-class-HZSystem.Exceptions.HZException.html#69" title="Go to source code"><var>$file</var></a>
 
 			<div class="description short">
 				
@@ -338,7 +578,7 @@ HZSystem\Exceptions\Exception
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-HZSystem.Exceptions.HZException.html#25" title="Go to source code"><var>$line</var></a>
+				<a href="source-class-HZSystem.Exceptions.HZException.html#70" title="Go to source code"><var>$line</var></a>
 
 			<div class="description short">
 				

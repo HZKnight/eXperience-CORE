@@ -27,9 +27,11 @@
      *  @copyright 2016 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package HZSystem
+     *  @package hzSystem
      *  @subpackage Core\Logger
      *  @filesource
+     * 
+     *  @todo Not Implemented 
      */
     
     class hzmailer {

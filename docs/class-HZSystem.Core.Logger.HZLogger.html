@@ -30,6 +30,11 @@
 					</a>
 
 						<ul>
+				<li>
+					<a href="namespace-HZSystem.Core.HZMailer.html">
+						HZMailer					</a>
+
+						</li>
 				<li class="active">
 					<a href="namespace-HZSystem.Core.Logger.html">
 						Logger<span></span>
@@ -56,11 +61,6 @@
 				<li>
 					<a href="namespace-None.html">
 						None					</a>
-
-						</li>
-				<li>
-					<a href="namespace-PHP.html">
-						PHP					</a>
 
 						</li>
 			</ul>
@@ -109,8 +109,21 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -134,7 +147,7 @@
 		
 		
 		<b>Namespace:</b> <a href="namespace-HZSystem.html">HZSystem</a>\<a href="namespace-HZSystem.Core.html">Core</a>\<a href="namespace-HZSystem.Core.Logger.html">Logger</a><br>
-		<b>Package:</b> HZSystem\Core\Logger<br>
+		<b>Package:</b> hzSystem\Core\Logger<br>
 
 				<b>Copyright:</b>
 				2015 Luca Liscio<br>
@@ -144,7 +157,7 @@
 				Luca Liscio <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;">&#x68;&#x7a;&#x6b;&#x69;&#x67;&#x68;&#x74;&#x40;&#x68;&#x30;&#x6d;&#x6f;&#x64;&#x65;&#x6c;&#x2e;&#x6f;&#x72;&#x67;</a><br>
 				<b>Version:</b>
 				1.0.0 2015/12/16 13:01:20<br>
-			<b>Located at</b> <a href="source-class-HZSystem.Core.Logger.HZLogger.html#29-242" title="Go to source code">core/logger/hzlogger.class.php</a>
+			<b>Located at</b> <a href="source-class-HZSystem.Core.Logger.HZLogger.html#29-281" title="Go to source code">core/logger/hzlogger.class.php</a>
 		<br>
 	</div>
 
@@ -211,7 +224,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getIstances">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#91-98" title="Go to source code">getIstances</a>( )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#91-99" title="Go to source code">getIstances</a>( )</code>
 
 		<div class="description short">
 			<p>Restituisce un array con tutte le istanze del logger</p>
@@ -226,45 +239,6 @@
 				<div class="list">
 					<code><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></code>
 				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="__construct" id="___construct">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#100-114" title="Go to source code">__construct</a>( <span>string <var>$logname</var></span>, <span>integer <var>$type</var></span>, <span>integer <var>$loglevel</var></span> )</code>
-
-		<div class="description short">
-			<p>Metodo costruttore</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Metodo costruttore</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$logname</var></dt>
-					<dd>nome del logger</dd>
-					<dt><var>$type</var></dt>
-					<dd>tipo di logger da creare</dd>
-					<dt><var>$loglevel</var></dt>
-					<dd>livello di errore da cui cominciare a registrare il log</dd>
-				</dl></div>
-
 
 
 
@@ -389,6 +363,42 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="get_appenders_list" id="_get_appenders_list">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_appenders_list">#</a>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#173-209" title="Go to source code">get_appenders_list</a>( )</code>
+
+		<div class="description short">
+			<p>Restituisce la lista degli appenders attivi sotto forma di array
+bidimensionale [codice][tipo]</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Restituisce la lista degli appenders attivi sotto forma di array
+bidimensionale [codice][tipo]</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="setDateFormat" id="_setDateFormat">
 
 		<td class="attributes"><code>
@@ -401,7 +411,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setDateFormat">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#173-181" title="Go to source code">setDateFormat</a>( <span>string <var>$date_format</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#211-219" title="Go to source code">setDateFormat</a>( <span>string <var>$date_format</var></span> )</code>
 
 		<div class="description short">
 			<p>setta il formato data del log usa la stessa sintassi del comando date di php</p>
@@ -436,7 +446,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_append">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#183-200" title="Go to source code">append</a>( <span>integer <var>$level</var></span>, <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#221-239" title="Go to source code">append</a>( <span>integer <var>$level</var></span>, <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Aggiunge una riga la log</p>
@@ -473,7 +483,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_fatal">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#202-208" title="Go to source code">fatal</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#241-247" title="Go to source code">fatal</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Aggiunge una riga la log di tipo fatal</p>
@@ -508,7 +518,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_error">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#210-216" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#249-255" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Aggiunge una riga la log di tipo error</p>
@@ -543,7 +553,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_warning">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#218-224" title="Go to source code">warning</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#257-263" title="Go to source code">warning</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Aggiunge una riga la log di tipo warning</p>
@@ -578,7 +588,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_info">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#226-232" title="Go to source code">info</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#265-271" title="Go to source code">info</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Aggiunge una riga la log di tipo info</p>
@@ -613,7 +623,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_debug">#</a>
-		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#234-240" title="Go to source code">debug</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-HZSystem.Core.Logger.HZLogger.html#273-279" title="Go to source code">debug</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			<p>Aggiunge una riga la log di tipo debug</p>

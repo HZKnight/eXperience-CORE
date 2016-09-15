@@ -32,6 +32,11 @@
 
 						<ul>
 				<li>
+					<a href="namespace-HZSystem.Core.HZMailer.html">
+						HZMailer					</a>
+
+						</li>
+				<li>
 					<a href="namespace-HZSystem.Core.Logger.html">
 						Logger<span></span>
 					</a>
@@ -59,11 +64,6 @@
 						None					</a>
 
 						</li>
-				<li>
-					<a href="namespace-PHP.html">
-						PHP					</a>
-
-						</li>
 			</ul>
 		</div>
 
@@ -73,8 +73,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-FB.html">FB</a></li>
-				<li><a href="class-FirePHP.html">FirePHP</a></li>
+				<li><a href="class-HZSystem.Core.HZMailer.hzmailer.html">HZSystem\Core\HZMailer\hzmailer</a></li>
 				<li><a href="class-HZSystem.Core.Logger.Appenders.Appender.html">HZSystem\Core\Logger\Appenders\Appender</a></li>
 				<li><a href="class-HZSystem.Core.Logger.Appenders.Appender_db.html">HZSystem\Core\Logger\Appenders\Appender_db</a></li>
 				<li><a href="class-HZSystem.Core.Logger.Appenders.Appender_email.html">HZSystem\Core\Logger\Appenders\Appender_email</a></li>
@@ -85,6 +84,7 @@
 				<li><a href="class-HZSystem.Core.Logger.HZLogger.html">HZSystem\Core\Logger\HZLogger</a></li>
 				<li><a href="class-HZSystem.Core.Logger.HZLogRow.html">HZSystem\Core\Logger\HZLogRow</a></li>
 				<li><a href="class-HZSystem.Exceptions.HZException.html">HZSystem\Exceptions\HZException</a></li>
+				<li><a href="class-HZSystem.Exceptions.HzNotApplicableMethodException.html">HZSystem\Exceptions\HzNotApplicableMethodException</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
@@ -93,15 +93,12 @@
 			</ul>
 
 
-			<h3>Exceptions</h3>
-			<ul>
-				<li><a href="class-Exception.html">Exception</a></li>
-			</ul>
 
 
 			<h3>Functions</h3>
 			<ul>
-				<li><a href="function-fb.html">fb</a></li>
+				<li><a href="function-__autoload.html">__autoload</a></li>
+				<li><a href="function-hzSystemAutoload.html">hzSystemAutoload</a></li>
 			</ul>
 		</div>
 	</div>
@@ -131,8 +128,21 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="-API-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -140,30 +150,28 @@
 </span><span id="2" class="l"><a href="#2"> 2: </a>
 </span><span id="3" class="l"><a href="#3"> 3: </a>    <span class="php-keyword1">namespace</span> HZSystem\Core\Logger\Appenders;
 </span><span id="4" class="l"><a href="#4"> 4: </a>    
-</span><span id="5" class="l"><a href="#5"> 5: </a>    <span class="php-keyword1">require</span> <span class="php-quote">'appender.class.php'</span>;
-</span><span id="6" class="l"><a href="#6"> 6: </a>    
-</span><span id="7" class="l"><a href="#7"> 7: </a>    <span class="php-comment">/**
-</span></span><span id="8" class="l"><a href="#8"> 8: </a><span class="php-comment">     * @author luca
-</span></span><span id="9" class="l"><a href="#9"> 9: </a><span class="php-comment">     * 
-</span></span><span id="10" class="l"><a href="#10">10: </a><span class="php-comment">     */</span>
-</span><span id="11" class="l"><a href="#11">11: </a>    <span class="php-keyword1">class</span> Appender_db <span class="php-keyword1">extends</span> Appender {
-</span><span id="12" class="l"><a href="#12">12: </a>        
-</span><span id="13" class="l"><a href="#13">13: </a>        <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add(<span class="php-var">$log_row</span>){
-</span><span id="14" class="l"><a href="#14">14: </a>            
-</span><span id="15" class="l"><a href="#15">15: </a>        }
-</span><span id="16" class="l"><a href="#16">16: </a>        
-</span><span id="17" class="l"><a href="#17">17: </a>        <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_log(<span class="php-var">$start</span>=<span class="php-num">0</span>,<span class="php-var">$stop</span>){
-</span><span id="18" class="l"><a href="#18">18: </a>            
-</span><span id="19" class="l"><a href="#19">19: </a>        }
-</span><span id="20" class="l"><a href="#20">20: </a>        
-</span><span id="21" class="l"><a href="#21">21: </a>    }</span></code></pre>
+</span><span id="5" class="l"><a href="#5"> 5: </a>    <span class="php-comment">/**
+</span></span><span id="6" class="l"><a href="#6"> 6: </a><span class="php-comment">     * @author Luca Liscio 
+</span></span><span id="7" class="l"><a href="#7"> 7: </a><span class="php-comment">     * @todo Not Implemented 
+</span></span><span id="8" class="l"><a href="#8"> 8: </a><span class="php-comment">     */</span>
+</span><span id="9" class="l"><a href="#9"> 9: </a>    <span class="php-keyword1">class</span> Appender_db <span class="php-keyword1">extends</span> Appender {
+</span><span id="10" class="l"><a href="#10">10: </a>        
+</span><span id="11" class="l"><a href="#11">11: </a>        <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add(<span class="php-var">$log_row</span>){
+</span><span id="12" class="l"><a href="#12">12: </a>            
+</span><span id="13" class="l"><a href="#13">13: </a>        }
+</span><span id="14" class="l"><a href="#14">14: </a>        
+</span><span id="15" class="l"><a href="#15">15: </a>        <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_log(<span class="php-var">$start</span>=<span class="php-num">0</span>,<span class="php-var">$stop</span>){
+</span><span id="16" class="l"><a href="#16">16: </a>            
+</span><span id="17" class="l"><a href="#17">17: </a>        }
+</span><span id="18" class="l"><a href="#18">18: </a>        
+</span><span id="19" class="l"><a href="#19">19: </a>    }</span></code></pre>
 
 	<div id="footer">
 		hzsystem API documentation generated by <a href="http://apigen.org">ApiGen</a>
 	</div>
 </div>
 </div>
-<script src="resources/combined.js?b4fe2aec09095d88611679b588a564820803f1d0"></script>
-<script src="elementlist.js?ee38bddb10ed4ef961ea950b1171f26431f551b1"></script>
+<script src="resources/combined.js?e52358429e80a7010bca7d3bc2619d91d9d3f5a4"></script>
+<script src="elementlist.js?4a7fe60e19f063807ae11b8c7354af1baa60181d"></script>
 </body>
 </html>

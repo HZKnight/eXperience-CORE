@@ -3,8 +3,8 @@
 	namespace HZSystem\Core\Logger\Appenders;
 	
 	/**
-	 * @author luca
-	 * 
+	 * @author Luca Liscio 
+	 * @todo Not Implemented 
 	 */
 	class Appender_db extends Appender {
 		
