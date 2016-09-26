@@ -30,7 +30,7 @@
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
      *  @version 1.0.0 2015/12/16 13:01:20
-     *  @copyright 2015 Luca Liscio
+     *  @copyright &copy;2015 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package hzSystem

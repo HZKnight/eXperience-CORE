@@ -12,9 +12,10 @@
  * @subpackage test
  * @filesource
  */
-session_start();
 
 require "../hzSystem_autoloader.php";
+
+session_start();
 
 use HZSystem\Core\Logger\HZLogger;
 
