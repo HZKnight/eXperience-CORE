@@ -50,9 +50,9 @@
              $json;
              
              if (!file_exists($cfile)){
-                 throw new ConfigException(CFG_FILE_NOT_EXIST,103);
+                 throw new ConfigException(dgettext("hzSystem","Config file not exist"),103);
              } else if (($this->cfg=json_decode(file_get_contents($cfile), true))==null){
-                 throw new ConfigException(CFG_FILE_CORRUPTED,113); 
+                 throw new ConfigException(dgettext("hzSystem","Config file is corrupted"),113); 
              }
              
              $this->cfgfile = $cfile;
@@ -108,7 +108,7 @@
                   
          private function save_cfg(){
              $status = file_put_contents($this->cfgfile, json_encode($this->cfg));
-             if(!$status)throw new ConfigException(CFG_FILE_NOTWRITABLE,123);
+             if(!$status)throw new ConfigException(dgettext("hzSystem","Config file isn't wirittable"),123);
          }
      }
 ?>
