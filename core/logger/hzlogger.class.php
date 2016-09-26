@@ -7,6 +7,8 @@
     use HZSystem\Core\Logger\Appenders\Appender_email;
     use HZSystem\Core\Logger\Appenders\Appender_db;
     use HZSystem\Core\Logger\Appenders\Appender_firephp;
+    
+    use HZSystem\Core\Logger\Exceptions;
 	
     /*
      * Copyright (C) 2015 Luca Liscio

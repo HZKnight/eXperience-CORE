@@ -1,6 +1,8 @@
 <?php
    
-    namespace HZSystem\Core;
+    namespace HZSystem\Core\Config;
+    
+    use HZSystem\Core\Config\Exceptions;
 
    /*
     * Copyright (C) 2016 Luca Liscio
