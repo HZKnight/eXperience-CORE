@@ -3,7 +3,7 @@ language: php
 os:
   - linux
   - osx
-  - win
+  - windows
 
 php:
   - '5.4'
