@@ -13,7 +13,7 @@
  * @filesource
  */
 
-require "../hzSystem_autoloader.php";
+require "../src/hzSystem_autoloader.php";
 
 session_start();
 
