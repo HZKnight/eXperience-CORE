@@ -1,0 +1,7 @@
+## YAML Template.
+filter:
+    excluded_paths:
+        - test/*
+        - docs/*
+        - .settings/*
+        - src/libs/*
