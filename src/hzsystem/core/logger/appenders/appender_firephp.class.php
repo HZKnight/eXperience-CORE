@@ -68,17 +68,17 @@
                     break;
             }
                     
-	}
+	    }
 	
         /**
          * Method not applicable
          * 
          * @throws HzNotApplicableMethodException
          */
-	public function get_log($start=0,$stop){
+	    public function get_log($start=0,$stop){
                     
             throw new HzNotApplicableMethodException(dgettext("hzSystem","Method not applicable"));
                     
-	}
+	    }
 		
     }

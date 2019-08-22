@@ -35,80 +35,78 @@
     *  @subpackage Core
     *  @filesource
     */
-   class HZConfig{
-         private $cfg;
-         private $cfgfile;
+    class HZConfig{
+        private $cfg;
+        private $cfgfile;
          
-         /**
-          * Costruttore della classe Config, prende in input il path del file di configurazione
-          * e ne carica il contenuto. Il file deve essere in formato json.
-          * 
-          * @param string $cfile path del file di configurazione
-          * @throws ConfigException
-          */
-         public function __construct($cfile){
-             $json;
+        /**
+         * Costruttore della classe Config, prende in input il path del file di configurazione
+         * e ne carica il contenuto. Il file deve essere in formato json.
+         * 
+         * @param string $cfile path del file di configurazione
+         * @throws ConfigException
+         */
+        public function __construct($cfile){
+            $json;
              
-             if (!file_exists($cfile)){
-                 throw new ConfigException(dgettext("hzSystem","Config file not exist"),103);
-             } else if (($this->cfg=json_decode(file_get_contents($cfile), true))==null){
-                 throw new ConfigException(dgettext("hzSystem","Config file is corrupted"),113); 
-             }
+            if (!file_exists($cfile)){
+                throw new ConfigException(dgettext("hzSystem","Config file not exist"),103);
+            } else if (($this->cfg=json_decode(file_get_contents($cfile), true))==null){
+                throw new ConfigException(dgettext("hzSystem","Config file is corrupted"),113); 
+            }
              
-             $this->cfgfile = $cfile;
-         }
+            $this->cfgfile = $cfile;
+        }
           
-         /**
-          * Restituisce l'intera configurazione
-          * 
-          * @return array 
-          */
-         public function get_cfg(){
-             return $this->cfg;
-         }
+        /**
+         * Restituisce l'intera configurazione
+         * 
+         * @return array 
+         */
+        public function get_cfg(){
+            return $this->cfg;
+        }
          
-         /**
-          * Restituisce il contenuto di una voce della configuarazione
-          * 
-          * @param string $param nome del parametro
-          * @return mixed
-          */
-         public function get_param($param){
-             return $this->cfg[$param];
-         }
+        /**
+         * Restituisce il contenuto di una voce della configuarazione
+         * 
+         * @param string $param nome del parametro
+         * @return mixed
+         */
+        public function get_param($param){
+            return $this->cfg[$param];
+        }
          
-         
-         
-         /**
-          * Aggiorna il valore di una voce della configurazione
-          * 
-          * 
-          */
-         public function set_param(){
+        /**
+         * Aggiorna il valore di una voce della configurazione
+         * 
+         * 
+         */
+        public function set_param(){
             $numArgs = func_num_args() ; 
             $args = func_get_args() ; 
             call_user_func_array( array(&$this, 'set_param'.$numArgs), $args ) ; 
-         }
+        }
          
-         private function set_param2($param,$val){
-             if (array_key_exists($param, $this->cfg)){
-                 $this->cfg[$param] = $val;
-                 $this->save_cfg();
-             }
-         }
+        private function set_param2($param,$val){
+            if (array_key_exists($param, $this->cfg)){
+                $this->cfg[$param] = $val;
+                $this->save_cfg();
+            }
+        }
          
-         private function set_param3($section,$param,$val){
-             if (array_key_exists($section, $this->cfg)){
-                 if(array_key_exists($param, $this->cfg[$section])){
-                     $this->cfg[$section][$param] = $val;
-                 }
-                 $this->save_cfg();
-             }
-         }
+        private function set_param3($section,$param,$val){
+            if (array_key_exists($section, $this->cfg)){
+                if(array_key_exists($param, $this->cfg[$section])){
+                    $this->cfg[$section][$param] = $val;
+                }
+                $this->save_cfg();
+            }
+        }
                   
-         private function save_cfg(){
-             $status = file_put_contents($this->cfgfile, json_encode($this->cfg));
-             if(!$status)throw new ConfigException(dgettext("hzSystem","Config file isn't wirittable"),123);
-         }
-     }
+        private function save_cfg(){
+            $status = file_put_contents($this->cfgfile, json_encode($this->cfg));
+            if(!$status)throw new ConfigException(dgettext("hzSystem","Config file isn't wirittable"),123);
+        }
+    }
 ?>
