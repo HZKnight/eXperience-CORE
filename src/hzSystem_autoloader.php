@@ -31,7 +31,7 @@
 
 session_start();
 
-$_SESSION["hzSystem_path"] = dirname(__DIR__).DIRECTORY_SEPARATOR;
+$_SESSION["hzSystem_path"] = __DIR__.DIRECTORY_SEPARATOR;
 putenv("HZSVER=v0.2.2-Alfa");
 
 //First step set internazionalizzation
@@ -61,12 +61,15 @@ function hzSystemAutoload($classname)
 {
     $pathtoclass = str_replace('\\', DIRECTORY_SEPARATOR, $classname);
     $filename = $_SESSION["hzSystem_path"].strtolower($pathtoclass).'.class.php';
+    //$filename = './'.strtolower($pathtoclass).'.class.php';
     if (is_readable($filename)) {
         require $filename;
+    } else {
+        throw new Exception("Unable to load file: ".$filename);
     }
 }
 
-if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
+if(version_compare(PHP_VERSION, '5.1.2', '>=')) {
     //SPL autoloading was introduced in PHP 5.1.2
     if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
         spl_autoload_register('hzSystemAutoload', true, true);

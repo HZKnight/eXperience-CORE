@@ -58,14 +58,14 @@
         /** File type log */
         const LOG_APPENDER_FILE =    501;
         /** Email type log */
- 	const LOG_APPENDER_EMAIL =   502;
- 	/** Data base type log */
- 	const LOG_APPENDER_DB =      503;
- 	/** Firebug type log */
- 	const LOG_APPENDER_FIREPHP = 504;
+ 	    const LOG_APPENDER_EMAIL =   502;
+ 	    /** Data base type log */
+ 	    const LOG_APPENDER_DB =      503;
+ 	    /** Firebug type log */
+ 	    const LOG_APPENDER_FIREPHP = 504;
  		
     	//Dati del logger
- 	private $logname;
+ 	    private $logname;
     	private $date_format;
         private $appenders = array();
         private $loglevel;
@@ -74,39 +74,39 @@
     	private static $_instace = array();
             
         /**
-	 * Crea una nuova istanza del logger
+	     * Crea una nuova istanza del logger
          * @param string $logname nome della nuova istanza del logger da creare
-	 * @param integer $type tipo di logger da creare 
+	     * @param integer $type tipo di logger da creare 
          * @param integer $loglevel livello di errore da cui cominciare a registrare il log
-	 * @return \HZSystem\Core\Logger\HZLogger
-	 * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE,HZLogger::LOG_INFO);
-	 */
-	public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=self::LOG_INFO){
-	        
-	    if (!(self::$_instace[$logname] instanceof self)){
-	        self::$_instace[$logname] = new self($logname,$type,$loglevel);
-	    }
-	    
-	    return self::$_instace[$logname];
-	}
-	    
-	/**
-	 * Restituisce un array con tutte le istanze del logger
-	 * @return HZSystem\Core\Logger\HZLogger
-	 */
-	public static function getIstances(){
-	    	
+	     * @return \HZSystem\Core\Logger\HZLogger
+	     * @example $miolog = HZLogger::gelLogger("miolog",HZLogger::LOG_APPENDER_FILE,HZLogger::LOG_INFO);
+	     */
+        public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=self::LOG_INFO){
+                
+            if (!(self::$_instace[$logname] instanceof self)){
+                self::$_instace[$logname] = new self($logname,$type,$loglevel);
+            }
+            
+            return self::$_instace[$logname];
+        }
+            
+        /**
+         * Restituisce un array con tutte le istanze del logger
+         * @return HZSystem\Core\Logger\HZLogger
+         */
+        public static function getIstances(){
+                
             return self::$_instace;
 	            
         }
 	    
-	/**
+	    /**
          * Metodo costruttore
-	 * @param string $logname nome del logger
-	 * @param integer $type tipo di logger da creare
+	     * @param string $logname nome del logger
+	     * @param integer $type tipo di logger da creare
          * @param integer $loglevel livello di errore da cui cominciare a registrare il log
-	 */ 
-	private function __construct($logname,$type,$loglevel){
+	     */ 
+	    private function __construct($logname,$type,$loglevel){
 	   
             $this->logname = $logname;
             $this->loglevel = $loglevel;
@@ -114,15 +114,15 @@
             $this->get_appender($type)->setLogLevel($this->loglevel);
             $this->date_format = "d-m-Y H:i:s";
 	      
-	}
+	    }
             
         /**
-	 * Aggiunge un nuovo appender al logger
-	 * @param integer $type tipo di appender da aggiungere
-	 */
-	public function add_appender($type){
+	     * Aggiunge un nuovo appender al logger
+	     * @param integer $type tipo di appender da aggiungere
+	     */
+	    public function add_appender($type){
 	    	
-	    switch ($type){
+	        switch ($type){
                 case self::LOG_APPENDER_FILE:
                     $this->appenders[$type] = new Appender_file($this->logname);
                     break;
@@ -135,42 +135,42 @@
                 case self::LOG_APPENDER_FIREPHP:
                     $this->appenders[$type] = new Appender_firephp($this->logname);
                     break;	    			
-	    }
+	        }
                 
             $this->get_appender($type)->setLogLevel($this->loglevel);
 	    	
-	}
-	    
-	/**
-	 * Rimuove un appender dal logger
-	 * @param integer $type tipo di appender da rimuovere
-	 * @throws AppenderNotFoundException
-	 */
-	public function remove_appender($type){
-	    	
-	    if(isset($this->appenders[$type])){
-	    	unset($this->appenders[$type]);	
-	    } else {
-	    	throw new AppenderNotFoundException(dgettext("hzSystem","Appender requested not found"));
 	    }
 	    
-	}
+        /**
+         * Rimuove un appender dal logger
+         * @param integer $type tipo di appender da rimuovere
+         * @throws AppenderNotFoundException
+         */
+        public function remove_appender($type){
+                
+            if(isset($this->appenders[$type])){
+                unset($this->appenders[$type]);	
+            } else {
+                throw new AppenderNotFoundException(dgettext("hzSystem","Appender requested not found"));
+            }
+            
+        }
 	    
-	/**
-	 * restituisce l'appender associato al tipo specifiato
-	 * @param integer $type tipo di appender che si vuole ottenere
-	 * @throws AppenderNotFoundException
-	 * @return HZSystem\Core\Logger\Appenders\Appender
-	 */
-	public function get_appender($type){
-	    	
-	    if(isset($this->appenders[$type])){
-	    	return $this->appenders[$type];
-	    } else {
-	    	throw new AppenderNotFoundException(dgettext("hzSystem","Appender requested not found"));
-	    }
-	    	
-	}
+        /**
+         * restituisce l'appender associato al tipo specifiato
+         * @param integer $type tipo di appender che si vuole ottenere
+         * @throws AppenderNotFoundException
+         * @return HZSystem\Core\Logger\Appenders\Appender
+         */
+        public function get_appender($type){
+                
+            if(isset($this->appenders[$type])){
+                return $this->appenders[$type];
+            } else {
+                throw new AppenderNotFoundException(dgettext("hzSystem","Appender requested not found"));
+            }
+                
+        }
         
         /**
          * Restituisce la lista degli appenders attivi sotto forma di array 
@@ -214,11 +214,11 @@
          * setta il formato data del log usa la stessa sintassi del comando date di php
          * @param string $date_format
          */
-	public function setDateFormat($date_format){
+	    public function setDateFormat($date_format){
 	
-	   $this->date_format = $date_format;
+	        $this->date_format = $date_format;
 	      
-	}
+	    }
             
         /**
          * Aggiunge una riga la log
