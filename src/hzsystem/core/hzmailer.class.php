@@ -46,7 +46,7 @@
         private $mailer;
 
         public function __construct($from, $to, $subject, $return){
-            $this->mailer = &new Easy_Email($from, $to, $subject, $return);
+            $this->mailer =& new Easy_Email($from, $to, $subject, $return);
         }
 
         public function send($message, $type){
