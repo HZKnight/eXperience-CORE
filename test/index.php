@@ -31,6 +31,7 @@ echo "-----<br/>";
 echo "Locale: ".getenv("LANG")."<br/>";
 echo "Script path: ".$_SERVER["DOCUMENT_ROOT"]."<br/>";
 echo "Language path: ".$_SESSION["hzSystem_path"]."hzsystem".DIRECTORY_SEPARATOR."lang<br/>";
+echo "Log path: ".$_SERVER["DOCUMENT_ROOT"].DIRECTORY_SEPARATOR."log<br/>";
 echo "-----<br/>";
 echo "Start logger Test: ";
 $log = null;
