@@ -38,9 +38,9 @@
         
         // Message type
     	/** Simple text */
-        const TEXT =   601;
+        const TEXT = 601;
         /** HTML text */
-        const HTML =   602;
+        const HTML = 602;
 
         // Mailer
         private $mailer;
