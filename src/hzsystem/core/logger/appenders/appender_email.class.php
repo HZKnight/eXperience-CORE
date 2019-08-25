@@ -1,6 +1,13 @@
 <?php
 
-	namespace HZSystem\Core\Logger\Appenders;
+     namespace HZSystem\Core\Logger\Appenders;
+     
+     use HZSystem\Exceptions\HzNotApplicableMethodException;
+        
+     use HZSystem\Core\Logger\HZLogger;
+     use HZSystem\Core\Logger\HZLogRow;
+     use HZSystem\Core\HZMailer;
+     
 	
 	/*
      * Copyright (C) 2019 Luca Liscio
@@ -51,7 +58,7 @@
            * @throws LogFileNotFoundExceprions 
            */
 		public function get_log($start=0,$stop){
-			throw new Exceprions("Not supported!"); 	
+			throw new HzNotApplicableMethodException(dgettext("hzSystem","Method not applicable"));	
 		}
 		
 	}

@@ -3,7 +3,7 @@
     namespace HZSystem\Core\HZMailer;
 
     /*
-     * Copyright (C) 2016 Luca Liscio
+     * Copyright (C) 2019 Luca Liscio
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -22,18 +22,34 @@
     /**
      *  Semplice classe per l'invio di email 
      *
-     *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.1 2016/08/03 19:01:20
-     *  @copyright 2016 Luca Liscio
+     *  @author  Luca Liscio <lucliscio@h0model.org>
+     *  @version 0.0.1 2019/08/25 16:03:20
+     *  @copyright 2019 Luca Liscio
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package hzSystem
      *  @subpackage Core\Logger
      *  @filesource
-     * 
-     *  @todo Not Implemented 
      */
     
-    class hzmailer {
-        //put your code here
+    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/mailer/Easy_Mail.class.php'));
+
+    class HZMailer {
+        
+        // Message type
+    	/** Simple text */
+        const TEXT =   601;
+        /** HTML text */
+        const HTML =   602;
+
+        // Mailer
+        private $mailer;
+
+        public function __construct($from, $to, $subject, $return){
+            $this->mailer = &new Easy_Email($from, $to, $subject, $return);
+        }
+
+        public function send($message, $type){
+
+        }
     }
