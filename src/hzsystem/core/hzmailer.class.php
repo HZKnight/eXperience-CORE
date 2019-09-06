@@ -31,8 +31,14 @@
      *  @subpackage Core\Logger
      *  @filesource
      */
-    
-    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/mailer/Easy_Mail.class.php'));
+
+    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/Exception.php'));
+    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/PHPMailer.php'));
+    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/SMTP.php'));
+
+    /* Namespace alias. */
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
 
     class HZMailer {
         
@@ -46,7 +52,7 @@
         private $mailer;
 
         public function __construct($from, $to, $subject, $return){
-            $this->mailer =& new Easy_Email($from, $to, $subject, $return);
+            $this->mailer = new PHPMailer(TRUE);
         }
 
         public function send($message, $type){
