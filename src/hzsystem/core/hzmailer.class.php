@@ -37,6 +37,7 @@
     require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/SMTP.php'));
 
     /* Namespace alias. */
+    use HZSystem\Core\config\HZConfig;
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
@@ -51,8 +52,36 @@
         // Mailer
         private $mailer;
 
-        public function __construct($from, $to, $subject, $return){
+        // configurazine
+        private $config;
+
+        /**
+         * Undocumented function
+         *
+         * @param HZConfig $conf
+         */
+        public function __construct(HZConfig $conf){
             $this->mailer = new PHPMailer(TRUE);
+            $this->config = $conf;  
+            $this->mailer->SMTPDebug = 2;                               // Enable verbose debug output         
+        }
+
+        /**
+         * Undocumented function
+         *
+         * @return void
+         */
+        public function enableSMTP(){
+            $this->mailer->isSMTP();                                            // Set mailer to use 
+            $this->mailer->Host       = $this->config->get_param('smtp_host');  // Specify main and backup SMTP servers
+            $this->mailer->Port       = $this->config->get_param('smtp_port');  // TCP port to connect 
+            $this->mailer->SMTPAuth   = $this->config->get_param('smtp_auth');  // Enable SMTP authentication
+
+            if($this->mailer->SMTPAuth){
+                $this->mailer->Username   = $this->config->get_param('smtp_username');  // SMTP username
+                $this->mailer->Password   = $this->config->get_param('smtp_passwd');    // SMTP password
+                $this->mailer->SMTPSecure = $this->config->get_param('smtp_secure');    // Enable TLS encryption, `ssl` also accepted
+            }       
         }
 
         public function send($message, $type){
