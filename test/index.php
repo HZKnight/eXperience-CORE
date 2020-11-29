@@ -5,7 +5,7 @@
  * 
  * @author  Luca Liscio <hzkight@h0model.org>
  * @version 0.0.1 2016/09/12 19:25:34
- * @copyright 2016 Luca Liscio
+ * @copyright 2020 HZKnight
  * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
  *
  * @package hzSystem
@@ -13,11 +13,11 @@
  * @filesource
  */
 
-require "../src/hzSystem_autoloader.php";
+require "../src/experience_autoloader.php";
 
 session_start();
 
-use HZSystem\Core\Logger\HZLogger;
+use Experience\Core\Logger\HZLogger;
 
 echo "<b>hzSystem ".getenv("HZSVER")."</b><br/><br/>";
 echo "Verisone PHP richiesta >= 5.1.2 ";
