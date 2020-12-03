@@ -1,6 +1,6 @@
 <?php
 
-	namespace HZSystem\Core\Logger\Appenders;
+	namespace Experience\Core\Logger\Appenders;
 	
 	/**
 	 * @author Luca Liscio 

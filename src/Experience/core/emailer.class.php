@@ -1,9 +1,9 @@
 <?php
 
-    namespace HZSystem\Core\HZMailer;
+    namespace Experience\Core\EMailer;
 
     /*
-     * Copyright (C) 2019 Luca Liscio
+     * Copyright (C) 2020 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -23,25 +23,25 @@
      *  Semplice classe per l'invio di email 
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 0.0.1 2019/08/25 16:03:20
-     *  @copyright 2019 Luca Liscio
+     *  @version 0.0.2 2020/11/29 21:03:20
+     *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
-     *  @subpackage Core\Logger
+     *  @package Experience
+     *  @subpackage Core
      *  @filesource
      */
 
-    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/Exception.php'));
-    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/PHPMailer.php'));
-    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/PHPMailer/SMTP.php'));
+    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/PHPMailer/Exception.php'));
+    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/PHPMailer/PHPMailer.php'));
+    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/PHPMailer/SMTP.php'));
 
     /* Namespace alias. */
-    use HZSystem\Core\config\HZConfig;
+    use Experience\Core\config\EConfigManager;
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    class HZMailer {
+    class EMailer {
         
         // Message type
     	/** Simple text */
@@ -58,9 +58,9 @@
         /**
          * Undocumented function
          *
-         * @param HZConfig $conf
+         * @param EConfigManager $conf
          */
-        public function __construct(HZConfig $conf){
+        public function __construct(EConfigManager $conf){
             $this->mailer = new PHPMailer(TRUE);
             $this->config = $conf;  
             $this->mailer->SMTPDebug = 2;                               // Enable verbose debug output         

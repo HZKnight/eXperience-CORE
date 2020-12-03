@@ -18,7 +18,7 @@
  */
 
 /**
- *  hzSystem SPL autoloader.
+ *  Experience SPL autoloader.
  * 
  *  @author  Luca Liscio <lucliscio@h0model.org>
  *  @version v 1.1 2020/11/29 20:00:00
@@ -29,7 +29,9 @@
  *  @filesource
  */
 
-session_start();
+if(session_id() == ""){
+    session_start();
+}
 
 $_SESSION["experience_path"] = __DIR__.DIRECTORY_SEPARATOR;
 putenv("ECORE=v0.2.3-Alfa");

@@ -1,8 +1,8 @@
 <?php
 
-    namespace HZSystem\Exceptions;
+    namespace Experience\Exceptions;
     
-    use HZSystem\Exceptions\HZException;
+    use Experience\Exceptions\EException;
     
     /*
      * Copyright (C) 2020 HZKnight
@@ -25,15 +25,15 @@
      *  questa eccezione si verifica quando si prova usare un metodo non applicabile ad un particolare ogetto
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.2 2016/09/15 06:40:20
+     *  @version 0.0.3 2020/11/29 20:40:20
      *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
-     *  @subpackage Core\Logger\Exception
+     *  @package Experience
+     *  @subpackage Exceptions
      *  @filesource
      */
 	 
-    class HzNotApplicableMethodException extends HZException {
-        protected $code = "HZ00"; 
+    class ENotApplicableMethodException extends EException {
+        protected $code = "EE00"; 
     }

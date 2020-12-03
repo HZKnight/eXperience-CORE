@@ -26,16 +26,16 @@
     * 
     *  @author Luca Liscio <hzkight@h0model.org>
     *  @author Marco Lettieri
-    *  @version v 1.1 2016/09/26 10:56:20
+    *  @version v 1.2 2020/11/29 20:56:20
     *  @copyright &copy;2020 HZKnight
     *  @copyright &copy;2013 Luca Liscio & Marco Lettieri 
     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
     *   
-    *  @package hzSystem
-    *  @subpackage Core
+    *  @package Experience
+    *  @subpackage Core\config
     *  @filesource
     */
-    class HZConfig{
+    class EConfigManager{
         private $cfg;
         private $cfgfile;
          
@@ -50,9 +50,9 @@
             $json;
              
             if (!file_exists($cfile)){
-                throw new ConfigException(dgettext("hzSystem","Config file not exist"),103);
+                throw new ConfigException(dgettext("ELang","Config file not exist"),103);
             } else if (($this->cfg=json_decode(file_get_contents($cfile), true))==null){
-                throw new ConfigException(dgettext("hzSystem","Config file is corrupted"),113); 
+                throw new ConfigException(dgettext("Elang","Config file is corrupted"),113); 
             }
              
             $this->cfgfile = $cfile;
@@ -106,7 +106,7 @@
                   
         private function save_cfg(){
             $status = file_put_contents($this->cfgfile, json_encode($this->cfg));
-            if(!$status)throw new ConfigException(dgettext("hzSystem","Config file isn't wirittable"),123);
+            if(!$status)throw new ConfigException(dgettext("Elang","Config file isn't wirittable"),123);
         }
     }
 ?>

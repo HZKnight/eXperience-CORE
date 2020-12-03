@@ -1,5 +1,7 @@
 <?php
     
+    namespace Experience\Exceptions;
+
     /*
      * Copyright (C) 2020 HZKnight
      *
@@ -17,10 +19,7 @@
      * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
      */
 
-	
-    namespace HZSystem\Exceptions;
-
-    /**
+	/**
      * Interfaccia generica per le eccezioni basata sulla interfaccia
      * prevista dal linguaggio PHP
      *
@@ -50,18 +49,18 @@
 	
 
     /**
-     * Eccezione generica per HZSystem
+     * Eccezione generica per Experience
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.1 2016/05/31 12:14:20
+     *  @version 0.0.2 2020/11/29 20:14:20
      *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
+     *  @package Experience
      *  @subpackage exceptions
      *  @filesource
      */
-    abstract class HZException extends Exception implements IException
+    abstract class EException extends Exception implements IException
     {
         protected $message = "";                      // Exception message
         private   $string;                            // Unknown
@@ -79,7 +78,7 @@
         public function __construct($message = null, $code = 0)
 	    {
             if (!$message) {
-                $this->message = dgettext("hzSystem",'Unknown exception ');
+                $this->message = dgettext("ELang",'Unknown exception ');
                 throw new $this($this->message. get_class($this));
             }
             parent::__construct($message, $code);

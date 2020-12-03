@@ -1,11 +1,11 @@
 <?php
 
-    namespace HZSystem\Core\Logger\Exceptions;
+    namespace Experience\Core\Logger\Exceptions;
 	
-    use HZSystem\Exceptions\HZException;
+    use Experience\Exceptions\EException;
 	
     /*
-     * Copyright (C) 2015 Luca Liscio
+     * Copyright (C) 2020 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -25,15 +25,15 @@
      *  questa eccezione si verifica quando si prova a richiamare un log file che non esiste
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.1 2015/12/19 16:41:20
-     *  @copyright 2015 Luca Liscio
+     *  @version 0.0.2 2020/11/29 21:41:20
+     *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
+     *  @package Experience
      *  @subpackage Core\Logger\Exception
      *  @filesource
      */
 	 
-    class LogFileNotFoundException extends HZException{
+    class LogFileNotFoundException extends EException{
         protected $code = "L02"; 
     }

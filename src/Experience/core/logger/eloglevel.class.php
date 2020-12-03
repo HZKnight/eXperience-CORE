@@ -1,9 +1,8 @@
 <?php
+    namespace Experience\Core\Logger;
 
-	namespace HZSystem\Core\Logger;
-	
-	/*
-	 * Copyright (C) 2015 Luca Liscio
+    /*
+	 * Copyright (C) 2020 HZKnight
 	 *
 	 * This program is free software: you can redistribute it and/or modify
 	 * it under the terms of the GNU Affero General Public License as published by
@@ -20,21 +19,29 @@
 	 */
 	
 	/**
-	 *  Riga del log
+	 *  Log levels definition
 	 *
 	 *  @author  Luca Liscio <hzkight@h0model.org>
-	 *  @version 0.0.1 2015/11/30 01:44:20
-	 *  @copyright 2015 Luca Liscio
+	 *  @version 0.0.1 2020/12/03 01:44:20
+	 *  @copyright 2020 HZKnight
 	 *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
 	 *
-	 *  @package hzSystem
+	 *  @package Experience
 	 *  @subpackage Core\Logger
 	 *  @filesource
 	 */
-	
-	class HZLogRow {
-        public $type;
-        public $date;
-        public $message;
-	}
-?>
+
+    /**
+     * Describes log levels.
+     */
+    class ELogLevel
+    {
+        const EMERGENCY = 407;
+        const ALERT     = 406;
+        const CRITICAL  = 405;
+        const ERROR     = 404;
+        const WARNING   = 403;
+        const NOTICE    = 402;
+        const INFO      = 401;
+        const DEBUG     = 400;
+    }

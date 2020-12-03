@@ -1,11 +1,11 @@
 <?php
 
-	namespace HZSystem\Core\Logger\Appenders;
+	namespace Experience\Core\Logger\Appenders;
         
-        use HZSystem\Core\Logger\HZLogRow;
+    use Experience\Core\Logger\ELogRow;
 	
 	/*
-	 * Copyright (C) 2015 Luca Liscio
+	 * Copyright (C) 2020 HZKnight
 	 *
 	 * This program is free software: you can redistribute it and/or modify
 	 * it under the terms of the GNU Affero General Public License as published by
@@ -25,11 +25,11 @@
 	 *  Abstract appender per il Logger di sistema
 	 *
 	 *  @author  Luca Liscio <hzkight@h0model.org>
-	 *  @version 0.0.1 2015/11/30 01:44:20
-	 *  @copyright 2015 Luca Liscio
+	 *  @version 0.0.3 2020/12/03 22:41:20
+	 *  @copyright 2020 HZKnight
 	 *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
 	 *
-	 *  @package hzSystem
+	 *  @package Experience
 	 *  @subpackage Core\Logger\Appenders
 	 *  @abstract
 	 *  @filesource
@@ -37,20 +37,35 @@
 
 	abstract class Appender {
 		
-		private $loglevel;
+		public $loglevel;
         static $error_identifier;
                 
         public function __construct() {
-            $this->error_identifier = array(
-				                            404 => "FATAL",
-                                            403 => "ERROR",
-                                            402 => "WARNING",
-                                            401 => "INFO",
-                                            400 => "DEBUG"
-                                           );
+
+			/*
+				const EMERGENCY = 407;
+				const ALERT     = 406;
+				const CRITICAL  = 405;
+				const ERROR     = 404;
+				const WARNING   = 403;
+				const NOTICE    = 402;
+				const INFO      = 401;
+				const DEBUG     = 400;
+			*/
+
+            self::$error_identifier = array(
+				407 => "EMERGENCY",
+				406 => "ALERT",
+				405 => "CRITICAL",
+				404 => "ERROR",
+                403 => "WARNING",
+                402 => "NOTICE",
+                401 => "INFO",
+                400 => "DEBUG"
+            );
         }
 
-        abstract public function add(HZLogRow $log_row);
+        abstract public function add(ELogRow $log_row);
 		abstract public function get_log($start=0,$stop);
 		
 		public function setLogLevel($level){

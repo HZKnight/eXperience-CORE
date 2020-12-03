@@ -1,11 +1,12 @@
 <?php
 
-	namespace HZSystem\Core\Logger\Appenders;
+	namespace Experience\Core\Logger\Appenders;
         
-    use HZSystem\Core\Logger\HZLogRow;
+    use Experience\Core\Logger\ELogRow;
+    use Experience\Core\Logger\exceprions\LogFileNotFoundExceprions;
 	
 	/*
-     * Copyright (C) 2015 Luca Liscio
+     * Copyright (C) 2020 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -25,11 +26,11 @@
      *  File appender per HZLogger 
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.1 2015/12/19 19:20:20
-     *  @copyright 2015 Luca Liscio
+     *  @version 0.0.2 2020/11/29 21:20:20
+     *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
+     *  @package Experience
      *  @subpackage Core\Logger\Appenders
      *  @filesource
      */
@@ -48,7 +49,7 @@
         public function __construct($logname){
                 
             parent::__construct();
-            $this->logfile_basedir = $_SESSION["hzSystem_path"]."log";
+            $this->logfile_basedir = $_SESSION["experience_path"]."log";
             $this->logfile_basename = $logname;
             $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
                 
@@ -57,12 +58,12 @@
         /**
          * Save one row in the log file
          * 
-         * @param HZLogRow $log_row
+         * @param ELogRow $log_row
          */
-        public function add(HZLogRow $log_row){
+        public function add(ELogRow $log_row){
                 
             if($log_row->type >= $this->loglevel)
-                error_log("(".$log_row->date.") [".$this->error_identifier[$log_row->type]."] --> ".$log_row->message."\n",3,$this->logfile);
+                error_log("(".$log_row->date.") [".self::$error_identifier[$log_row->type]."] --> ".$log_row->message."\n",3,$this->logfile);
                 
         }
 		
@@ -84,7 +85,7 @@
                     return array_slice($log, $start, $stop-$start);
                 }
             } else {
-                throw new LogFileNotFoundExceprions(dgettext("hzSystem","Log file not found"));
+                throw new LogFileNotFoundExceprions(dgettext("Elang","Log file not found"));
             }
                                         
         }

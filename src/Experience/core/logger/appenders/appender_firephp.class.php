@@ -1,13 +1,13 @@
 <?php
 
-    namespace HZSystem\Core\Logger\Appenders;
+    namespace Experience\Core\Logger\Appenders;
         
-    use HZSystem\Exceptions\HzNotApplicableMethodException;
+    use Experience\Exceptions\ENotApplicableMethodException;
         
-    use HZSystem\Core\Logger\HZLogger;
-    use HZSystem\Core\Logger\HZLogRow;
+    use Experience\Core\Logger\ELogLevel;
+    use Experience\Core\Logger\ELogRow;
     
-    require($_SESSION["hzSystem_path"].str_replace('/', DIRECTORY_SEPARATOR,'hzsystem/libs/FirePHPCore/FirePHP.class.php'));
+    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/FirePHPCore/FirePHP.class.php'));
 	
     /*
      * Copyright (C) 2020 HZKnight
@@ -30,11 +30,11 @@
      *  FireBUG appender per HZLogger 
      *
      *  @author  Luca Liscio <hzkight@h0model.org>
-     *  @version 0.0.2 2016/08/03 15:35:20
+     *  @version 0.0.4 2020/12/03 22:41:20
      *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
+     *  @package Experience
      *  @subpackage Core\Logger\Appenders
      *  @filesource
      */
@@ -44,26 +44,33 @@
         /**
          * Save one row in the log file
          * 
-         * @param HZLogRow $log_row
+         * @param ELogRow $log_row
          */
-        public function add(HZLogRow $log_row){
+        public function add(ELogRow $log_row){
             
             $firephp = \FirePHP::getInstance(true);
-                    
+
+            //Log levels mapping
             switch($log_row->type){
-                case HZLogger::LOG_FATAL :
+                case ELogLevel::ALERT :
                     $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::ERROR);
                     break;
-                case HZLogger::LOG_ERROR :
+                case ELogLevel::CRITICAL :
                     $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::ERROR);
                     break;
-                case HZLogger::LOG_WARNING :
+                case ELogLevel::ERROR :
+                    $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::ERROR);
+                    break;
+                case ELogLevel::WARNING :
                     $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::WARN);
                     break;
-                case HZLogger::LOG_INFO :
+                case ELogLevel::NOTICE :
+                    $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::WARN);
+                    break;
+                case ELogLevel::INFO :
                     $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::INFO);
                     break;
-                case HZLogger::LOG_DEBUG :
+                case ELogLevel::DEBUG :
                     $firephp->fb("[".$log_row->date."] ".$log_row->message,\FirePHP::LOG);
                     break;
             }
@@ -73,11 +80,11 @@
         /**
          * Method not applicable
          * 
-         * @throws HzNotApplicableMethodException
+         * @throws ENotApplicableMethodException
          */
 	    public function get_log($start=0,$stop){
                     
-            throw new HzNotApplicableMethodException(dgettext("hzSystem","Method not applicable"));
+            throw new ENotApplicableMethodException(dgettext("Elang","Method not applicable"));
                     
 	    }
 		
