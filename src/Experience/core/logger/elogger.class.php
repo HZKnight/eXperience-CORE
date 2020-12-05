@@ -9,9 +9,7 @@
     use Experience\Core\Logger\Appenders\Appender_file;
     use Experience\Core\Logger\Appenders\Appender_email;
     use Experience\Core\Logger\Appenders\Appender_db;
-    use Experience\Core\Logger\Appenders\Appender_firephp;/*
-    use Experience\Core\Logger\ELogLevel;
-    use Experience\Core\Logger\Exceptions;*/
+    use Experience\Core\Logger\Appenders\Appender_firephp;
     use Psr\Log\LoggerInterface;
     use Psr\Log\LogLevel;
 	

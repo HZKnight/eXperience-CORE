@@ -2,11 +2,11 @@
 
      namespace HZSystem\Core\Logger\Appenders;
      
-     use Experience\Exceptions\ENotApplicableMethodException;
+     use Experience\Core\Exceptions\ENotApplicableMethodException;
         
      use Experience\Core\Logger\ELogger;
      use Experience\Core\Logger\ELogRow;
-     use Experience\Core\EMailer;
+     use Experience\Core\net\mailer\EMailer;
      
 	
 	/*

@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Experience_lang v1.0\n"
+"POT-Creation-Date: 2020-12-05 06:18+0100\n"
+"PO-Revision-Date: 2020-12-05 06:18+0100\n"
+"Last-Translator: Luca Liscio <hzknight@h0model.org>\n"
+"Language-Team: Luca Liscio <lucliscio@h0model.org>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: lang/.settings\n"
+"X-Poedit-SearchPathExcluded-1: lang/docs\n"
+"X-Poedit-SearchPathExcluded-2: lang/libs\n"
+"X-Poedit-SearchPathExcluded-3: lang/nbproject\n"
+
+#: core/config/econfigmanager.class.php:53
+msgid "Config file not exist"
+msgstr "Il file di configurazione non esiste"
+
+#: core/config/econfigmanager.class.php:55
+msgid "Config file is corrupted"
+msgstr "Il file di configurazione è corrotto"
+
+#: core/config/econfigmanager.class.php:109
+msgid "Config file isn't wirittable"
+msgstr "Il file di configurazione non è scrivibile"
+
+#: core/exceptions/eexception.class.php:81
+msgid "Unknown exception"
+msgstr "Eccezione sconosciuta"
+
+#: core/logger/appenders/appender_email.class.php:61
+#: core/logger/appenders/appender_firephp.class.php:87
+msgid "Method not applicable"
+msgstr "Metodo non applicabile"
+
+#: core/logger/appenders/appender_file.class.php:88
+msgid "Log file not found"
+msgstr "File di log non trovato"
+
+#: core/logger/elogger.class.php:148 core/logger/elogger.class.php:164
+msgid "Appender requested not found"
+msgstr "Appender richiesto non trovato"

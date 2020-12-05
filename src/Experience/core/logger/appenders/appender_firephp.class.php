@@ -2,7 +2,7 @@
 
     namespace Experience\Core\Logger\Appenders;
         
-    use Experience\Exceptions\ENotApplicableMethodException;
+    use Experience\Core\Exceptions\ENotApplicableMethodException;
         
     use Experience\Core\Logger\ELogLevel;
     use Experience\Core\Logger\ELogRow;

@@ -50,7 +50,8 @@ if(getenv("LANG")!=null){
     
 setlocale(LC_ALL, $language);
 
-$lang_path = $_SESSION["experience_path"]."Experience".DIRECTORY_SEPARATOR."lang";
+$lang_path_base_path = $_SESSION["experience_path"]."Experience".DIRECTORY_SEPARATOR."lang";
+$lang_path = $lang_path_base_path.DIRECTORY_SEPARATOR."core"; //Core Language
 bindtextdomain("ELang", $lang_path);
 
 //Second step define SPL autoloader

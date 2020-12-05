@@ -78,7 +78,7 @@
         public function __construct($message = null, $code = 0)
 	    {
             if (!$message) {
-                $this->message = dgettext("ELang",'Unknown exception ');
+                $this->message = dgettext("ELang",'Unknown exception');
                 throw new $this($this->message. get_class($this));
             }
             parent::__construct($message, $code);

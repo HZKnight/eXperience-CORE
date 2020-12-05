@@ -2,7 +2,7 @@
     
     namespace Experience\Core\Config\Exceptions;
 	
-    use Experience\Exceptions\EException;
+    use Experience\Core\Exceptions\EException;
 	
     /*
      * Copyright (C) 2020 HZKnight
