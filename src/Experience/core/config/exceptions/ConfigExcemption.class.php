@@ -24,7 +24,7 @@
     /**
      *  questa eccezione si verifica quando ci sono problemi con il file di configurazione
      *
-     *  @author Luca Liscio <hzkight@h0model.org>
+     *  @author Luca Liscio <lucliscio@h0model.org>
      *  @author Marco Lettieri
      *  @version 0.0.3 2020/11/29 20:51:20
      *  @copyright &copy;2020 HZKnight

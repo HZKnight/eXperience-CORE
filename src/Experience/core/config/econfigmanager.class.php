@@ -24,7 +24,7 @@
    /**
     *  Gestore della configurazione. Il file di configurazione deve essere di tipo JSon
     * 
-    *  @author Luca Liscio <hzkight@h0model.org>
+    *  @author Luca Liscio <lucliscio@h0model.org>
     *  @author Marco Lettieri
     *  @version v 1.2 2020/11/29 20:56:20
     *  @copyright &copy;2020 HZKnight

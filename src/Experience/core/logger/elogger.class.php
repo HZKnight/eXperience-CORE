@@ -2,9 +2,6 @@
     
     namespace Experience\Core\Logger;
      
-    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/Psr/log/LoggerInterface.php'));
-    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/Psr/log/LogLevel.php'));
-
     use Experience\Core\Logger\Appenders;
     use Experience\Core\Logger\Appenders\Appender_file;
     use Experience\Core\Logger\Appenders\Appender_email;
@@ -33,7 +30,7 @@
     /**
      *  Logger di sistema 
      *
-     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 2.0.3 2020/12/03 22:41:10
      *  @copyright &copy;2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3

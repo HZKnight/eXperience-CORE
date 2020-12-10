@@ -32,13 +32,10 @@
      *  @filesource
      */
 
-    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/PHPMailer/Exception.php'));
-    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/PHPMailer/PHPMailer.php'));
-    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/PHPMailer/SMTP.php'));
-
     /* Namespace alias. */
     use Experience\Core\config\EConfigManager;
     use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
     class EMailer {

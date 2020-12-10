@@ -27,7 +27,7 @@
      */
 
     /**
-     *  File appender per HZLogger 
+     *  File appender per ELogger 
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.2 2020/11/29 21:16:20

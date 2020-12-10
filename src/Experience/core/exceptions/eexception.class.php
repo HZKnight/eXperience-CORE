@@ -23,7 +23,7 @@
      * Interfaccia generica per le eccezioni basata sulla interfaccia
      * prevista dal linguaggio PHP
      *
-     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.1 2016/05/31 12:14:20
      *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
@@ -51,7 +51,7 @@
     /**
      * Eccezione generica per Experience
      *
-     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.2 2020/11/29 20:14:20
      *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3

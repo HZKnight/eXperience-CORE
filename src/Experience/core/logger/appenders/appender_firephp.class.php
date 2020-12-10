@@ -6,8 +6,6 @@
         
     use Experience\Core\Logger\ELogLevel;
     use Experience\Core\Logger\ELogRow;
-    
-    require($_SESSION["experience_path"].str_replace('/', DIRECTORY_SEPARATOR,'Experience/vendor/FirePHPCore/FirePHP.class.php'));
 	
     /*
      * Copyright (C) 2020 HZKnight
@@ -27,9 +25,9 @@
      */
 
     /**
-     *  FireBUG appender per HZLogger 
+     *  FireBUG appender per ELogger 
      *
-     *  @author  Luca Liscio <hzkight@h0model.org>
+     *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.4 2020/12/03 22:41:20
      *  @copyright 2020 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
@@ -48,7 +46,7 @@
          */
         public function add(ELogRow $log_row){
             
-            $firephp = \FirePHP::getInstance(true);
+            $firephp = \FirePHPCore\FirePHP::getInstance(true);
 
             //Log levels mapping
             switch($log_row->type){
