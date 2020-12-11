@@ -34,8 +34,23 @@ if(session_id() == ""){
     session_start();
 }
 
-$_SESSION["experience_path"] = __DIR__.DIRECTORY_SEPARATOR;
 putenv("ECORE=v0.2.3-Alfa");
+
+//Path definitions
+$_SESSION["experience_path"] = __DIR__.DIRECTORY_SEPARATOR;
+
+$ebase_path = $_SESSION["experience_path"]."Experience";
+$evendor_parth = $ebase_path.DIRECTORY_SEPARATOR."vendor";
+
+//Vendor Class map
+$vendors = array(
+    'LoggerInterface' => $evendor_parth."/Psr/log/LoggerInterface.php",
+    'LogLevel' => $evendor_parth."/Psr/log/LogLevel.php",
+    'FirePHP' => $evendor_parth."/FirePHPCore/FirePHP.class.php"
+);
+
+echo "<pre>";
+var_dump($vendors);
 
 //First step set internazionalizzation
 
@@ -58,45 +73,51 @@ bindtextdomain("ELang", $lang_path);
 //Second step define SPL autoloader
 
 /**
+ * This class return class name
+ * @param string $classname The name of the class to load
+ */
+function getClassName($classname){
+    $q = explode("\\", $classname);
+    return $q[count($q)-1];
+}
+
+
+/**
+ * This class verify is class is vendor class
+ * @param string $classname The name of the class to load
+ */
+function isVendor($classname){
+    global $vendors;
+    return array_key_exists(getClassName($classname), $vendors);
+}
+
+
+/**
  * Experience SPL autoloader.
  * @param string $classname The name of the class to load
  */
 function experienceAutoload($classname){
+    global $vendors, $ebase_path;
+    $pathtoclass = "";
 
-    $pathtoclass = str_replace('Experience', '', $classname);
-    $pathtoclass = str_replace('\\', DIRECTORY_SEPARATOR, $pathtoclass);
+    if(isVendor($classname)){
+        $pathtoclass = $vendors[getClassName($classname)];
+    } else {
+        $pathtoclass = str_replace('Experience', '', $classname);
+        $pathtoclass = str_replace('\\', DIRECTORY_SEPARATOR, $pathtoclass);
+        $pathtoclass = $ebase_path.strtolower($pathtoclass).'.class.php';
+    }
 
-    $base_path = $_SESSION["experience_path"].'Experience';
-    
-    //Calcolate path alternative
-    $paths = array(
-        //Main path
-        0 => $base_path.strtolower($pathtoclass).'.class.php',
-        1 => $base_path.$pathtoclass.'.class.php',
-
-        //Vendor path
-        2 => $base_path.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.strtolower($pathtoclass).'.class.php',
-        3 => $base_path.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.$pathtoclass.'.php',
-        4 => $base_path.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.$pathtoclass.'.class.php',
-        5 => $base_path.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.strtolower($pathtoclass).'.php'
-    );
-
-    echo "<pre>";
-    var_dump($paths);
-
-    foreach ($paths as &$filename) {
-        if(file_exists($filename)){
-            if (is_readable($filename)) {
-                require $filename;
-                return;
-            } else {
-                throw new Exception("Unable to load file: ".$filename);
-            }
+    if(file_exists($pathtoclass)){
+        if(is_readable($pathtoclass)) {
+            require $pathtoclass;
+            return;
+        } else {
+            throw new Exception("Unable to load file: ".$pathtoclass);
         }
     }
 
-    throw new Exception("Unable to find class: ".$pathtoclass);
-
+    throw new Exception("Unable to find class: ".$classname);
 }
 
 if(version_compare(PHP_VERSION, '5.1.2', '>=')) {

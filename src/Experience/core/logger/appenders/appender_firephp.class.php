@@ -46,7 +46,7 @@
          */
         public function add(ELogRow $log_row){
             
-            $firephp = \FirePHPCore\FirePHP::getInstance(true);
+            $firephp = \FirePHP::getInstance(true);
 
             //Log levels mapping
             switch($log_row->type){

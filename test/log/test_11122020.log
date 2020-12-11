@@ -1,0 +1,7 @@
+(11-12-2020 00:52:31) [EMERGENCY] --> Emergensy Test message
+(11-12-2020 00:52:31) [ALERT] --> Alert Test message
+(11-12-2020 00:52:31) [CRITICAL] --> Critical Test message
+(11-12-2020 00:52:31) [ERROR] --> Error Test message
+(11-12-2020 00:52:31) [WARNING] --> Warning Test message
+(11-12-2020 00:52:31) [NOTICE] --> Notice Test message
+(11-12-2020 00:52:31) [INFO] --> Info Test message
