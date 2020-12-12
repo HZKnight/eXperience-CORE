@@ -1,6 +1,20 @@
 <?php
 
 /*
+ * experience_autoloader.php
+ *                                        _____                      _                     
+ *                                       | ____|_  ___ __   ___ _ __(_) ___ _ __   ___ ___ 
+ *                                       |  _| \ \/ / '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
+ *                                       | |___ >  <| |_) |  __/ |  | |  __/ | | | (_|  __/
+ *                                       |_____/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
+ *                                                  |_| HZKnight free PHP Scripts 
+ *
+ *                                             lucliscio <lucliscio@h0model.org>, ITALY
+ * 
+ * -------------------------------------------------------------------------------------------
+ * Licence
+ * -------------------------------------------------------------------------------------------
+ *
  * Copyright (C) 2020 HZKnight
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,9 +62,6 @@ $vendors = array(
     'LogLevel' => $evendor_parth."/Psr/log/LogLevel.php",
     'FirePHP' => $evendor_parth."/FirePHPCore/FirePHP.class.php"
 );
-
-echo "<pre>";
-var_dump($vendors);
 
 //First step set internazionalizzation
 
