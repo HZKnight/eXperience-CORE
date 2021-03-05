@@ -5,7 +5,7 @@
  * 
  * @author  Luca Liscio <lucliscio@h0model.org>
  * @version 0.0.2 2020/11/29 19:25:34
- * @copyright 2020 HZKnight
+ * @copyright 2021 HZKnight
  * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
  *
  * @package Experience

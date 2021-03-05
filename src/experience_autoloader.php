@@ -15,7 +15,7 @@
  * Licence
  * -------------------------------------------------------------------------------------------
  *
- * Copyright (C) 2020 HZKnight
+ * Copyright (C) 2021 HZKnight
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -37,7 +37,7 @@
  * 
  *  @author  Luca Liscio <lucliscio@h0model.org>
  *  @version v 2.0 2020/12/09 20:20:00
- *  @copyright Copyright 2020 HZKnight 
+ *  @copyright Copyright 2021 HZKnight 
  *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
  *   
  *  @package Experience
@@ -94,7 +94,7 @@ function getClassName($classname){
 
 
 /**
- * This class verify is class is vendor class
+ * This method verify if this class is vendor class
  * @param string $classname The name of the class to load
  */
 function isVendor($classname){

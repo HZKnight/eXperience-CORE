@@ -14,7 +14,7 @@
      * Licence
      * -------------------------------------------------------------------------------------------
      *
-     * Copyright (C) 2020 HZKnight
+     * Copyright (C) 2021 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,7 @@
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.2 2020/11/29 21:20:20
-     *  @copyright 2020 HZKnight
+     *  @copyright 2021 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package Experience
