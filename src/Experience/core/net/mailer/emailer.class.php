@@ -96,7 +96,33 @@
             }       
         }
 
-        public function send($message, $type){
+        /**
+         * Undocumented function
+         *
+         * @param string $name
+         * @param string $path
+         * @return boolean
+         */
+        public function addAttachment(string $name, string $path){
+            return $this->mailer->addAttachment($path, $name); 
+        }
 
+        public function send(string $from, $message, $type){
+            //Recipients
+    $mail->setFrom('from@example.com', 'Mailer');
+    $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
+    $mail->addAddress('ellen@example.com');               //Name is optional
+    $mail->addReplyTo('info@example.com', 'Information');
+    $mail->addCC('cc@example.com');
+    $mail->addBCC('bcc@example.com');
+
+    
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Here is the subject';
+    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+    $mail->send();
         }
     }
