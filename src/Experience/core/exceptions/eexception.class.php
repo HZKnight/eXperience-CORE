@@ -42,7 +42,7 @@
      *  @copyright 2021 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package hzSystem
+     *  @package Experience
      *  @subpackage exceptions
      *  @filesource
      */
@@ -138,7 +138,7 @@
         /**
          * It returns the exception message
          * 
-         * @return type
+         * @return String
          */
         public function getMessage() {
             return parent::getMessage();

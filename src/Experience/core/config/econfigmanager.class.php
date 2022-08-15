@@ -30,9 +30,9 @@
     * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
     */
    
-    namespace Experiance\Core\Config;
+    namespace Experience\Core\Config;
     
-    use Experience\Core\Config\Exceptions;
+    use Experience\Core\Config\Exceptions\ConfigException;
 
    /**
     *  Gestore della configurazione. Il file di configurazione deve essere di tipo JSon

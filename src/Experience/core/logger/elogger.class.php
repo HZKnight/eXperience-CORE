@@ -31,8 +31,10 @@
      */
     
     namespace Experience\Core\Logger;
-     
-    use Experience\Core\Logger\Appenders;
+    
+    use Experience\Core\Logger\Exceptions\AppenderNotFoundException;
+
+    use Experience\Core\Logger\Appenders\Appender;
     use Experience\Core\Logger\Appenders\Appender_file;
     use Experience\Core\Logger\Appenders\Appender_email;
     use Experience\Core\Logger\Appenders\Appender_db;
@@ -79,7 +81,7 @@
          * @param string $logname nome della nuova istanza del logger da creare
 	     * @param integer $type tipo di logger da creare 
          * @param integer $loglevel livello di errore da cui cominciare a registrare il log
-	     * @return \Experience\Core\Logger\ELogger
+	     * @return ELogger
 	     * @example $miolog = ELogger::gelLogger("miolog",ELogger::LOG_APPENDER_FILE,ELogLevel::INFO);
 	     */
         public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=ELogLevel::INFO){
@@ -96,7 +98,7 @@
             
         /**
          * Restituisce un array con tutte le istanze del logger
-         * @return Experience\Core\Logger\ELogger[]
+         * @return ELogger[]
          */
         public static function getIstances(){
                 
@@ -164,7 +166,7 @@
          * restituisce l'appender associato al tipo specifiato
          * @param integer $type tipo di appender che si vuole ottenere
          * @throws AppenderNotFoundException
-         * @return Experience\Core\Logger\Appenders\Appender
+         * @return Appenders\Appender
          */
         public function get_appender($type){
                 

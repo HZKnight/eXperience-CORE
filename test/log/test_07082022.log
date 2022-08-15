@@ -1,0 +1,14 @@
+(07-08-2022 08:15:36) [EMERGENCY] --> Emergensy Test message
+(07-08-2022 08:15:36) [ALERT] --> Alert Test message
+(07-08-2022 08:15:36) [CRITICAL] --> Critical Test message
+(07-08-2022 08:15:36) [ERROR] --> Error Test message
+(07-08-2022 08:15:36) [WARNING] --> Warning Test message
+(07-08-2022 08:15:36) [NOTICE] --> Notice Test message
+(07-08-2022 08:15:36) [INFO] --> Info Test message
+(07-08-2022 08:25:26) [EMERGENCY] --> Emergensy Test message
+(07-08-2022 08:25:26) [ALERT] --> Alert Test message
+(07-08-2022 08:25:26) [CRITICAL] --> Critical Test message
+(07-08-2022 08:25:26) [ERROR] --> Error Test message
+(07-08-2022 08:25:26) [WARNING] --> Warning Test message
+(07-08-2022 08:25:26) [NOTICE] --> Notice Test message
+(07-08-2022 08:25:26) [INFO] --> Info Test message

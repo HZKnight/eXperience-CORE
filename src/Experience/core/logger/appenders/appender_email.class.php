@@ -30,9 +30,10 @@
       * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
       */
 
-     namespace HZSystem\Core\Logger\Appenders;
+     namespace Experience\Core\Logger\Appenders;
      
      use Experience\Core\Exceptions\ENotApplicableMethodException;
+     use Experience\Core\Logger\Exceptions\LogFileNotFoundException;
         
      use Experience\Core\Logger\ELogger;
      use Experience\Core\Logger\ELogRow;
@@ -67,7 +68,7 @@
            * @param integer $start start row
            * @param integer $stop end row
            * @return list of log row
-           * @throws LogFileNotFoundExceprions 
+           * @throws LogFileNotFoundException 
            */
 		public function get_log($start=0,$stop){
 			throw new ENotApplicableMethodException(dgettext("Elang","Method not applicable"));	

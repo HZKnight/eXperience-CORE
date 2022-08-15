@@ -34,6 +34,7 @@
     namespace Experience\Core\Logger\Appenders;
         
     use Experience\Core\Exceptions\ENotApplicableMethodException;
+    use Experience\Core\Logger\Exceptions\LogFileNotFoundException;
         
     use Experience\Core\Logger\ELogLevel;
     use Experience\Core\Logger\ELogRow;

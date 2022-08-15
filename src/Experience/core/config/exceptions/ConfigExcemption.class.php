@@ -32,7 +32,7 @@
 
     namespace Experience\Core\Config\Exceptions;
 	
-    use Experience\Core\Exceptions\EException;
+    use Experience\Exceptions\EException;
 		
     /**
      *  questa eccezione si verifica quando ci sono problemi con il file di configurazione

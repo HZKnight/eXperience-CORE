@@ -22,8 +22,8 @@ if(session_id() == ""){
 use Experience\Core\Logger\ELogger;
 
 echo "<b>Experience CORE ".getenv("ECORE")."</b><br/><br/>";
-echo "Verisone PHP richiesta >= 5.1.2 ";
-if(version_compare(PHP_VERSION, '5.1.2', '>=')){
+echo "Verisone PHP richiesta >= 5.2.0 ";
+if(version_compare(PHP_VERSION, '5.2.0', '>=')){
     echo "OK hai PHP ".PHP_VERSION."<br/>";
 } else {
     echo "ERRORE hai PHP ".PHP_VERSION."<br/>";
