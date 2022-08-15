@@ -38,7 +38,6 @@
     use Experience\Core\Logger\Appenders\Appender_file;
     use Experience\Core\Logger\Appenders\Appender_email;
     use Experience\Core\Logger\Appenders\Appender_db;
-    use Experience\Core\Logger\Appenders\Appender_firephp;
     use Psr\Log\LoggerInterface;
     use Psr\Log\LogLevel;	
 	
@@ -64,8 +63,6 @@
  	    const LOG_APPENDER_EMAIL =   502;
  	    /** Data base type log */
  	    const LOG_APPENDER_DB =      503;
- 	    /** Firebug type log */
- 	    const LOG_APPENDER_FIREPHP = 504;
  		
     	//Dati del logger
  	    private $logname;

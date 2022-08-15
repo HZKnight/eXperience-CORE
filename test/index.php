@@ -41,9 +41,8 @@ echo "-----<br/>";
 echo "Start logger Test: ";
 $log = null;
 
-if($log = ELogger::getLogger("test", ELogger::LOG_APPENDER_FIREPHP)){
+if($log = ELogger::getLogger("test", ELogger::LOG_APPENDER_FILE)){
 
-    $log->add_appender(ELogger::LOG_APPENDER_FILE);
     $log->get_appender(ELogger::LOG_APPENDER_FILE)->setLogDir($_SESSION["script_path"].DIRECTORY_SEPARATOR."log");
     
     /*
