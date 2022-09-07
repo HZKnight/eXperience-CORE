@@ -1,0 +1,38 @@
+{
+	"name" : "hzknight/experience-core",
+	"type" : "application",
+	"description" : "This is a simple PHP framework that I have developed to help me to develop my PHP applications",
+	"version" : "1.0.0",
+	"keywords" : [
+		"hit counter",
+		"php",
+		"statistic",
+		"counter",
+		"visitors counter",
+		"cross plattafor"
+	],
+	"homepage" : "https://www.hzknight.org",
+	"license" : "AGPL-3.0-or-later",
+	"authors" : [{
+			"name" : "Luca Liscio",
+			"email" : "lucliscio@h0model.org",
+			"homepage" : "https://about.me/lucaliscio",
+			"role" : "Developer"
+		}
+	],
+	"require" : {
+		"php" : ">=7.1.0"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"eXperience-core" : "/src/"
+		}
+	},
+	"minimum-stability" : "alpha",
+	"support" : {
+		"email" : "lucliscio@h0model.org",
+		"issues" : "https://github.com/HZKnight/eXperience-GuestBook/issues",
+		"wiki" : "https://github.com/HZKnight/eXperience-GuestBook/wiki",
+		"source" : "https://github.com/HZKnight/eXperience-GuestBook"
+	}
+}
