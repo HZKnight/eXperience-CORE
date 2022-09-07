@@ -2,7 +2,6 @@
 	"name" : "hzknight/experience-core",
 	"type" : "application",
 	"description" : "This is a simple PHP framework that I have developed to help me to develop my PHP applications",
-	"version" : "1.0.0",
 	"keywords" : [
 		"hit counter",
 		"php",
