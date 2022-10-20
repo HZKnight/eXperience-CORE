@@ -37,10 +37,11 @@
         
      use Experience\Core\Logger\ELogger;
      use Experience\Core\Logger\ELogRow;
+     use Experience\Core\Config\EConfigManager;
      use Experience\Core\net\mailer\EMailer;
      
     /**
-     *  File appender per ELogger 
+     *  Mail appender per ELogger 
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.2 2020/11/29 21:16:20
@@ -52,6 +53,15 @@
      *  @filesource
      */
 	class Appender_email extends Appender {
+
+          /**
+           * Construntor method
+           * 
+           * @param String $logname log name
+           */
+          public function __construct($logname, EConfigManager $cfg){
+               parent::__construct($cfg);
+          }
 		
 	     /**
            * Send mail width log row

@@ -1,0 +1,7 @@
+(20-10-2022 09:25:34) [EMERGENCY] --> Emergensy Test message
+(20-10-2022 09:25:35) [ALERT] --> Alert Test message
+(20-10-2022 09:25:35) [CRITICAL] --> Critical Test message
+(20-10-2022 09:25:35) [ERROR] --> Error Test message
+(20-10-2022 09:25:35) [WARNING] --> Warning Test message
+(20-10-2022 09:25:35) [NOTICE] --> Notice Test message
+(20-10-2022 09:25:35) [INFO] --> Info Test message

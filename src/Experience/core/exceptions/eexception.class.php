@@ -31,7 +31,7 @@
      */
 
 
-    namespace Experience\Exceptions;
+    namespace Experience\Core\Exceptions;
 
 	/**
      * Interfaccia generica per le eccezioni basata sulla interfaccia
@@ -74,13 +74,13 @@
      *  @subpackage exceptions
      *  @filesource
      */
-    abstract class EException extends Exception implements IException
+    abstract class EException extends \Exception implements IException
     {
         protected $message = "";                      // Exception message
         private   $string;                            // Unknown
         protected $code    = 0;                       // User-defined exception code
-        protected $file;                              // Source filename of exception
-        protected $line;                              // Source line of exception
+        protected string $file;                       // Source filename of exception
+        protected int $line;                          // Source line of exception
         private   $trace;                             // Unknown
         
         /**
@@ -107,60 +107,6 @@
         {
             return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n" . "{$this->getTraceAsString()}";
 	    }
-        
-        /**
-         * Return the error code
-         * 
-         * @return String
-         */
-        public function getCode() {
-            return parent::getCode();
-        }
-        
-        /**
-         * It returns the file where the exception occurred
-         * 
-         * @return String
-         */
-        public function getFile() {
-            return parent::getFile();
-        }
-
-        /**
-         * It returns the line in file where the exception occurred
-         * 
-         * @return integer
-         */
-        public function getLine() {
-            return parent::getLine();
-        }
-
-        /**
-         * It returns the exception message
-         * 
-         * @return String
-         */
-        public function getMessage() {
-            return parent::getMessage();
-        }
-
-        /**
-         * It returns the exception trace
-         * 
-         * @return array
-         */
-        public function getTrace() {
-            return parent::getTrace();
-        }
-
-        /**
-         * It returns the exception trace
-         * 
-         * @return string
-         */
-        public function getTraceAsString() {
-            return parent::getTraceAsString();
-        }
 
     }
 ?>

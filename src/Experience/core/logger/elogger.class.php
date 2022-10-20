@@ -38,6 +38,8 @@
     use Experience\Core\Logger\Appenders\Appender_file;
     use Experience\Core\Logger\Appenders\Appender_email;
     use Experience\Core\Logger\Appenders\Appender_db;
+    use Experience\Core\Config\EConfigManager;
+
     use Psr\Log\LoggerInterface;
     use Psr\Log\LogLevel;	
 	
@@ -69,6 +71,7 @@
     	private $date_format;
         private $appenders = array();
         private $loglevel;
+        private EConfigManager $_cfg;
     	
     	//Contiene le istanze del logger
     	private static $_instace = array();
@@ -81,13 +84,13 @@
 	     * @return ELogger
 	     * @example $miolog = ELogger::gelLogger("miolog",ELogger::LOG_APPENDER_FILE,ELogLevel::INFO);
 	     */
-        public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=ELogLevel::INFO){
+        public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=ELogLevel::INFO, EConfigManager $cfg){
             if(array_key_exists($logname, self::$_instace)) {    
                 if (!(self::$_instace[$logname] instanceof self)){
-                    self::$_instace[$logname] = new self($logname,$type,$loglevel);
+                    self::$_instace[$logname] = new self($logname,$type,$loglevel,$cfg);
                 }
             } else {
-                self::$_instace[$logname] = new self($logname,$type,$loglevel); 
+                self::$_instace[$logname] = new self($logname,$type,$loglevel,$cfg); 
             }
             
             return self::$_instace[$logname];
@@ -109,8 +112,9 @@
 	     * @param integer $type tipo di logger da creare
          * @param integer $loglevel livello di errore da cui cominciare a registrare il log
 	     */ 
-	    private function __construct($logname,$type,$loglevel){
-	   
+	    private function __construct($logname, $type, $loglevel, EConfigManager $cfg){
+            
+            $this->_cfg = $cfg;
             $this->logname = $logname;
             $this->loglevel = $loglevel;
             $this->add_appender($type);
@@ -127,16 +131,13 @@
 	    	
 	        switch ($type){
                 case self::LOG_APPENDER_FILE:
-                    $this->appenders[$type] = new Appender_file($this->logname);
+                    $this->appenders[$type] = new Appender_file($this->logname, $this->_cfg);
                     break;
                 case self::LOG_APPENDER_EMAIL:
-                    $this->appenders[$type] = new Appender_email($this->logname);
+                    $this->appenders[$type] = new Appender_email($this->logname, $this->_cfg);
                     break;
                 case self::LOG_APPENDER_DB:
-                    $this->appenders[$type] = new Appender_db($this->logname);
-                    break;
-                case self::LOG_APPENDER_FIREPHP:
-                    $this->appenders[$type] = new Appender_firephp($this->logname);
+                    $this->appenders[$type] = new Appender_db($this->logname, $this->_cfg);
                     break;	    			
 	        }
                 

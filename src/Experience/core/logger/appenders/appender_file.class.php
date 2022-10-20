@@ -34,6 +34,7 @@
 
 	namespace Experience\Core\Logger\Appenders;
         
+    use Experience\Core\Config\EConfigManager;
     use Experience\Core\Logger\ELogRow;
     use Experience\Core\Exceptions\ENotApplicableMethodException;
     use Experience\Core\Logger\Exceptions\LogFileNotFoundException;
@@ -63,10 +64,16 @@
          * 
          * @param String $logname log name
          */
-        public function __construct($logname){
+        public function __construct($logname, EConfigManager $cfg){
                 
-            parent::__construct();
-            $this->logfile_basedir = $_SESSION["experience_path"]."log";
+            parent::__construct($cfg);
+            
+            $baseDir = $_SESSION["experience_path"];
+            if($this->_cfg->has("log_path")){
+                $baseDir = $this->_cfg->get_param("log_path").DIRECTORY_SEPARATOR;
+            }
+            
+            $this->logfile_basedir = $baseDir."log";
             $this->logfile_basename = $logname;
             $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
                 

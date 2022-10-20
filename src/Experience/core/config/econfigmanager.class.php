@@ -79,7 +79,17 @@
         public function get_cfg(){
             return $this->cfg;
         }
-         
+        
+        /**
+         * Verifica l'esistenza di un parametro nella configurazione
+         *
+         * @param [type] $param
+         * @return boolean
+         */
+        public function has($param){
+			return in_array($param, array_keys($this->cfg));
+		}
+
         /**
          * Restituisce il contenuto di una voce della configuarazione
          * 

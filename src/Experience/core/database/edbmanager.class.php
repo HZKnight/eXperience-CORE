@@ -1,7 +1,7 @@
 <?php
 
     /* 
-     * dbmanager.class.php
+     * edbmanager.class.php
      *                                    
      *                                         __  __                _                     
      *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___ 
@@ -34,6 +34,10 @@
      * -------------------------------------------------------------------------------------------
      */ 
 
+    namespace Experience\Core\Database;
+    
+    use Experience\Core\Config\EConfigManager;
+
     /**
      * Interfaccia di comunicazione con il db (Database type MySql-PDO)
      * 
@@ -46,13 +50,12 @@
      * @package Experience
      * @subpackage Core\Database
      * @filesource
-     */
+     */   
 
-    namespace Experience\Core\Database;
-    
-    use Experience\Core\Config\EConfigManager;
+    class EDbManager {
 
-    class DbManager {
+        const VERSION = '3.0-PDO';
+        const DATE_APPROVED = '2022-10-14';
  		
         private mixed $_conn;
         private string $tbprefix;
@@ -65,12 +68,12 @@
          * @param array $config contiene i parametri (type, host, uname, passwd, db) necessari alla connesione
          * @throws PDOException
          */
-        public function __construct($config) {
+        public function __construct(EConfigManager $config) {
             $this->_conn_data = array();
-            $this->_conn_data['connstr'] = $config['type'].":host=".$config['host'].";port=".$config['port'].";dbname=".$config['db'].";charset=utf8";
-            $this->_conn_data['uname'] = $config['uname'];
-            $this->_conn_data['passwd'] = $config['passwd'];
-            $this->tbprefix = $config['tb_prefix'];
+            $this->_conn_data['connstr'] = $config->get_param('type').":host=".$config->get_param('host').";port=".$config->get_param('port').";dbname=".$config->get_param('db').";charset=utf8";
+            $this->_conn_data['uname'] = $config->get_param('uname');
+            $this->_conn_data['passwd'] = $config->get_param('passwd');
+            $this->tbprefix = $config->get_param('tb_prefix');
             $this->_error = null;
         }
 		
