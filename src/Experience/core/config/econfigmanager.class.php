@@ -49,7 +49,8 @@
     *  @filesource
     */
     class EConfigManager{
-        private $cfg;
+        private array $cfg;
+        private $cfgJson;
         private $cfgfile;
          
         /**
@@ -64,11 +65,12 @@
              
             if (!file_exists($cfile)){
                 throw new ConfigException(dgettext("ELang","Config file not exist"),103);
-            } else if (($this->cfg=json_decode(file_get_contents($cfile), true))==null){
+            } else if (($this->cfgJson=json_decode(file_get_contents($cfile), true))==null){
                 throw new ConfigException(dgettext("Elang","Config file is corrupted"),113); 
             }
              
             $this->cfgfile = $cfile;
+            $this->parseCfg();
         }
           
         /**
@@ -77,7 +79,7 @@
          * @return array 
          */
         public function get_cfg(){
-            return $this->cfg;
+            return $this->cfgJson;
         }
         
         /**
@@ -97,7 +99,11 @@
          * @return mixed
          */
         public function get_param($param){
-            return $this->cfg[$param];
+            if($this->has($param)){
+                return $this->cfg[$param];
+            } else {
+                return null;
+            }
         }
          
         /**
@@ -112,24 +118,50 @@
         }
          
         private function set_param2($param,$val){
-            if (array_key_exists($param, $this->cfg)){
-                $this->cfg[$param] = $val;
-                $this->save_cfg();
+            $ex = explode(".", $param);
+            if(count($ex) == 1){
+                if (array_key_exists($param, $this->cfg)){
+                    $this->cfgJson[$param] = $val;
+                    $this->cfg[$param] = $val;
+                    $this->save_cfg();
+                }
+            } else {
+                $this->set_param3($ex[0], $ex[1], $val);
             }
         }
          
         private function set_param3($section,$param,$val){
-            if (array_key_exists($section, $this->cfg)){
-                if(array_key_exists($param, $this->cfg[$section])){
-                    $this->cfg[$section][$param] = $val;
+            if (array_key_exists($section, $this->cfgJson)){
+                if(array_key_exists($param, $this->cfgJson[$section])){
+                    $this->cfgJson[$section][$param] = $val;
+                    $this->cfg[$section.".".$param] = $val;
                 }
                 $this->save_cfg();
             }
         }
                   
         private function save_cfg(){
-            $status = file_put_contents($this->cfgfile, json_encode($this->cfg));
+            $status = file_put_contents($this->cfgfile, json_encode($this->cfgJson));
             if(!$status)throw new ConfigException(dgettext("Elang","Config file isn't wirittable"),123);
         }
+
+        private function parseCfg(){
+            $this->cfg = array();
+            $keys = array_keys($this->cfgJson);
+            foreach ($keys as &$key) {
+                $value = $this->cfgJson[$key];
+                if(is_array($value)){
+                    echo $key." is array!";
+                    $subKeys = array_keys($value);
+                    foreach ($subKeys as &$subkey) {
+                        $compKey = $key.".".$subkey;
+                        $this->cfg[$compKey] = $value[$subkey];    
+                    }
+                } else {
+                    $this->cfg[$key] = $value;
+                }
+            }
+        }
+
     }
 ?>

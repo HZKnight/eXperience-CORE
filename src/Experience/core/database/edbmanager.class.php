@@ -70,10 +70,10 @@
          */
         public function __construct(EConfigManager $config) {
             $this->_conn_data = array();
-            $this->_conn_data['connstr'] = $config->get_param('type').":host=".$config->get_param('host').";port=".$config->get_param('port').";dbname=".$config->get_param('db').";charset=utf8";
-            $this->_conn_data['uname'] = $config->get_param('uname');
-            $this->_conn_data['passwd'] = $config->get_param('passwd');
-            $this->tbprefix = $config->get_param('tb_prefix');
+            $this->_conn_data['connstr'] = $config->get_param('db.type').":host=".$config->get_param('db.host').";port=".$config->get_param('db.port').";dbname=".$config->get_param('db.table').";charset=utf8";
+            $this->_conn_data['uname'] = $config->get_param('db.uname');
+            $this->_conn_data['passwd'] = $config->get_param('db.passwd');
+            $this->tbprefix = $config->get_param('db.tb_prefix');
             $this->_error = null;
         }
 		

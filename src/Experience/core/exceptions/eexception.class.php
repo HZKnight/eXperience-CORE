@@ -74,7 +74,7 @@
      *  @subpackage exceptions
      *  @filesource
      */
-    abstract class EException extends \Exception implements IException
+    abstract class EException extends Exception implements IException
     {
         protected $message = "";                      // Exception message
         private   $string;                            // Unknown

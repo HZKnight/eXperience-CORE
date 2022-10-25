@@ -13,19 +13,21 @@
  * @filesource
  */
 
-require "../src/experience_autoloader.php";
+require "../src/eautoloader.class.php";
 
 if(session_id() == ""){
     session_start();
 }
+
+EAutoloader::register();
 
 use Experience\Core\Logger\ELogger;
 use Experience\Core\Logger\ELogLevel;
 use Experience\Core\Config\EConfigManager;
 
 echo "<b>eXperience CORE ".getenv("ECORE")."</b><br/><br/>";
-echo "Verisone PHP richiesta >= 5.2.0 ";
-if(version_compare(PHP_VERSION, '5.2.0', '>=')){
+echo "Verisone PHP richiesta >= 5.3.0 ";
+if(version_compare(PHP_VERSION, '5.3.0', '>=')){
     echo "OK hai PHP ".PHP_VERSION."<br/>";
 } else {
     echo "ERRORE hai PHP ".PHP_VERSION."<br/>";
@@ -41,7 +43,9 @@ echo "Locale: ".getenv("LANG")."<br/>";
 echo "Script path: ".$_SESSION["script_path"]."<br/>";
 echo "Language path: ".$_SESSION["experience_path"]."Experience".DIRECTORY_SEPARATOR."lang<br/>";
 echo "Log path: ".$_SESSION["script_path"].DIRECTORY_SEPARATOR."log<br/>";
-echo "Configurazione: <pre>".var_dump($cfg)."</pre>";
+echo "Configurazione: <pre>";
+var_dump($cfg);
+echo "</pre>";
 echo "-----<br/>";
 echo "Start logger Test: ";
 $log = null;
@@ -74,3 +78,6 @@ if($log = ELogger::getLogger("test", ELogger::LOG_APPENDER_FILE, ELogLevel::INFO
 }
 else 
     echo "ERROR<br/>";
+ 
+$date = new DateTimeImmutable();
+$cfg->set_param("test.time", $date->getTimestamp());

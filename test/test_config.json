@@ -1,3 +1,1 @@
-{
-    "ver" : "1.0.0"
-}
+{"version":"1.0.0","lang":"it_IT","db":{"type":"mysql","host":"localhost","port":"3307","table":"hzsystem","uname":"root","passwd":"miotuo","tb_prefix":"hz_"},"test":{"time":1666606931}}
