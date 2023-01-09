@@ -2,7 +2,7 @@ eXperience CORE
 ===============
 [![eXperience-CORE](https://github.com/HZKnight/eXperience-CORE/workflows/PHP%20Composer/badge.svg)](https://github.com/HZKnight/eXperience-CORE/actions)
 [![Release](https://img.shields.io/github/release/HZKnight/eXperience-CORE.svg)](https://github.com/HZKnight/eXperience-CORE/releases/latest) 
-[![Pre-release](https://img.shields.io/github/tag-pre/HZKnight/eXperience-CORE.svg?label=pre-release)]([https://github.com/HZKnight/eXperience-CORE/releases/tag/v0.1.0_Alfa](https://github.com/HZKnight/eXperience-CORE/releases/tag/v0.1.0_Alfa))
+[![Pre-release](https://img.shields.io/github/tag-pre/HZKnight/eXperience-CORE.svg?label=pre-release)]([https://github.com/HZKnight/eXperience-CORE/releases/tag/v1.0.0-alfa.2](https://github.com/HZKnight/eXperience-CORE/releases/tag/v1.0.0-alfa.2))
 ![Licence](https://img.shields.io/github/license/HZKnight/eXperience-CORE.svg)
 ![Issue](https://img.shields.io/github/issues/HZKnight/eXperience-CORE.svg)
 [![Code Climate](https://codeclimate.com/github/HZKnight/Experience-CORE/badges/gpa.svg)](https://codeclimate.com/github/HZKnight/Experience-CORE)
