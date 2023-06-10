@@ -38,7 +38,7 @@
      use Experience\Core\Logger\ELogger;
      use Experience\Core\Logger\ELogRow;
      use Experience\Core\Config\EConfigManager;
-     use Experience\Core\net\mailer\EMailer;
+     use Experience\Core\Net\Mailer\EMailer;
      
     /**
      *  Mail appender per ELogger 

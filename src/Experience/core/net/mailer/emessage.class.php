@@ -14,7 +14,7 @@
      * Licence
      * -------------------------------------------------------------------------------------------
      *
-     * Copyright (C) 2021 HZKnight
+     * Copyright (C) 2023 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,11 +35,11 @@
 
 	
     /**
-     *  Semplice classe che rappresenta il messaggio da inviare 
+     *  Classe che rappresenta il messaggio da inviare 
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 0.0.1 2021/04/20 21:49:20
-     *  @copyright 2021 HZKnight
+     *  @version 1.0.0 2023/06/10 09:15:20
+     *  @copyright 2023 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package Experience
@@ -48,7 +48,73 @@
      */
 
      class EMessage {
-         
+
+        private $addres;
+        private $cc;
+        private $bcc;
+        private $attachments;
+        public $isHTML;
+        private $subject;
+        private $body;
+
+        public function __construct(){
+            $this->addres = array();
+            $this->$cc = array();
+            $this->$bcc = array();
+            $this->$attachments = array();
+            $this->$isHTML = false;
+            $this->subject = "";
+            $this->body = "";
+        }
+
+        public function addAddres(string $addres){
+            $this->address[] = $addres;
+        }
+
+        public function addCC(string $addres){
+            $this->cc[] = $addres;
+        }
+
+        public function addBCC(string $addres){
+            $this->bcc[] = $addres;
+        }
+
+        public function addAttachment(string $attachment){
+            $this->attachments[] = $attachment;
+        }
+
+        public function setSubject(string $subject){
+            $this->subject = $subject;
+        }
+
+        public function setBody($body){
+            $this->body = $body;
+        }
+
+        public function getAddress() {
+            return $this->addres;
+        }
+
+        public function getCC() {
+            return $this->cc;
+        }
+
+        public function getBCC() {
+            return $this->bcc;
+        }
+
+        public function getAttachments() {
+            return $this->attachments;
+        }
+
+        public function getSubject(){
+            return $this->subject;
+        }
+
+        public function getBody(){
+            return $this->body;
+        }        
+
      }
 
 

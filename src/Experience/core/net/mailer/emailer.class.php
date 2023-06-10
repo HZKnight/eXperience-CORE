@@ -14,7 +14,7 @@
      * Licence
      * -------------------------------------------------------------------------------------------
      *
-     * Copyright (C) 2021 HZKnight
+     * Copyright (C) 2023 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,11 +35,11 @@
 
 	
     /**
-     *  Semplice classe per l'invio di email 
+     *  Classe per l'invio di email basata su PHPMailer 6.8.0
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 0.0.2 2020/11/29 21:03:20
-     *  @copyright 2021 HZKnight
+     *  @version 1.0.0 2023/06/10 09:15:20
+     *  @copyright 2023 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package Experience
@@ -47,8 +47,12 @@
      *  @filesource
      */
 
-    /* Namespace alias. */
-    use Experience\Core\config\EConfigManager;
+    // Namespace alias
+    use Experience\Core\Logger\ELogger;
+    use Experience\Core\Logger\ELogLevel;
+    use Experience\Core\Config\EConfigManager;
+    use Experience\Core\Net\Mailer\EMessage;
+    
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
@@ -67,15 +71,22 @@
         // configurazine
         private $config;
 
+        // logger
+        private $log;
+
         /**
          * Undocumented function
          *
          * @param EConfigManager $conf
          */
-        public function __construct(EConfigManager $conf){
-            $this->mailer = new PHPMailer(TRUE);
-            $this->config = $conf;  
-            $this->mailer->SMTPDebug = 2;                               // Enable verbose debug output         
+        public function __construct(EConfigManager $conf, ELogger $logger){
+            $this->mailer = new PHPMailer(true);
+            $this->config = $conf;
+            $this->log = $logger;  
+            $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
+            if($this->config->get_param('is_smtp')){
+                $this->enableSMTP();
+            }                               // Enable verbose debug output         
         }
 
         /**
@@ -104,25 +115,49 @@
          * @return boolean
          */
         public function addAttachment(string $name, string $path){
-            return $this->mailer->addAttachment($path, $name); 
+            if($name == ""){
+                $this->mailer->addAttachment($path); 
+            } else {
+                $this->mailer->addAttachment($path, $name); 
+            }
         }
 
-        public function send(string $from, $message, $type){
-            //Recipients
-    $mail->setFrom('from@example.com', 'Mailer');
-    $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
-    $mail->addAddress('ellen@example.com');               //Name is optional
-    $mail->addReplyTo('info@example.com', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
+        public function send(EMessage $message){
 
+            try {
+                //Recipients
+                $this->mailer->setFrom($this->config->get_param('sender_email'), $this->config->get_param('sender_name'));
+            
+                foreach ($message->getAddress() as &$value) {
+                    $this->mailer->addAddress($value);     //Add a recipient
+                }
+
+                foreach ($message->getCC() as &$value) {
+                    $this->mailer->addCC($value);
+                }
+
+                foreach ($message->getBCC() as &$value) {
+                    $this->mailer->addBCC($value);
+                }
+            
+                //Attachments
+                foreach ($message->getAttachments() as &$value) {
+                    $this->addAttachment(basename($value), $value);
+                }
     
-    //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                //Content
+                $this->mailer->isHTML($message->isHTML);                                  //Set email format to HTML
+                $this->mailer->Subject = $message->getSubject();
+                $this->mailer->Body    = $message->getBody();
 
-    $mail->send();
+                if($message->isHTML){
+                    $this->mailer->AltBody = 'The mail body is in html and it is not plain text, this mail client does not support html';
+                }
+
+                $this->mailer->send();
+                $this->log->info("EMailer -> Message has been sent");
+            } catch (Exception $e) {
+                $this->log->alert("Message could not be sent. Mailer Error: {$this->mailer->ErrorInfo}");
+            }
         }
     }
