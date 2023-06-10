@@ -14,7 +14,7 @@
       * Licence
       * -------------------------------------------------------------------------------------------
       *
-      * Copyright (C) 2021 HZKnight
+      * Copyright (C) 2023 HZKnight
       *
       * This program is free software: you can redistribute it and/or modify
       * it under the terms of the GNU Affero General Public License as published by
@@ -39,13 +39,14 @@
      use Experience\Core\Logger\ELogRow;
      use Experience\Core\Config\EConfigManager;
      use Experience\Core\Net\Mailer\EMailer;
+     use Experience\Core\Net\Mailer\EMessage;
      
     /**
      *  Mail appender per ELogger 
      *
      *  @author  Luca Liscio <lucliscio@h0model.org>
      *  @version 0.0.2 2020/11/29 21:16:20
-     *  @copyright 2021 HZKnight
+     *  @copyright 2023 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package Experience
@@ -59,8 +60,8 @@
            * 
            * @param String $logname log name
            */
-          public function __construct($logname, EConfigManager $cfg){
-               parent::__construct($cfg);
+          public function __construct($logname, EConfigManager $cfg, ELogger $logger){
+               parent::__construct($cfg, $logger);
           }
 		
 	     /**
@@ -69,7 +70,32 @@
            * @param ELogRow $log_row
            */
 		public function add(ELogRow $log_row){
-			
+
+               if($log_row->type >= $this->loglevel){
+                    $message = new EMessage();
+                    $errIdentity = self::$error_identifier[$log_row->type];
+                    $message->setSubject("[LOGGER NOTIFY: ".$errIdentity."] - $log_row->date");
+                    
+                    $body = " 
+                    ------------------------------------------------------------------------------
+
+                    Sito:\t\t{$this->_cfg->get_param('site_name')} ({$_SERVER['SERVER_NAME']})
+
+                    Tipo log:\t$errIdentity
+
+                    Accaduto il:\t$log_row->date
+
+                    Messaggio:\t$log_row->message
+
+                    ------------------------------------------------------------------------------";
+
+                    $message->setBody($body);
+                    $message->addAddress($this->_cfg->get_param('admin_mail'));
+                    
+                    $mailer = new EMailer($this->_cfg, $this->_log);
+                    $mailer->send($message);
+               }			
+
 		}
 		
 		/**

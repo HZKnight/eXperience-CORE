@@ -38,6 +38,7 @@
 	namespace Experience\Core\Logger\Appenders;
     
 	use Experience\Core\Config\EConfigManager;
+    use Experience\Core\Logger\ELogger;	
     use Experience\Core\Logger\ELogRow;	
 	
 	/**
@@ -58,9 +59,10 @@
 		
 		public $loglevel;
 		public EConfigManager $_cfg;
-        static $error_identifier;
+        public ELogger $_log;
+        static $error_identifier;        
 		                
-        public function __construct(EConfigManager $config) {
+        public function __construct(EConfigManager $config,  ELogger $logger) {
 
 			/*
 				const EMERGENCY = 407;
@@ -85,6 +87,7 @@
             );
 
 			$this->_cfg = $config;
+            $this->_log = $logger;
         }
 
         abstract public function add(ELogRow $log_row);

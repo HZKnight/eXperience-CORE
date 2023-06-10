@@ -64,9 +64,9 @@
          * 
          * @param String $logname log name
          */
-        public function __construct($logname, EConfigManager $cfg){
+        public function __construct($logname, EConfigManager $cfg, ELogger $logger){
                 
-            parent::__construct($cfg);
+            parent::__construct($cfg, $logger);
             
             $baseDir = $_SESSION["experience_path"];
             if($this->_cfg->has("log_path")){

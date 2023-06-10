@@ -131,13 +131,13 @@
 	    	
 	        switch ($type){
                 case self::LOG_APPENDER_FILE:
-                    $this->appenders[$type] = new Appender_file($this->logname, $this->_cfg);
+                    $this->appenders[$type] = new Appender_file($this->logname, $this->_cfg, $this);
                     break;
                 case self::LOG_APPENDER_EMAIL:
-                    $this->appenders[$type] = new Appender_email($this->logname, $this->_cfg);
+                    $this->appenders[$type] = new Appender_email($this->logname, $this->_cfg, $this);
                     break;
                 case self::LOG_APPENDER_DB:
-                    $this->appenders[$type] = new Appender_db($this->logname, $this->_cfg);
+                    $this->appenders[$type] = new Appender_db($this->logname, $this->_cfg, $this);
                     break;	    			
 	        }
                 
