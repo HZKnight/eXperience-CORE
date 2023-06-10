@@ -7,6 +7,7 @@ eXperience CORE
 ![Issue](https://img.shields.io/github/issues/HZKnight/eXperience-CORE.svg)
 [![Code Climate](https://codeclimate.com/github/HZKnight/Experience-CORE/badges/gpa.svg)](https://codeclimate.com/github/HZKnight/Experience-CORE)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](code_of_conduct.md)
 
 Licences
 -------------------------
