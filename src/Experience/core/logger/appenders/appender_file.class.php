@@ -35,6 +35,7 @@
 	namespace Experience\Core\Logger\Appenders;
         
     use Experience\Core\Config\EConfigManager;
+    use Experience\Core\Logger\ELogger;
     use Experience\Core\Logger\ELogRow;
     use Experience\Core\Exceptions\ENotApplicableMethodException;
     use Experience\Core\Logger\Exceptions\LogFileNotFoundException;
@@ -64,9 +65,9 @@
          * 
          * @param String $logname log name
          */
-        public function __construct($logname, EConfigManager $cfg, ELogger $logger){
+        public function __construct($logname, EConfigManager $cfg){
                 
-            parent::__construct($cfg, $logger);
+            parent::__construct($cfg);
             
             $baseDir = $_SESSION["experience_path"];
             if($this->_cfg->has("log_path")){

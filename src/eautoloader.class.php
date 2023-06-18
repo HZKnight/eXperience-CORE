@@ -106,20 +106,12 @@ class EAutoloader{
     private function registerVendor(){
         //Vendor Class map
         $this->vendors = array(
-            'LoggerInterface' => $this->evendor_path."/Psr/log/LoggerInterface.php",
-            'LogLevel' => $this->evendor_path."/Psr/log/LogLevel.php",
-            'FirePHP' => $this->evendor_path."/FirePHPCore/FirePHP.class.php"
+            'Psr\Log\LoggerInterface' => $this->evendor_path."/Psr/log/LoggerInterface.php",
+            'Psr\Log\LogLevel' => $this->evendor_path."/Psr/log/LogLevel.php",
+            'PHPMailer\PHPMailer\PHPMailer' => $this->evendor_path."/PHPMailer/PHPMailer.php",
+            'PHPMailer\PHPMailer\SMTP' => $this->evendor_path."/PHPMailer/SMTP.php",
+            'PHPMailer\PHPMailer\Exception' => $this->evendor_path."/PHPMailer/Exception.php"
         );
-    }
-
- 
-    /**
-     * This class return class name
-     * @param string $classname The name of the class to load
-     */
-    static private function getClassName($classname){
-        $q = explode("\\", $classname);
-        return $q[count($q)-1];
     }
 
 
@@ -128,7 +120,7 @@ class EAutoloader{
      * @param string $classname The name of the class to load
      */
     private function isVendor($classname){
-        return array_key_exists(self::getClassName($classname), $this->vendors);
+        return array_key_exists($classname, $this->vendors);
     }
 
 
@@ -140,13 +132,14 @@ class EAutoloader{
         $pathtoclass = "";
 
         if($this->isVendor($classname)){
-            $pathtoclass = $this->vendors[self::getClassName($classname)];
-        } else if(0 !== strpos($classname, "Experience")){
-            return;
-        } else {
+            $pathtoclass = $this->vendors[$classname];
+        } else if(0 == strpos($classname, "Experience")){
             $pathtoclass = str_replace('Experience', '', $classname);
             $pathtoclass = str_replace('\\', DIRECTORY_SEPARATOR, $pathtoclass);
-            $pathtoclass = $this->ebase_path.strtolower($pathtoclass).'.class.php';
+            $pathtoclass = $this->ebase_path.strtolower($pathtoclass).'.class.php';            
+        } else {
+            echo "<br>";
+            return;
         }
 
         if(file_exists($pathtoclass)){

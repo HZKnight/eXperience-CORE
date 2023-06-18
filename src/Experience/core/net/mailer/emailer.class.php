@@ -31,7 +31,7 @@
      */
 
 
-    namespace Experience\Core\EMailer;
+    namespace Experience\Core\Net\Mailer;
 
 	
     /**
@@ -54,7 +54,7 @@
     use Experience\Core\Net\Mailer\EMessage;
     
     use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
     class EMailer {
@@ -79,12 +79,11 @@
          *
          * @param EConfigManager $conf
          */
-        public function __construct(EConfigManager $conf, ELogger $logger){
+        public function __construct(EConfigManager $conf){
             $this->mailer = new PHPMailer(true);
-            $this->config = $conf;
-            $this->log = $logger;  
-            $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
-            if($this->config->get_param('is_smtp')){
+            $this->config = $conf; 
+            $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
+            if($this->config->get_param('mail.is_smtp')){
                 $this->enableSMTP();
             }                               // Enable verbose debug output         
         }
@@ -96,14 +95,14 @@
          */
         public function enableSMTP(){
             $this->mailer->isSMTP();                                            // Set mailer to use 
-            $this->mailer->Host       = $this->config->get_param('smtp_host');  // Specify main and backup SMTP servers
-            $this->mailer->Port       = $this->config->get_param('smtp_port');  // TCP port to connect 
-            $this->mailer->SMTPAuth   = $this->config->get_param('smtp_auth');  // Enable SMTP authentication
+            $this->mailer->Host       = $this->config->get_param('mail.smtp_host');  // Specify main and backup SMTP servers
+            $this->mailer->Port       = $this->config->get_param('mail.smtp_port');  // TCP port to connect 
+            $this->mailer->SMTPAuth   = $this->config->get_param('mail.smtp_auth');  // Enable SMTP authentication
 
             if($this->mailer->SMTPAuth){
-                $this->mailer->Username   = $this->config->get_param('smtp_username');  // SMTP username
-                $this->mailer->Password   = $this->config->get_param('smtp_passwd');    // SMTP password
-                $this->mailer->SMTPSecure = $this->config->get_param('smtp_secure');    // Enable TLS encryption, `ssl` also accepted
+                $this->mailer->Username   = $this->config->get_param('mail.smtp_username');  // SMTP username
+                $this->mailer->Password   = $this->config->get_param('mail.smtp_passwd');    // SMTP password
+                $this->mailer->SMTPSecure = $this->config->get_param('mail.smtp_secure');    // Enable TLS encryption, `ssl` also accepted
             }       
         }
 
@@ -126,7 +125,7 @@
 
             try {
                 //Recipients
-                $this->mailer->setFrom($this->config->get_param('sender_email'), $this->config->get_param('sender_name'));
+                $this->mailer->setFrom($this->config->get_param('mail.sender_email'), $this->config->get_param('mail.sender_name'));
             
                 foreach ($message->getAddress() as &$value) {
                     $this->mailer->addAddress($value);     //Add a recipient
@@ -155,9 +154,11 @@
                 }
 
                 $this->mailer->send();
-                $this->log->info("EMailer -> Message has been sent");
+
+                return "";
+
             } catch (Exception $e) {
-                $this->log->alert("Message could not be sent. Mailer Error: {$this->mailer->ErrorInfo}");
+                return "Message could not be sent. Mailer Error: {$this->mailer->ErrorInfo}";
             }
         }
     }

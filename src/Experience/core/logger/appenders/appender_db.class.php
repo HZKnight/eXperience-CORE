@@ -66,8 +66,8 @@
            * 
            * @param String $logname log name
            */
-          public function __construct($logname, EConfigManager $cfg,  ELogger $logger){
-               parent::__construct($cfg, $logger);
+          public function __construct($logname, EConfigManager $cfg){
+               parent::__construct($cfg);
           }
 		
 		public function add(ELogRow $log_row){

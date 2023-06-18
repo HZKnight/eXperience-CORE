@@ -60,8 +60,8 @@
            * 
            * @param String $logname log name
            */
-          public function __construct($logname, EConfigManager $cfg, ELogger $logger){
-               parent::__construct($cfg, $logger);
+          public function __construct($logname, EConfigManager $cfg){
+               parent::__construct($cfg);
           }
 		
 	     /**
@@ -90,10 +90,15 @@
                     ------------------------------------------------------------------------------";
 
                     $message->setBody($body);
-                    $message->addAddress($this->_cfg->get_param('admin_mail'));
+                    $message->addAddres($this->_cfg->get_param('admin_email'));
                     
-                    $mailer = new EMailer($this->_cfg, $this->_log);
-                    $mailer->send($message);
+                    $mailer = new EMailer($this->_cfg);
+                    $result = $mailer->send($message);
+                    
+                    if($result != ""){
+                         throw new \Exception($result);
+                    }
+
                }			
 
 		}

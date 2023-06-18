@@ -31,7 +31,7 @@
      */
 
 
-    namespace Experience\Core\EMailer;
+    namespace Experience\Core\Net\Mailer;
 
 	
     /**
@@ -49,7 +49,7 @@
 
      class EMessage {
 
-        private $addres;
+        private $address;
         private $cc;
         private $bcc;
         private $attachments;
@@ -58,15 +58,15 @@
         private $body;
 
         public function __construct(){
-            $this->addres = array();
-            $this->$cc = array();
-            $this->$bcc = array();
-            $this->$attachments = array();
-            $this->$isHTML = false;
+            $this->address = array();
+            $this->cc = array();
+            $this->bcc = array();
+            $this->attachments = array();
+            $this->isHTML = false;
             $this->subject = "";
             $this->body = "";
         }
-
+       
         public function addAddres(string $addres){
             $this->address[] = $addres;
         }
@@ -92,7 +92,7 @@
         }
 
         public function getAddress() {
-            return $this->addres;
+            return $this->address;
         }
 
         public function getCC() {

@@ -59,10 +59,9 @@
 		
 		public $loglevel;
 		public EConfigManager $_cfg;
-        public ELogger $_log;
         static $error_identifier;        
 		                
-        public function __construct(EConfigManager $config,  ELogger $logger) {
+        public function __construct(EConfigManager $config) {
 
 			/*
 				const EMERGENCY = 407;
@@ -87,7 +86,6 @@
             );
 
 			$this->_cfg = $config;
-            $this->_log = $logger;
         }
 
         abstract public function add(ELogRow $log_row);

@@ -64,7 +64,10 @@ if($log = ELogger::getLogger("test", ELogger::LOG_APPENDER_FILE, ELogLevel::INFO
         const INFO      = 401;
         const DEBUG     = 400;
     */
+    //Add email appender
+    $log->add_appender(ELogger::LOG_APPENDER_EMAIL);
 
+    //Simulate error message
     $log->emergency("Emergensy Test message");
     $log->alert("Alert Test message");
     $log->critical("Critical Test message");
