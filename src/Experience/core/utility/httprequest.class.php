@@ -58,8 +58,6 @@
 		public function __construct() {
 			$this->_requestParams['get'] = $_GET;
                $this->_requestParams['post'] = $_POST;
-               $this->_requestParams['put'] = $_PUT;
-               $this->_requestParams['delete'] = $_DELETE;
                $this->_requestParams['cookie'] = $_COOKIE;
 
                $this->_requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -76,7 +74,7 @@
 		public function getParam($paramName) {
 
                //Do priorita all'array che rappresenta il metodo della richiesta
-               if (in_array($this->_requestParams[$this->_requestMethod], array_keys($value))) {
+               if (in_array($paramName, array_keys($this->_requestParams[$this->_requestMethod]))) {
                     return $this->_requestParams[$this->_requestMethod][$paramName];
                }
 
@@ -103,8 +101,8 @@
           public function getParamRequestMethod($paramName) {
                
                //Do priorita all'array che rappresenta il metodo della richiesta
-               if (in_array($this->_requestParams[$this->_requestMethod], array_keys($value))) {
-                    return$this->_requestMethod;
+               if (in_array($paramName, array_keys($this->_requestParams[$this->_requestMethod]))) {
+                    return $this->_requestMethod;
                }
 
                //Cerco in tutti gli altri array
@@ -157,4 +155,3 @@
 			return $this->_requestMethod;
 		}
 	}
-?>
