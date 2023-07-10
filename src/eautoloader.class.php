@@ -138,7 +138,6 @@ class EAutoloader{
             $pathtoclass = str_replace('\\', DIRECTORY_SEPARATOR, $pathtoclass);
             $pathtoclass = $this->ebase_path.strtolower($pathtoclass).'.class.php';            
         } else {
-            echo "<br>";
             return;
         }
 
