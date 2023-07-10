@@ -151,7 +151,6 @@
             foreach ($keys as &$key) {
                 $value = $this->cfgJson[$key];
                 if(is_array($value)){
-                    echo $key." is array!";
                     $subKeys = array_keys($value);
                     foreach ($subKeys as &$subkey) {
                         $compKey = $key.".".$subkey;
