@@ -9,11 +9,6 @@ PHP extension:
 Form GITHUB:
 ------------
 - PHPMailer: 
-    - Version: 6.0.7
+    - Version: 6.8.0
     - Developed by: Marcus Bointon
     - Licence: GNU Lesser General Public License v2.1
-
-- FirePHPCore:
-    - Verison: 0.3
-    - Developed by: Christoph Dorn, Sokolov Innokenty
-    - Licence: MIT  
