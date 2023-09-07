@@ -131,13 +131,14 @@
         }
          
         private function set_param3($section,$param,$val){
+            echo "$section - $param - $val";
             if (array_key_exists($section, $this->cfgJson)){
-                if(array_key_exists($param, $this->cfgJson[$section])){
-                    $this->cfgJson[$section][$param] = $val;
-                    $this->cfg[$section.".".$param] = $val;
-                }
-                $this->save_cfg();
+                $this->cfgJson[$section] = array();
             }
+            $this->cfgJson[$section][$param] = $val;
+            $this->cfg[$section.".".$param] = $val;
+            
+            $this->save_cfg();
         }
                   
         private function save_cfg(){
