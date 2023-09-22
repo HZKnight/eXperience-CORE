@@ -131,7 +131,6 @@
         }
          
         private function set_param3($section,$param,$val){
-            echo "$section - $param - $val";
             if (array_key_exists($section, $this->cfgJson)){
                 $this->cfgJson[$section] = array();
             }
