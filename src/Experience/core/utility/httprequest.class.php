@@ -60,7 +60,7 @@
                $this->_requestParams['post'] = $_POST;
                $this->_requestParams['cookie'] = $_COOKIE;
 
-               $this->_requestMethod = $_SERVER['REQUEST_METHOD'];
+               $this->_requestMethod = strtolower($_SERVER['REQUEST_METHOD']);
 		}
 		
           /**
