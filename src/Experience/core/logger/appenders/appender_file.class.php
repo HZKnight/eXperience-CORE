@@ -76,8 +76,7 @@
             
             $this->logfile_basedir = $baseDir."log";
             $this->logfile_basename = $logname;
-            $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
-                
+            $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";                
         }
 	
         /**
@@ -86,7 +85,8 @@
          * @param ELogRow $log_row
          */
         public function add(ELogRow $log_row){
-                
+            
+            $this->createLogDir(); 
             if($log_row->type >= $this->loglevel)
                 error_log("(".$log_row->date.") [".self::$error_identifier[$log_row->type]."] --> ".$log_row->message."\n",3,$this->logfile);
                 
@@ -123,5 +123,22 @@
         public function setLogDir($dir){
             $this->logfile_basedir = $dir;
             $this->logfile = $this->logfile_basedir.DIRECTORY_SEPARATOR.$this->logfile_basename."_".date("dmY").".log";
-        }		
+        }
+        
+        private function createLogDir(){
+            settype($this->logfile_basedir,"string");
+            $__mode=0777;
+
+            if(is_dir($this->logfile_basedir)) {
+                return;
+            } elseif(mkdir($this->logfile_basedir,$__mode)) {
+    
+                if(is_dir($this->logfile_basedir)) {
+                    return;
+                }
+            }
+
+            throw new LogFileNotFoundExceprions("System Error: _mkdir_(".$this->logfile_basedir.",".$__mode.").");
+        }
+
 	}
