@@ -131,7 +131,7 @@
         }
          
         private function set_param3($section,$param,$val){
-            if (array_key_exists($section, $this->cfgJson)){
+            if (!array_key_exists($section, $this->cfgJson)){
                 $this->cfgJson[$section] = array();
             }
             $this->cfgJson[$section][$param] = $val;
@@ -141,7 +141,7 @@
         }
                   
         private function save_cfg(){
-            $status = file_put_contents($this->cfgfile, json_encode($this->cfgJson));
+            $status = file_put_contents($this->cfgfile, json_encode($this->cfgJson, JSON_PRETTY_PRINT));
             if(!$status)throw new ConfigException(dgettext("Elang","Config file isn't wirittable"),123);
         }
 
