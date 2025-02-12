@@ -82,7 +82,7 @@
 	     * @param integer $type tipo di logger da creare 
          * @param integer $loglevel livello di errore da cui cominciare a registrare il log
 	     * @return ELogger
-	     * @example $miolog = ELogger::gelLogger("miolog",ELogger::LOG_APPENDER_FILE,ELogLevel::INFO);
+	     * @example $miolog = ELogger::getLogger("miolog",ELogger::LOG_APPENDER_FILE,ELogLevel::INFO);
 	     */
         public static function getLogger($logname,$type=self::LOG_APPENDER_FILE, $loglevel=ELogLevel::INFO, EConfigManager $cfg){
             if(array_key_exists($logname, self::$_instace)) {    

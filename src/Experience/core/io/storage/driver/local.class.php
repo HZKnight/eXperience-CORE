@@ -59,6 +59,9 @@
             $this->webRoot = getcwd().$path;
         }
 
+        public function getWebRoot(): string{
+            return $this->webRoot;
+        }
 
         /**
          * Make a directory
@@ -137,8 +140,8 @@
           
             clearstatcache();
 
-            $src = $this->WEB_ROOT.$source;
-            $dest = $this->WEB_ROOT.$target;
+            $src = $this->webRoot.$source;
+            $dest = $this->webRoot.$target;
           
             if(!$this->fileExists($src)){
                 return;
@@ -152,7 +155,7 @@
             }
           
             $this->rm($dest);
-            throw new StorageException("System Error: fcopy(".$this->WEB_ROOT.$source.",".$this->WEB_ROOT.$target.")");
+            throw new StorageException("System Error: fcopy(".$this->webRoot.$source.",".$this->webRoot.$target.")");
         }
 
 
@@ -167,7 +170,7 @@
             settype($dir,"string");
             settype($pattern,"string");
 
-            $source = $this->WEB_ROOT.$dir;
+            $source = $this->webRoot.$dir;
 
             clearstatcache();
 
@@ -223,32 +226,6 @@
 
 
         /**
-         * Create new file in storage
-         *
-         * @param string $name
-         * @param mixed $content
-         * @return boolean
-         */
-        public function fileCreate($name,$content): bool{
-            settype($name,"string");
-            
-            $source = $this->WEB_ROOT.$name;
-
-            if($this->fileExists($source)){
-                throw new StorageException("System Error: fileCreate(".$source.",...). File already exist");
-            } else {
-
-                if($this->fileWrite($name,$content,"wb") && $this->fileExists($source)){
-                    return true;
-                }
-
-                throw new StorageException("System Error: fileCreate(".$source.",...).");
-            }
-
-        }
-
-        
-        /**
          * Write file
          *
          * @param string $name
@@ -259,7 +236,7 @@
         public function fileWrite($name,$content,$mode="a"): bool{
             settype($name,"string");
 
-            $source = $this->WEB_ROOT.$name;
+            $source = $this->webRoot.$name;
 
             if($mode == "a" && !$this->fileExists($source)){
                 throw new StorageException("System Error: fileWrite(".$source.",".$content.",".$mode.") File not exist");
@@ -288,7 +265,7 @@
         public function fileRead($name): mixed{
             settype($name,"string");
 
-            $source = $this->WEB_ROOT.$name;
+            $source = $this->webRoot.$name;
 
             if($this->fileExists($source)){
                 return file_get_contents($source);

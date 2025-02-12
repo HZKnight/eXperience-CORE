@@ -48,13 +48,13 @@
      */
 
     interface StorageDriveInterface {
+        public function getWebRoot(): string;
         public function mkdir($name, $mode=0777);
         public function rm($name):bool;
         public function fcopy($source,$target);
         public function ls($dir="./",$pattern="*.*"):array;
         public function fileCompare($src, $dest):bool;
         public function fileExists($src):bool;
-        public function fileCreate($name,$content):bool;
         public function fileWrite($name,$content,$mode="a"):bool;
         public function fileRead($name):mixed;
     }
