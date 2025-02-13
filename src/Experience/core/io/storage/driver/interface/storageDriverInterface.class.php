@@ -39,7 +39,7 @@
      * Definizione delle api dei driver per lo storage
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version v 1.3.0
+     * @version v 1.3.1
      * @copyright Copyright &copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -48,6 +48,7 @@
      */
 
     interface StorageDriveInterface {
+        public function connectToStorage($path):bool;
         public function getWebRoot(): string;
         public function mkdir($name, $mode=0777);
         public function rm($name):bool;

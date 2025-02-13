@@ -43,7 +43,7 @@
      * Storage interface class
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version v 1.0.0
+     * @version v 1.1.0
      * @copyright &copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -69,13 +69,13 @@
          * @return EStorage
          * @example $mioStorage = EStorage::getStorage("miostorage",$driver);
          */
-        public static function getStorage($storagename, StorageDriveInterface $driver): EStorage {
+        public static function getStorage($storagename, StorageDriveInterface $driver, $connString="/"): EStorage {
             if(array_key_exists($storagename, self::$instace)) {
                 if (!(self::$instace[$storagename] instanceof self)){
-                    self::$instace[$storagename] = new self($storagename,$driver);
+                    self::$instace[$storagename] = new self($storagename,$driver,$connString);
                 }
             } else {
-                self::$instace[$storagename] = new self($storagename,$driver);
+                self::$instace[$storagename] = new self($storagename,$driver,$connString);
             }
             
             return self::$instace[$storagename];
@@ -97,11 +97,16 @@
          *
          * @param string $storagename nome dello storage da creare
          * @param integer $driver una implementazione dello storage driver
+         * @param string $connString Stringa di connessione allo storage
          */
-        private function __construct($storagename, StorageDriveInterface $driver){
+        private function __construct($storagename, StorageDriveInterface $driver, $connString){
             $this->storagename = $storagename;
             $this->driver = $driver;
-            $this->webRoot = $driver->getWebRoot();
+            if($this->driver->connectToStorage($connString)){
+                $this->webRoot = $driver->getWebRoot();
+            } else {
+                throw new StorageException("Connection to storage failed");
+            }
         }
 
         public function mkdir($name, $mode=0777){

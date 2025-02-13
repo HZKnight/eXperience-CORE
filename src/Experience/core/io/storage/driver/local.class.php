@@ -43,7 +43,7 @@
      * Driver for local storage (file system)
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version v 1.0.0
+     * @version v 1.1.0
      * @copyright &copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -55,8 +55,12 @@
         
         private string $webRoot;
 
-        public function __construct($path="/"){
+        public function connectToStorage($path): bool{
+            if(!$this->fileExists($source)){
+                return false;
+            }
             $this->webRoot = getcwd().$path;
+            return true;
         }
 
         public function getWebRoot(): string{

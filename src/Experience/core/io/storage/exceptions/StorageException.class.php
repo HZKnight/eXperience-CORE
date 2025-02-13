@@ -17,7 +17,7 @@
      * -------------------------------------------------------------------------------------------
      * License
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2023 HZKnight
+     * Copyright (C)2025 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,15 +35,15 @@
      */
 
     namespace Experience\Core\Io\Storage\Exceptions;
-	
+
     use Experience\Core\Exceptions\EException;
-		
+
     /**
      *  questa eccezione si verifica quando ci sono problemi con i file e le cartelle
      *
      *  @author lucliscio <lucliscio@h0model.org>
      *  @version 0.0.1 2024/04/01 08:29:20
-     *  @copyright &copy;2024 HZKnight
+     *  @copyright &copy;2025 HZKnight
      *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      *  @package Experience
