@@ -1,7 +1,7 @@
 <?php
-
+    
     /*
-     * StorageException.class.php
+     * ConfigException.class.php
      *
      *                                         __  __                _
      *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
@@ -34,24 +34,26 @@
      * -------------------------------------------------------------------------------------------
      */
 
-    namespace Experience\Core\Io\Storage\Exceptions;
+    namespace Experience\Core\Tools\Config\Exceptions;
 
     use Experience\Core\Exceptions\EException;
 
     /**
-     * questa eccezione si verifica quando ci sono problemi con i file e le cartelle
+     * questa eccezione si verifica quando ci sono problemi con il file di configurazione
      *
-     * @author lucliscio <lucliscio@h0model.org>
-     * @version 0.0.1
+     * @author Luca Liscio <lucliscio@h0model.org>
+     * @author Marco Lettieri
+     * @version 0.0.3
      * @copyright &copy;2025 HZKnight
+     * @copyright &copy;2013 Luca Liscio & Marco Lettieri
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
-     * @subpackage Core\Io\Storage\Exception
+     * @subpackage Core\Tools\Config\Exception
      *
      * @filesource
      */
     
-    class StorageException extends EException {
-        protected $code = "S01";
+    class ConfigException extends EException {
+        protected $code = "C01";
     }

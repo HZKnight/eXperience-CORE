@@ -34,23 +34,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
  */
 
-/**
- *  Experience SPL autoloader. 
- *  This version can load class from Experience Pakages and Vendor directory
- *
- *  @author  Luca Liscio <lucliscio@h0model.org>
- *  @version v 2.0 2020/12/09 20:20:00
- *  @copyright Copyright 2021 HZKnight 
- *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
- *
- *  @package Experience
- *  @filesource
- */
-
-if(session_id() == ""){
+ if(session_id() == ""){
     session_start();
-}
+ }
 
+
+/**
+ * Experience SPL autoloader.
+ * This version can load class from Experience Pakages and Vendor directory
+ *
+ * @author Luca Liscio <lucliscio@h0model.org>
+ * @version 2.0.0
+ * @copyright &copy;2021-2025 HZKnight
+ * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+ *
+ * @package eXperience
+ * @filesource eautoloader.class.php
+ */
 class EAutoloader{
 
     private $ebase_path;

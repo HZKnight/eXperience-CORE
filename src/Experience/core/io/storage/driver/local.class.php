@@ -43,11 +43,13 @@
      * Driver for local storage (file system)
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version v 1.1.0
+     * @version 1.1.0
      * @copyright &copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
+     * @subpackage Core\Io\Storage\Driver
+     *
      * @filesource
      */
 
