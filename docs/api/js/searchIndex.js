@@ -231,6 +231,56 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Experience-Exceptions-ENotApplicableMethodException.html#property_code"
         },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest",
+            "name": "HttpRequest",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Costruttore",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method___construct"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetParam\u0028\u0029",
+            "name": "getParam",
+            "summary": "Restituisce\u0020un\u0020parametro\u0020della\u0020richiesta\nnel\u0020caso\u0020il\u0020parametro\u0020non\u0020esista\u0020restituisce\u0020la\nstringa\u0020vuota",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getParam"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetParamRequestMethod\u0028\u0029",
+            "name": "getParamRequestMethod",
+            "summary": "Restituisce\u0020per\u0020ogni\u0020parametro\u0020l\u0020metodo\u0020dells\u0020richiesta\ncon\u0020cui\u0020sono\u0020arrivati",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getParamRequestMethod"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003Ahas\u0028\u0029",
+            "name": "has",
+            "summary": "Verifica\u0020se\u0020un\u0020parametro\u0020\u00E8\u0020dentro\u0020la\u0020request",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_has"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AsetParam\u0028\u0029",
+            "name": "setParam",
+            "summary": "Inserisce\u0020n\u0020parametro\u0020alla\u0020request",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_setParam"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetRequest\u0028\u0029",
+            "name": "getRequest",
+            "summary": "Undocumented\u0020function",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getRequest"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetRequestMethod\u0028\u0029",
+            "name": "getRequestMethod",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getRequestMethod"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003A\u0024requestParams",
+            "name": "requestParams",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#property_requestParams"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003A\u0024requestMethod",
+            "name": "requestMethod",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#property_requestMethod"
+        },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\Interface\\StorageDriveInterface",
             "name": "StorageDriveInterface",
             "summary": "Definizione\u0020delle\u0020api\u0020dei\u0020driver\u0020per\u0020lo\u0020storage",
@@ -1031,56 +1081,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Experience-Core-Tools-Config-Exceptions-ConfigException.html#property_code"
         },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest",
-            "name": "HttpRequest",
-            "summary": "",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Costruttore",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method___construct"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003AgetParam\u0028\u0029",
-            "name": "getParam",
-            "summary": "Restituisce\u0020un\u0020parametro\u0020della\u0020richiesta\nnel\u0020caso\u0020il\u0020parametro\u0020non\u0020esista\u0020restituisce\u0020la\nstringa\u0020vuota",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method_getParam"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003AgetParamRequestMethod\u0028\u0029",
-            "name": "getParamRequestMethod",
-            "summary": "Restituisce\u0020per\u0020ogni\u0020parametro\u0020l\u0020metodo\u0020dells\u0020richiesta\ncon\u0020cui\u0020sono\u0020arrivati",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method_getParamRequestMethod"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003Ahas\u0028\u0029",
-            "name": "has",
-            "summary": "Verifica\u0020se\u0020un\u0020parametro\u0020\u00E8\u0020dentro\u0020la\u0020request",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method_has"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003AsetParam\u0028\u0029",
-            "name": "setParam",
-            "summary": "Inserisce\u0020n\u0020parametro\u0020alla\u0020request",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method_setParam"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003AgetRequest\u0028\u0029",
-            "name": "getRequest",
-            "summary": "Undocumented\u0020function",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method_getRequest"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003AgetRequestMethod\u0028\u0029",
-            "name": "getRequestMethod",
-            "summary": "",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#method_getRequestMethod"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003A\u0024_requestParams",
-            "name": "_requestParams",
-            "summary": "",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#property__requestParams"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility\\HttpRequest\u003A\u003A\u0024_requestMethod",
-            "name": "_requestMethod",
-            "summary": "",
-            "url": "classes/Experience-Core-Utility-HttpRequest.html#property__requestMethod"
-        },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",
@@ -1111,6 +1111,16 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/experience-exceptions.html"
         },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net",
+            "name": "Net",
+            "summary": "",
+            "url": "namespaces/experience-core-io-net.html"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io",
+            "name": "Io",
+            "summary": "",
+            "url": "namespaces/experience-core-io.html"
+        },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\Interface",
             "name": "Interface",
             "summary": "",
@@ -1125,11 +1135,6 @@ Search.appendIndex(
             "name": "Storage",
             "summary": "",
             "url": "namespaces/experience-core-io-storage.html"
-        },                {
-            "fqsen": "\\Experience\\Core\\Io",
-            "name": "Io",
-            "summary": "",
-            "url": "namespaces/experience-core-io.html"
         },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Exceptions",
             "name": "Exceptions",
@@ -1175,10 +1180,5 @@ Search.appendIndex(
             "name": "Exceptions",
             "summary": "",
             "url": "namespaces/experience-core-tools-config-exceptions.html"
-        },                {
-            "fqsen": "\\Experience\\Core\\Utility",
-            "name": "Utility",
-            "summary": "",
-            "url": "namespaces/experience-core-utility.html"
         }            ]
 );

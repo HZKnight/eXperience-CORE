@@ -1,22 +1,22 @@
 <?php
-    /* 
+    /*
      * httprequest.class.php
-     *                                    
-     *                                         __  __                _                     
-     *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___ 
+     *
+     *                                         __  __                _
+     *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
      *                                     / _ \\  /| '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
      *                                    |  __//  \| |_) |  __/ |  | |  __/ | | | (_|  __/
      *                                     \___/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
-     *                                              |_| HZKnight free PHP Scripts           
-     *      
+     *                                              |_| HZKnight free PHP Scripts
+     *
      *                                           lucliscio <lucliscio@h0model.org>, ITALY
      *
      * CORE Ver.1.0.0
-     * 
+     *
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2023 HZKnight
+     * Copyright (C)2025 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -31,38 +31,40 @@
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
      * -------------------------------------------------------------------------------------------
-     */ 
+     */
 
-	/**
+    /**
      * Classe che rappresenta la richiesta http
-     * 
+     *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version v 2.0 2023/07/08 09:32:20
-     * @copyright Copyright 2023 HZKnight
-     * @copyright Copyright 2013 Luca Liscio & Marco Lettieri 
+     * @version 2.1.0
+     * @copyright &copy;2023-2025 HZKnight
+     * @copyright &copy;2013 Luca Liscio & Marco Lettieri
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
-     *   
-     * @package eXperience/Cms
+     *
+     * @package eXperience
+     * @subpackage Core\Io\Net
+     *
      * @filesource
      */
 
-     namespace Experience\Core\Utility;
+     namespace Experience\Core\Io\Net;
 
-	class HttpRequest {
-		private $_requestParams = array();
-          private $_requestMethod = "";
-		
+     class HttpRequest {
+          private $requestParams = array();
+          private $requestMethod = "";
+
           /**
            * Costruttore
            */
-		public function __construct() {
-			$this->_requestParams['get'] = $_GET;
-               $this->_requestParams['post'] = $_POST;
-               $this->_requestParams['cookie'] = $_COOKIE;
+          public function __construct() {
+               $this->requestParams['get'] = $_GET;
+               $this->requestParams['post'] = $_POST;
+               $this->requestParams['cookie'] = $_COOKIE;
 
-               $this->_requestMethod = strtolower($_SERVER['REQUEST_METHOD']);
-		}
-		
+               $this->requestMethod = strtolower($_SERVER['REQUEST_METHOD']);
+          }
+
           /**
            * Restituisce un parametro della richiesta
            * nel caso il parametro non esista restituisce la
@@ -71,26 +73,24 @@
            * @param string $paramName
            * @return mixed
            */
-		public function getParam($paramName) {
+          public function getParam($paramName) {
 
                //Do priorita all'array che rappresenta il metodo della richiesta
-               if (in_array($paramName, array_keys($this->_requestParams[$this->_requestMethod]))) {
-                    return $this->_requestParams[$this->_requestMethod][$paramName];
+               if (in_array($paramName, array_keys($this->requestParams[$this->requestMethod]))) {
+                    return $this->requestParams[$this->requestMethod][$paramName];
                }
 
                //Cerco in tutti gli altri array
-               foreach ($this->_requestParams as $key => $value) {
-                    if($key != $this->_requestMethod){
-                         if (in_array($paramName, array_keys($value))) {
-                              return $value[$paramName];
-                         }
+               foreach ($this->requestParams as $key => $value) {
+                    if(($key != $this->requestMethod) && in_array($paramName, array_keys($value))) {
+                         return $value[$paramName];
                     }
                }
 
-			return '';
+               return '';
 
-		}
-		
+          }
+
           /**
            * Restituisce per ogni parametro l metodo dells richiesta
            * con cui sono arrivati
@@ -101,8 +101,8 @@
           public function getParamRequestMethod($paramName) {
                
                //Do priorita all'array che rappresenta il metodo della richiesta
-               if (in_array($paramName, array_keys($this->_requestParams[$this->_requestMethod]))) {
-                    return $this->_requestMethod;
+               if (in_array($paramName, array_keys($this->requestParams[$this->requestMethod]))) {
+                    return $this->requestMethod;
                }
 
                //Cerco in tutti gli altri array
@@ -111,8 +111,8 @@
                          return $key;
                     }
                }
-			return '';
-		}
+               return '';
+          }
 
           /**
            * Verifica se un parametro è dentro la request
@@ -120,15 +120,15 @@
            * @param string $paramName
            * @return boolean
            */
-		public function has($paramName){
+          public function has($paramName){
                $exist = false;
-               foreach ($this->_requestParams as &$value) {
+               foreach ($this->requestParams as &$value) {
                     if (in_array($paramName, array_keys($value))) {
                          $exist = true;
                     }
                }
-			return $exist;
-		}
+               return $exist;
+          }
 
           /**
            * Inserisce n parametro alla request
@@ -138,20 +138,20 @@
            * @param mixed $value
            * @return void
            */
-		public function setParam($paramName, $rtype, $value){
-			$this->_requestParams[$rtype][$paramName] = $value;
-		}
-		
+          public function setParam($paramName, $rtype, $value){
+               $this->requestParams[$rtype][$paramName] = $value;
+          }
+
           /**
            * Undocumented function
            *
            * @return void
            */
-		public function getRequest() {
-			return $this->_requestParams;
-		}
+          public function getRequest() {
+               return $this->requestParams;
+          }
 
           public function getRequestMethod() {
-			return $this->_requestMethod;
-		}
-	}
+               return $this->requestMethod;
+          }
+     }

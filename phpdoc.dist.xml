@@ -6,6 +6,7 @@
 >
     <title>eXperience CORE</title>
     <setting name="template.color" value="blue"/>
+    <setting name="graphs.enabled" value="true"/>
 
     <paths>
         <output>docs/api</output>
