@@ -120,12 +120,12 @@
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/experience-core.html">Core</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/experience-core-io.html">Io</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/experience-core-io-net.html">Net</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/experience-core-io-net-http.html">Http</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/experience-core-io-net-mailer.html">Mailer</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    HttpRequest
+    EMailer
 
     
             <div class="phpdocumentor-element__package">
@@ -135,7 +135,7 @@
                                     <li class="phpdocumentor-breadcrumb"><a href="packages/eXperience-Core.html">Core</a></li>
                                     <li class="phpdocumentor-breadcrumb"><a href="packages/eXperience-Core-Io.html">Io</a></li>
                                     <li class="phpdocumentor-breadcrumb"><a href="packages/eXperience-Core-Io-Net.html">Net</a></li>
-                                    <li class="phpdocumentor-breadcrumb"><a href="packages/eXperience-Core-Io-Net-Http.html">Http</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/eXperience-Core-Io-Net-Mailer.html">Mailer</a></li>
                             </ul>
         </div>
     
@@ -148,20 +148,20 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Classe che rappresenta la richiesta http</p>
+            <p class="phpdocumentor-summary">Classe per l&#039;invio di email basata su PHPMailer 6.8.0</p>
 
 
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -170,7 +170,7 @@
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><p>lucliscio <a href="mailto:lucliscio@h0model.org">lucliscio@h0model.org</a></p>
+                                                 <section class="phpdocumentor-description"><p>Luca Liscio <a href="mailto:lucliscio@h0model.org">lucliscio@h0model.org</a></p>
 </section>
 
                                     </dd>
@@ -178,7 +178,7 @@
                     <span class="phpdocumentor-tag__name">version</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">2.1.0</span>
+                                            <span class="phpdocumentor-tag-link">1.2.0</span>
                                                                                 
                                              
                                     </dd>
@@ -187,16 +187,7 @@
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><p>©2023-2025 HZKnight</p>
-</section>
-
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">copyright</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>©2013 Luca Liscio &amp; Marco Lettieri</p>
+                                                 <section class="phpdocumentor-description"><p>2023-2025 HZKnight</p>
 </section>
 
                                     </dd>
@@ -214,7 +205,7 @@
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><p>Core\Io\Net\Http</p>
+                                                 <section class="phpdocumentor-description"><p>Core\Io\Net\Mailer</p>
 </section>
 
                                     </dd>
@@ -233,7 +224,7 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -243,22 +234,49 @@
 
 
 
+<h4 id="toc-constants">
+    Constants
+    <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constant_HTML">HTML</a>
+    <span>
+        &nbsp;= 602                            </span>
+</dt>
+<dd>HTML text</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constant_TEXT">TEXT</a>
+    <span>
+        &nbsp;= 601                            </span>
+</dt>
+<dd>Simple text</dd>
+
+    </dl>
 
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestMethod">$requestMethod</a>
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_config">$config</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestParams">$requestParams</a>
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_log">$log</a>
+    <span>
+                        &nbsp;: mixed            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_mailer">$mailer</a>
     <span>
                         &nbsp;: mixed            </span>
 </dt>
@@ -267,72 +285,120 @@
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method___construct">__construct()</a>
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
 <dd>Costruttore</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParam">getParam()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Restituisce un parametro della richiesta
-nel caso il parametro non esista restituisce la
-stringa vuota</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParamRequestMethod">getParamRequestMethod()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Restituisce per ogni parametro l metodo dells richiesta
-con cui sono arrivati</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequest">getRequest()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Undocumented function</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequestMethod">getRequestMethod()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_has">has()</a>
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_addAttachment">addAttachment()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Verifica se un parametro è dentro la request</dd>
+<dd>Add attachment to email</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_setParam">setParam()</a>
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_enableSMTP">enableSMTP()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Inserisce n parametro alla request</dd>
+<dd>Enable SMTP</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_send">send()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Send email message</dd>
 
     </dl>
 
 
 
         
+    <section class="phpdocumentor-constants">
+        <h3 class="phpdocumentor-elements__header" id="constants">
+            Constants
+            <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_HTML">
+        HTML
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constant_HTML" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">69</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">HTML text</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">HTML</span>
+    = <span class="phpdocumentor-signature__default-value">602</span>
+</code>
+
+
+    
+    
+    
+
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_TEXT">
+        TEXT
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constant_TEXT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">67</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Simple text</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">TEXT</span>
+    = <span class="phpdocumentor-signature__default-value">601</span>
+</code>
+
+
+    
+    
+    
+
+    
+
+</article>
+            </section>
 
         
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -342,17 +408,17 @@ con cui sono arrivati</dd>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_requestMethod">
-        $requestMethod
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestMethod" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_config">
+        $config
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_config" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
@@ -361,8 +427,8 @@ con cui sono arrivati</dd>
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$requestMethod</span>
-     = <span class="phpdocumentor-signature__default-value">&quot;&quot;</span></code>
+    <span class="phpdocumentor-signature__name">$config</span>
+    </code>
 
     
     
@@ -378,17 +444,17 @@ con cui sono arrivati</dd>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_requestParams">
-        $requestParams
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestParams" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_log">
+        $log
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_log" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">78</span>
 
     </aside>
 
@@ -397,8 +463,44 @@ con cui sono arrivati</dd>
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$requestParams</span>
-     = <span class="phpdocumentor-signature__default-value">array()</span></code>
+    <span class="phpdocumentor-signature__name">$log</span>
+    </code>
+
+    
+    
+    
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_mailer">
+        $mailer
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_mailer" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">72</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$mailer</span>
+    </code>
 
     
     
@@ -412,7 +514,7 @@ con cui sono arrivati</dd>
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -423,13 +525,13 @@ con cui sono arrivati</dd>
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">60</span>
+    <span class="phpdocumentor-element-found-in__line">87</span>
 
     </aside>
 
@@ -437,44 +539,7 @@ con cui sono arrivati</dd>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getParam">
-        getParam()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParam" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">76</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Restituisce un parametro della richiesta
-nel caso il parametro non esista restituisce la
-stringa vuota</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getParam</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$paramName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Experience-Core-Tools-Config-EConfigManager.html"><abbr title="\Experience\Core\Tools\Config\EConfigManager">EConfigManager</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$conf</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Experience\Core\Tools\Logger\ELogger">ELogger</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -483,8 +548,15 @@ stringa vuota</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$paramName</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$conf</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Experience-Core-Tools-Config-EConfigManager.html"><abbr title="\Experience\Core\Tools\Config\EConfigManager">EConfigManager</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$logger</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Experience\Core\Tools\Logger\ELogger">ELogger</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -503,24 +575,23 @@ stringa vuota</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getParamRequestMethod">
-        getParamRequestMethod()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParamRequestMethod" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_addAttachment">
+        addAttachment()
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_addAttachment" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Restituisce per ogni parametro l metodo dells richiesta
-con cui sono arrivati</p>
+        <p class="phpdocumentor-summary">Add attachment to email</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getParamRequestMethod</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$paramName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">addAttachment</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -529,125 +600,14 @@ con cui sono arrivati</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$paramName</span>
+                <span class="phpdocumentor-signature__argument__name">$name</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
-            </dl>
-
-    
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getRequest">
-        getRequest()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequest" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">150</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Undocumented function</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getRequest</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getRequestMethod">
-        getRequestMethod()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequestMethod" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">154</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getRequestMethod</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_has">
-        has()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_has" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">123</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Verifica se un parametro è dentro la request</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">has</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$paramName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$paramName</span>
+                <span class="phpdocumentor-signature__argument__name">$path</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -671,23 +631,58 @@ con cui sono arrivati</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_setParam">
-        setParam()
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_setParam" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_enableSMTP">
+        enableSMTP()
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_enableSMTP" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/Http/httprequest.class.php"><a href="files/src-experience-core-io-net-http-httprequest-class.html"><abbr title="src/Experience/core/io/Net/Http/httprequest.class.php">httprequest.class.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">141</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Inserisce n parametro alla request</p>
+        <p class="phpdocumentor-summary">Enable SMTP</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setParam</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$paramName</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$rtype</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">enableSMTP</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_send">
+        send()
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_send" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/io/Net/mailer/emailer.class.php"><a href="files/src-experience-core-io-net-mailer-emailer-class.html"><abbr title="src/Experience/core/io/Net/mailer/emailer.class.php">emailer.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">136</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Send email message</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">send</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Experience-Core-Io-Net-Mailer-EMessage.html"><abbr title="\Experience\Core\Io\Net\Mailer\EMessage">EMessage</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -696,22 +691,8 @@ con cui sono arrivati</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$paramName</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$rtype</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$value</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                <span class="phpdocumentor-signature__argument__name">$message</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Experience-Core-Io-Net-Mailer-EMessage.html"><abbr title="\Experience\Core\Io\Net\Mailer\EMessage">EMessage</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -730,7 +711,7 @@ con cui sono arrivati</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Experience/core/io/Net/Http/httprequest.class.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Experience/core/io/Net/mailer/emailer.class.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -829,29 +810,35 @@ con cui sono arrivati</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#toc-methods">Methods</a></li>
+                                        <li><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc-constants">Constants</a></li>
+                                                            <li><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
+                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constant_HTML">HTML</a></li>
+                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#constant_TEXT">TEXT</a></li>
+                                            </ul>
+                </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestMethod">$requestMethod</a></li>
-                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestParams">$requestParams</a></li>
+                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_config">$config</a></li>
+                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_log">$log</a></li>
+                                                    <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#property_mailer">$mailer</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method___construct">__construct()</a></li>
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParam">getParam()</a></li>
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParamRequestMethod">getParamRequestMethod()</a></li>
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequest">getRequest()</a></li>
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequestMethod">getRequestMethod()</a></li>
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_has">has()</a></li>
-                                            <li class=""><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_setParam">setParam()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_addAttachment">addAttachment()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_enableSMTP">enableSMTP()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#method_send">send()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -871,7 +858,7 @@ con cui sono arrivati</p>
     </section>
 </section>
         </div>
-        <a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

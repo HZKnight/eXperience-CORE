@@ -1,20 +1,22 @@
 <?php
-
     /*
-     *                                        _____                      _                     
-     *                                       | ____|_  ___ __   ___ _ __(_) ___ _ __   ___ ___ 
-     *                                       |  _| \ \/ / '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
-     *                                       | |___ >  <| |_) |  __/ |  | |  __/ | | | (_|  __/
-     *                                       |_____/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
-     *                                                  |_| HZKnight free PHP Scripts 
+     * emailer.class.php
      *
-     *                                             lucliscio <lucliscio@h0model.org>, ITALY
-     * 
-     * -------------------------------------------------------------------------------------------
-     * Licence
-     * -------------------------------------------------------------------------------------------
+     *                                         __  __                _
+     *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
+     *                                     / _ \\  /| '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
+     *                                    |  __//  \| |_) |  __/ |  | |  __/ | | | (_|  __/
+     *                                     \___/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
+     *                                              |_| HZKnight free PHP Scripts
      *
-     * Copyright (C) 2023 HZKnight
+     *                                           lucliscio <lucliscio@h0model.org>, ITALY
+     *
+     * CORE Ver.1.0.0
+     *
+     * -------------------------------------------------------------------------------------------
+     * Lincense
+     * -------------------------------------------------------------------------------------------
+     * Copyright (C)2025 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -28,23 +30,24 @@
      *
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
+     * -------------------------------------------------------------------------------------------
      */
 
+    namespace Experience\Core\Io\Net\Mailer;
 
-    namespace Experience\Core\Net\Mailer;
 
-	
     /**
-     *  Classe che rappresenta il messaggio da inviare 
+     * Classe che rappresenta il messaggio da inviare
      *
-     *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 1.0.0 2023/06/10 09:15:20
-     *  @copyright 2023 HZKnight
-     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     * @author  Luca Liscio <lucliscio@h0model.org>
+     * @version 1.0.0
+     * @copyright 2023-2025 HZKnight
+     * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package Experience
-     *  @subpackage Core
-     *  @filesource
+     * @package Experience
+     * @subpackage Core\Io\Net\Mailer
+     *
+     * @filesource
      */
 
      class EMessage {
@@ -113,8 +116,5 @@
 
         public function getBody(){
             return $this->body;
-        }        
-
-     }
-
-
+        }
+    }

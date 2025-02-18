@@ -1,20 +1,22 @@
 <?php
-
     /*
-     *                                        _____                      _                     
-     *                                       | ____|_  ___ __   ___ _ __(_) ___ _ __   ___ ___ 
-     *                                       |  _| \ \/ / '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
-     *                                       | |___ >  <| |_) |  __/ |  | |  __/ | | | (_|  __/
-     *                                       |_____/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
-     *                                                  |_| HZKnight free PHP Scripts 
+     * emailer.class.php
      *
-     *                                             lucliscio <lucliscio@h0model.org>, ITALY
-     * 
-     * -------------------------------------------------------------------------------------------
-     * Licence
-     * -------------------------------------------------------------------------------------------
+     *                                         __  __                _
+     *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
+     *                                     / _ \\  /| '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
+     *                                    |  __//  \| |_) |  __/ |  | |  __/ | | | (_|  __/
+     *                                     \___/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
+     *                                              |_| HZKnight free PHP Scripts
      *
-     * Copyright (C) 2023 HZKnight
+     *                                           lucliscio <lucliscio@h0model.org>, ITALY
+     *
+     * CORE Ver.1.0.0
+     *
+     * -------------------------------------------------------------------------------------------
+     * Lincense
+     * -------------------------------------------------------------------------------------------
+     * Copyright (C)2025 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -28,39 +30,40 @@
      *
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
+     * -------------------------------------------------------------------------------------------
      */
 
 
-    namespace Experience\Core\Net\Mailer;
-
-	
-    /**
-     *  Classe per l'invio di email basata su PHPMailer 6.8.0
-     *
-     *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 1.0.0 2023/06/10 09:15:20
-     *  @copyright 2023 HZKnight
-     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
-     *
-     *  @package Experience
-     *  @subpackage Core
-     *  @filesource
-     */
+    namespace Experience\Core\Io\Net\Mailer;
 
     // Namespace alias
-    use Experience\Core\Logger\ELogger;
-    use Experience\Core\Logger\ELogLevel;
-    use Experience\Core\Config\EConfigManager;
-    use Experience\Core\Net\Mailer\EMessage;
+    use Experience\Core\Tools\Logger\ELogger;
+    use Experience\Core\Tools\Logger\ELogLevel;
+    use Experience\Core\Tools\Config\EConfigManager;
+    use Experience\Core\Io\Net\Mailer\EMessage;
     
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
+    /**
+     * Classe per l'invio di email basata su PHPMailer 6.8.0
+     *
+     * @author  Luca Liscio <lucliscio@h0model.org>
+     * @version 1.2.0
+     * @copyright 2023-2025 HZKnight
+     * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     *
+     * @package eXperience
+     * @subpackage Core\Io\Net\Mailer
+     *
+     * @filesource
+     */
+
     class EMailer {
         
         // Message type
-    	/** Simple text */
+        /** Simple text */
         const TEXT = 601;
         /** HTML text */
         const HTML = 602;
@@ -75,39 +78,42 @@
         private $log;
 
         /**
-         * Undocumented function
+         * Costruttore
          *
          * @param EConfigManager $conf
+         * @param ELogger $logger
+         * @return void
          */
-        public function __construct(EConfigManager $conf){
+        public function __construct(EConfigManager $conf, ELogger $logger){
             $this->mailer = new PHPMailer(true);
-            $this->config = $conf; 
+            $this->config = $conf;
+            $this->log = $logger;
             $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
             if($this->config->get_param('mail.is_smtp')){
                 $this->enableSMTP();
-            }                               // Enable verbose debug output         
+            }
         }
 
         /**
-         * Undocumented function
+         * Enable SMTP
          *
          * @return void
          */
         public function enableSMTP(){
-            $this->mailer->isSMTP();                                            // Set mailer to use 
-            $this->mailer->Host       = $this->config->get_param('mail.smtp_host');  // Specify main and backup SMTP servers
-            $this->mailer->Port       = $this->config->get_param('mail.smtp_port');  // TCP port to connect 
-            $this->mailer->SMTPAuth   = $this->config->get_param('mail.smtp_auth');  // Enable SMTP authentication
+            $this->mailer->isSMTP(); // Set mailer to use
+            $this->mailer->Host       = $this->config->get_param('mail.smtp_host'); // Specify main and backup SMTP servers
+            $this->mailer->Port       = $this->config->get_param('mail.smtp_port'); // TCP port to connect
+            $this->mailer->SMTPAuth   = $this->config->get_param('mail.smtp_auth'); // Enable SMTP authentication
 
             if($this->mailer->SMTPAuth){
-                $this->mailer->Username   = $this->config->get_param('mail.smtp_username');  // SMTP username
-                $this->mailer->Password   = $this->config->get_param('mail.smtp_passwd');    // SMTP password
-                $this->mailer->SMTPSecure = $this->config->get_param('mail.smtp_secure');    // Enable TLS encryption, `ssl` also accepted
-            }       
+                $this->mailer->Username   = $this->config->get_param('mail.smtp_username'); // SMTP username
+                $this->mailer->Password   = $this->config->get_param('mail.smtp_passwd'); // SMTP password
+                $this->mailer->SMTPSecure = $this->config->get_param('mail.smtp_secure'); // Enable TLS encryption, `ssl` also accepted
+            }
         }
 
         /**
-         * Undocumented function
+         * Add attachment to email
          *
          * @param string $name
          * @param string $path
@@ -115,12 +121,18 @@
          */
         public function addAttachment(string $name, string $path){
             if($name == ""){
-                $this->mailer->addAttachment($path); 
+                $this->mailer->addAttachment($path);
             } else {
-                $this->mailer->addAttachment($path, $name); 
+                $this->mailer->addAttachment($path, $name);
             }
         }
 
+        /**
+         * Send email message
+         *
+         * @param EMessage $message
+         * @return void
+         */
         public function send(EMessage $message){
 
             try {
@@ -128,24 +140,27 @@
                 $this->mailer->setFrom($this->config->get_param('mail.sender_email'), $this->config->get_param('mail.sender_name'));
             
                 foreach ($message->getAddress() as &$value) {
-                    $this->mailer->addAddress($value);     //Add a recipient
+                    $this->mailer->addAddress($value);//Add a recipient
                 }
+                unset($value);
 
                 foreach ($message->getCC() as &$value) {
                     $this->mailer->addCC($value);
                 }
+                unset($value);
 
                 foreach ($message->getBCC() as &$value) {
                     $this->mailer->addBCC($value);
                 }
+                unset($value);
             
                 //Attachments
                 foreach ($message->getAttachments() as &$value) {
                     $this->addAttachment(basename($value), $value);
                 }
-    
+
                 //Content
-                $this->mailer->isHTML($message->isHTML);                                  //Set email format to HTML
+                $this->mailer->isHTML($message->isHTML); //Set email format to HTML
                 $this->mailer->Subject = $message->getSubject();
                 $this->mailer->Body    = $message->getBody();
 

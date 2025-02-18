@@ -33,6 +33,8 @@
      * -------------------------------------------------------------------------------------------
      */
 
+     namespace Experience\Core\Io\Net\Http;
+
     /**
      * Classe che rappresenta la richiesta http
      *
@@ -47,8 +49,6 @@
      *
      * @filesource
      */
-
-     namespace Experience\Core\Io\Net\Http;
 
      class HttpRequest {
           private $requestParams = array();
