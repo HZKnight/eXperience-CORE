@@ -43,12 +43,12 @@
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
-     * @subpackage Core\Io\Net
+     * @subpackage Core\Io\Net\Http
      *
      * @filesource
      */
 
-     namespace Experience\Core\Io\Net;
+     namespace Experience\Core\Io\Net\Http;
 
      class HttpRequest {
           private $requestParams = array();

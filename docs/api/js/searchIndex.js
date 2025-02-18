@@ -46,91 +46,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/EAutoloader.html#property_vendors"
         },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager",
-            "name": "EDbManager",
-            "summary": "Interfaccia\u0020di\u0020comunicazione\u0020con\u0020il\u0020db\u0020\u0028Database\u0020type\u0020MySql\u002DPDO\u0029",
-            "url": "classes/Experience-Core-Database-EDbManager.html"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "All\u0027atto\u0020della\u0020costruziine\u0020di\u0020un\u0020nuovo\u0020ogetto\u0020esegue\u0020la\u0020connessione\u0020al\u0020DB",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method___construct"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003AgetError\u0028\u0029",
-            "name": "getError",
-            "summary": "Restituisce\u0020il\u0020messaggio\u0020di\u0020errore",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_getError"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003AdoQuery\u0028\u0029",
-            "name": "doQuery",
-            "summary": "Esegue\u0020un\u0020query\u0020sql\u0020e\u0020restituisce\u0020il\u0020risultato",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_doQuery"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003AdoUpdate\u0028\u0029",
-            "name": "doUpdate",
-            "summary": "Invia\u0020al\u0020db\u0020query\u0020di\u0020tipo\u0020comando\u0020e\u0020restituisce\u0020l\u0027esito\u0020dell\u0027esecuzione",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_doUpdate"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003Asql_insert_id\u0028\u0029",
-            "name": "sql_insert_id",
-            "summary": "Restituisce\u0020l\u0027ultimo\u0020id\u0020inserito",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_sql_insert_id"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003AgetTableNumRows\u0028\u0029",
-            "name": "getTableNumRows",
-            "summary": "Restituisce\u0020il\u0020numero\u0020di\u0020righe\u0020di\u0020una\u0020tebella",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_getTableNumRows"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003AgetRowSubSet\u0028\u0029",
-            "name": "getRowSubSet",
-            "summary": "Restituisce\u0020un\u0020sottoinsieme\u0020delle\u0020righe\u0020di\u0020una\u0020tabella",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_getRowSubSet"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003Asql_format\u0028\u0029",
-            "name": "sql_format",
-            "summary": "Formater\u0020for\u0020\\\u0027\u0020items",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_sql_format"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003Aconnect\u0028\u0029",
-            "name": "connect",
-            "summary": "Apre\u0020la\u0020connesione\u0020con\u0020il\u0020db",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_connect"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003Aclose\u0028\u0029",
-            "name": "close",
-            "summary": "Chiude\u0020la\u0020connesione\u0020con\u0020il\u0020db",
-            "url": "classes/Experience-Core-Database-EDbManager.html#method_close"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003AVERSION",
-            "name": "VERSION",
-            "summary": "",
-            "url": "classes/Experience-Core-Database-EDbManager.html#constant_VERSION"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003ADATE_APPROVED",
-            "name": "DATE_APPROVED",
-            "summary": "",
-            "url": "classes/Experience-Core-Database-EDbManager.html#constant_DATE_APPROVED"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003A\u0024_conn",
-            "name": "_conn",
-            "summary": "",
-            "url": "classes/Experience-Core-Database-EDbManager.html#property__conn"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003A\u0024tbprefix",
-            "name": "tbprefix",
-            "summary": "",
-            "url": "classes/Experience-Core-Database-EDbManager.html#property_tbprefix"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003A\u0024_conn_data",
-            "name": "_conn_data",
-            "summary": "",
-            "url": "classes/Experience-Core-Database-EDbManager.html#property__conn_data"
-        },                {
-            "fqsen": "\\Experience\\Core\\Database\\EDbManager\u003A\u003A\u0024_error",
-            "name": "_error",
-            "summary": "",
-            "url": "classes/Experience-Core-Database-EDbManager.html#property__error"
-        },                {
             "fqsen": "\\Experience\\Core\\Exceptions\\EException",
             "name": "EException",
             "summary": "Eccezione\u0020generica\u0020per\u0020Experience",
@@ -231,55 +146,140 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Experience-Exceptions-ENotApplicableMethodException.html#property_code"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest",
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager",
+            "name": "EDbManager",
+            "summary": "Interfaccia\u0020di\u0020comunicazione\u0020con\u0020il\u0020db\u0020\u0028Database\u0020type\u0020MySql\u002DPDO\u0029",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "All\u0027atto\u0020della\u0020costruziine\u0020di\u0020un\u0020nuovo\u0020ogetto\u0020esegue\u0020la\u0020connessione\u0020al\u0020DB",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method___construct"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AgetError\u0028\u0029",
+            "name": "getError",
+            "summary": "Restituisce\u0020il\u0020messaggio\u0020di\u0020errore",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_getError"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AdoQuery\u0028\u0029",
+            "name": "doQuery",
+            "summary": "Esegue\u0020un\u0020query\u0020sql\u0020e\u0020restituisce\u0020il\u0020risultato",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_doQuery"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AdoUpdate\u0028\u0029",
+            "name": "doUpdate",
+            "summary": "Invia\u0020al\u0020db\u0020query\u0020di\u0020tipo\u0020comando\u0020e\u0020restituisce\u0020l\u0027esito\u0020dell\u0027esecuzione",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_doUpdate"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AsqlInsertId\u0028\u0029",
+            "name": "sqlInsertId",
+            "summary": "Restituisce\u0020l\u0027ultimo\u0020id\u0020inserito",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_sqlInsertId"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AgetTableNumRows\u0028\u0029",
+            "name": "getTableNumRows",
+            "summary": "Restituisce\u0020il\u0020numero\u0020di\u0020righe\u0020di\u0020una\u0020tebella",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_getTableNumRows"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AgetRowSubSet\u0028\u0029",
+            "name": "getRowSubSet",
+            "summary": "Restituisce\u0020un\u0020sottoinsieme\u0020delle\u0020righe\u0020di\u0020una\u0020tabella",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_getRowSubSet"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AsqlFormat\u0028\u0029",
+            "name": "sqlFormat",
+            "summary": "Formater\u0020for\u0020\\\u0027\u0020items",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_sqlFormat"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003Aconnect\u0028\u0029",
+            "name": "connect",
+            "summary": "Apre\u0020la\u0020connesione\u0020con\u0020il\u0020db",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_connect"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003Aclose\u0028\u0029",
+            "name": "close",
+            "summary": "Chiude\u0020la\u0020connesione\u0020con\u0020il\u0020db",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#method_close"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003AVERSION",
+            "name": "VERSION",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#constant_VERSION"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003ADATE_APPROVED",
+            "name": "DATE_APPROVED",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#constant_DATE_APPROVED"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003A\u0024conn",
+            "name": "conn",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#property_conn"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003A\u0024tbprefix",
+            "name": "tbprefix",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#property_tbprefix"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003A\u0024connData",
+            "name": "connData",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#property_connData"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Database\\EDbManager\u003A\u003A\u0024error",
+            "name": "error",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Database-EDbManager.html#property_error"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest",
             "name": "HttpRequest",
             "summary": "",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Costruttore",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method___construct"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method___construct"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetParam\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003AgetParam\u0028\u0029",
             "name": "getParam",
             "summary": "Restituisce\u0020un\u0020parametro\u0020della\u0020richiesta\nnel\u0020caso\u0020il\u0020parametro\u0020non\u0020esista\u0020restituisce\u0020la\nstringa\u0020vuota",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getParam"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParam"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetParamRequestMethod\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003AgetParamRequestMethod\u0028\u0029",
             "name": "getParamRequestMethod",
             "summary": "Restituisce\u0020per\u0020ogni\u0020parametro\u0020l\u0020metodo\u0020dells\u0020richiesta\ncon\u0020cui\u0020sono\u0020arrivati",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getParamRequestMethod"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getParamRequestMethod"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003Ahas\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003Ahas\u0028\u0029",
             "name": "has",
             "summary": "Verifica\u0020se\u0020un\u0020parametro\u0020\u00E8\u0020dentro\u0020la\u0020request",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_has"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_has"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AsetParam\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003AsetParam\u0028\u0029",
             "name": "setParam",
             "summary": "Inserisce\u0020n\u0020parametro\u0020alla\u0020request",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_setParam"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_setParam"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetRequest\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003AgetRequest\u0028\u0029",
             "name": "getRequest",
             "summary": "Undocumented\u0020function",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getRequest"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequest"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003AgetRequestMethod\u0028\u0029",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003AgetRequestMethod\u0028\u0029",
             "name": "getRequestMethod",
             "summary": "",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#method_getRequestMethod"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#method_getRequestMethod"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003A\u0024requestParams",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003A\u0024requestParams",
             "name": "requestParams",
             "summary": "",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#property_requestParams"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestParams"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net\\HttpRequest\u003A\u003A\u0024requestMethod",
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http\\HttpRequest\u003A\u003A\u0024requestMethod",
             "name": "requestMethod",
             "summary": "",
-            "url": "classes/Experience-Core-Io-Net-HttpRequest.html#property_requestMethod"
+            "url": "classes/Experience-Core-Io-Net-Http-HttpRequest.html#property_requestMethod"
         },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\Interface\\StorageDriveInterface",
             "name": "StorageDriveInterface",
@@ -1086,10 +1086,10 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
-            "fqsen": "\\Experience\\Core\\Database",
-            "name": "Database",
+            "fqsen": "\\Experience\\Core\\Exceptions",
+            "name": "Exceptions",
             "summary": "",
-            "url": "namespaces/experience-core-database.html"
+            "url": "namespaces/experience-core-exceptions.html"
         },                {
             "fqsen": "\\Experience\\Core",
             "name": "Core",
@@ -1101,25 +1101,30 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/experience.html"
         },                {
-            "fqsen": "\\Experience\\Core\\Exceptions",
-            "name": "Exceptions",
-            "summary": "",
-            "url": "namespaces/experience-core-exceptions.html"
-        },                {
             "fqsen": "\\Experience\\Exceptions",
             "name": "Exceptions",
             "summary": "",
             "url": "namespaces/experience-exceptions.html"
         },                {
-            "fqsen": "\\Experience\\Core\\Io\\Net",
-            "name": "Net",
+            "fqsen": "\\Experience\\Core\\Io\\Database",
+            "name": "Database",
             "summary": "",
-            "url": "namespaces/experience-core-io-net.html"
+            "url": "namespaces/experience-core-io-database.html"
         },                {
             "fqsen": "\\Experience\\Core\\Io",
             "name": "Io",
             "summary": "",
             "url": "namespaces/experience-core-io.html"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net\\Http",
+            "name": "Http",
+            "summary": "",
+            "url": "namespaces/experience-core-io-net-http.html"
+        },                {
+            "fqsen": "\\Experience\\Core\\Io\\Net",
+            "name": "Net",
+            "summary": "",
+            "url": "namespaces/experience-core-io-net.html"
         },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\Interface",
             "name": "Interface",
