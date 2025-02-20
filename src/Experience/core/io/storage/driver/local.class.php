@@ -227,7 +227,9 @@
          * @return boolean
          */
         public function fileExists($src): bool{
-            return file_exists($src);
+            settype($src,"string");
+            $source = $this->webRoot.$src;
+            return file_exists($source);
         }
 
 
@@ -279,4 +281,18 @@
 
             throw new StorageException("System Error: fileRead(".$source."). File not exist");
         }
+
+
+        /**
+         * Verify if is a directory
+         *
+         * @param String $name
+         * @return boolean
+         */
+        public function isDir($name): bool{
+            settype($name,"string");
+            $source = $this->webRoot.$name;
+            return is_dir($source);
+        }
+
     }

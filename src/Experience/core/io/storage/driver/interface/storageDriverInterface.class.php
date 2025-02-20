@@ -39,7 +39,7 @@
      * Definizione delle api dei driver per lo storage
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version 1.3.1
+     * @version 1.3.2
      * @copyright &copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -60,4 +60,5 @@
         public function fileExists($src):bool;
         public function fileWrite($name,$content,$mode="a"):bool;
         public function fileRead($name):mixed;
+        public function isDir($name):bool;
     }

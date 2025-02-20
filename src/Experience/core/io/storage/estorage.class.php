@@ -43,7 +43,7 @@
      * Storage interface class
      *
      * @author lucliscio <lucliscio@h0model.org>
-     * @version 1.1.0
+     * @version 1.1.1
      * @copyright &copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -141,6 +141,10 @@
 
         public function fileRead($name):mixed{
             return $this->driver->fileRead($name);
+        }
+
+        public function isDir($name):bool{
+            return $this->driver->isDir($name);
         }
 
         /**

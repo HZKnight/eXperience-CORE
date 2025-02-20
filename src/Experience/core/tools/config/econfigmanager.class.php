@@ -1,6 +1,5 @@
 <?php
-
-   /*
+    /*
      * econfigmanager.class.php
      *
      *                                         __  __                _

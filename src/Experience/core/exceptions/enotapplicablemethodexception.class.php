@@ -1,20 +1,22 @@
 <?php
-
     /*
-     *                                        _____                      _                     
-     *                                       | ____|_  ___ __   ___ _ __(_) ___ _ __   ___ ___ 
-     *                                       |  _| \ \/ / '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
-     *                                       | |___ >  <| |_) |  __/ |  | |  __/ | | | (_|  __/
-     *                                       |_____/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
-     *                                                  |_| HZKnight free PHP Scripts 
+     * elogger.class.php
      *
-     *                                             lucliscio <lucliscio@h0model.org>, ITALY
-     * 
-     * -------------------------------------------------------------------------------------------
-     * Licence
-     * -------------------------------------------------------------------------------------------
+     *                                         __  __                _
+     *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
+     *                                     / _ \\  /| '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
+     *                                    |  __//  \| |_) |  __/ |  | |  __/ | | | (_|  __/
+     *                                     \___/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
+     *                                              |_| HZKnight free PHP Scripts
      *
-     * Copyright (C) 2021 HZKnight
+     *                                           lucliscio <lucliscio@h0model.org>, ITALY
+     *
+     * CORE Ver.1.0.0
+     *
+     * -------------------------------------------------------------------------------------------
+     * License
+     * -------------------------------------------------------------------------------------------
+     * Copyright (C)2025 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -28,26 +30,27 @@
      *
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
+     * -------------------------------------------------------------------------------------------
      */
 
-
-    namespace Experience\Exceptions;
+    namespace Experience\Core\Exceptions;
     
-    use Experience\Exceptions\EException;
+    use Experience\Core\Exceptions\EException;
     
     /**
-     *  questa eccezione si verifica quando si prova usare un metodo non applicabile ad un particolare ogetto
+     * questa eccezione si verifica quando si prova usare un metodo non applicabile ad un particolare ogetto
      *
-     *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 0.0.3 2020/11/29 20:40:20
-     *  @copyright 2021 HZKnight
-     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     * @author  Luca Liscio <lucliscio@h0model.org>
+     * @version 0.0.3
+     * @copyright @copy;2020-2025 HZKnight
+     * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package Experience
-     *  @subpackage Exceptions
-     *  @filesource
+     * @package eXperience
+     * @subpackage Core\Exceptions
+     *
+     * @filesource
      */
-	 
+
     class ENotApplicableMethodException extends EException {
-        protected $code = "EE00"; 
+        protected $code = "EE00";
     }
