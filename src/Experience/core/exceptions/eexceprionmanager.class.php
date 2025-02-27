@@ -1,6 +1,6 @@
 <?php
     /*
-     * elogger.class.php
+     * eexceptionmaneger.class.php
      *
      *                                         __  __                _
      *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
@@ -33,16 +33,17 @@
      * -------------------------------------------------------------------------------------------
      */
 
+
     namespace Experience\Core\Exceptions;
-    
+
     use Experience\Core\Exceptions\EException;
     
     /**
-     * questa eccezione si verifica quando si prova usare un metodo non applicabile ad un particolare ogetto
+     * Questa classe permette di definire e lanciare eccesioni personalizzate
      *
      * @author  Luca Liscio <lucliscio@h0model.org>
-     * @version 0.0.3
-     * @copyright @copy;2020-2025 HZKnight
+     * @version 1.0.0
+     * @copyright @copy;2025 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -51,6 +52,66 @@
      * @filesource
      */
 
-    class ENotApplicableMethodException extends EException {
-        protected $code = "EE00";
+    class EExceptionManager {
+
+        private static $instance;
+        private $exceptions = array();
+
+        /**
+         * Return instace of EExceptionManager
+         *
+         * @return EExceptionManager
+         */
+        public function getExceptionManager(): EExceptionManager {
+            if(!self::$instance){
+                self::$instance = new self();
+            }
+            return self::$instance;
+        }
+
+        /**
+         * Costruttore
+         */
+        private function __construct(){
+            self::$exceptions = array();
+            self::addExeption("ENotApplicableMethodException", dgettext("Elang","Not applicable method exception"), "EE00");
+        }
+
+        /**
+         * Add new excepion
+         *
+         * @param string $name
+         * @param string $message
+         * @param string $code
+         * @return void
+         */
+        public function addExeption(string $name, string $message, string $code){
+
+            eval("class $name extends EException {
+                protected \$message = $message;
+                protected \$code = $code;
+            };");
+
+            self::$exceptions[$name] = new $name;
+        }
+
+        /**
+         * Return exceptions list
+         *
+         * @return array
+         */
+        public function getExceptionList(): array {
+            return array_keys(self::$exceptions);
+        }
+
+        /**
+         * Throw exception
+         *
+         * @param string $name
+         * @return void
+         */
+        public function throwException(string $name){
+            throw self::$exceptions[$name];
+        }
+
     }
