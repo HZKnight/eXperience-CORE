@@ -39,7 +39,6 @@
      use Experience\Core\Tools\Logger\Exceptions\LogFileNotFoundException;
         
      use Experience\Core\Tools\Logger\Appenders\Appender;
-     use Experience\Core\Tools\Logger\ELogger;
      use Experience\Core\Tools\Logger\ELogRow;
      use Experience\Core\Tools\Config\EConfigManager;
      use Experience\Core\Io\Net\Mailer\EMailer;
@@ -65,7 +64,7 @@
           /**
            * Construntor method
            *
-           * @param String $logname log name
+           * @param string $logname log name
            */
           public function __construct($logname, EConfigManager $cfg){
                $this->logname = $logname;
@@ -81,26 +80,26 @@
 
                if($log_row->type >= $this->loglevel){
                     $message = new EMessage();
-                    $errIdentity = self::$error_identifier[$log_row->type];
+                    $errIdentity = self::$errorIdentifier[$log_row->type];
                     $message->setSubject("[LOGGER NOTIFY: ".$errIdentity."] - $log_row->date");
                     
                     $body = "
                     ------------------------------------------------------------------------------
 
-                    Sito:\t\t{$this->_cfg->get_param('site_name')} ({$_SERVER['SERVER_NAME']})
+                    Sito:\t\t{$this->cfg->getParam('site_name')} ({$_SERVER['SERVER_NAME']})
 
-                    Tipo log:\t$errIdentity
+                    Tipo log:\t\t$errIdentity
 
                     Accaduto il:\t$log_row->date
 
-                    Messaggio:\t$log_row->message
+                    Messaggio:\t\t$log_row->message
 
                     ------------------------------------------------------------------------------";
 
                     $message->setBody($body);
-                    $message->addAddres($this->_cfg->get_param('admin_email'));
+                    $message->addAddres($this->cfg->getParam('admin_email'));
                     
-                    $mailer = new EMailer($this->_cfg);
+                    $mailer = new EMailer($this->cfg, null);
                     $result = $mailer->send($message);
                     
                     if($result != ""){

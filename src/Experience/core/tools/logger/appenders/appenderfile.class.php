@@ -77,8 +77,8 @@
             parent::__construct($cfg);
             
             $baseDir = $_SESSION["experience_path"];
-            if($this->_cfg->has("log_path")){
-                $baseDir = $this->_cfg->get_param("log_path").DIRECTORY_SEPARATOR;
+            if($this->cfg->has("log_path")){
+                $baseDir = $this->cfg->getParam("log_path").DIRECTORY_SEPARATOR;
             }
             
             $this->storage = $storage;
@@ -96,9 +96,13 @@
             
             $this->createLogDir();
             if($log_row->type >= $this->loglevel){
-                $content = "(".$log_row->date.") [".self::$error_identifier[$log_row->type]."] --> ".$log_row->message."\n";
+                $content = "(".$log_row->date.") [".self::$errorIdentifier[$log_row->type]."] --> ".$log_row->message."\n";
                 $name = $this->logfile;
-                $this->storage->fileWrite($name,$content,"a");
+                if($this->storage->fileExists($name)){
+                    $this->storage->fileWrite($name,$content,"a");
+                } else {
+                    $this->storage->fileCreate($name,$content);
+                }
             }
         }
 

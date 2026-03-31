@@ -79,7 +79,7 @@
      *
      * @filesource
      */
-    abstract class EException extends Exception implements IException
+    class EException extends \Exception implements IException
     {
         protected $message = "";                      // Exception message
         private   $string;                            // Unknown
@@ -87,19 +87,20 @@
         protected string $file;                       // Source filename of exception
         protected int $line;                          // Source line of exception
         private   $trace;                             // Unknown
+        private  $internalCode = "E000";              // Internal code for exception
+        private  $name = "EException";                // Name of the exception
         
         /**
          * Constructor
          *
-         * @param String $message Error Message
-         * @param String $code Error Code
+         * @param string $message Error Message
+         * @param string $code Error Code
          */
-        public function __construct($message = null, $code = 0)
+        public function __construct($name = "EException", $message = null, $code = 0, $internalCode = "E000")
         {
             // if message in null use message
             if (!$message) {
-                $this->message = dgettext("ELang",'Unknown exception');
-                throw new $this($this->message. get_class($this));
+                $message = dgettext("ELang",'Unknown exception');
             }
 
             // if $code == 0 use exception default code
@@ -107,15 +108,55 @@
                 $code = $this->code;
             }
 
+            $this->name = $name;
+            $this->internalCode = $internalCode;
+            $this->message = $message;
+            $this->code = $code;
+
             parent::__construct($message, $code);
+        }
+
+        /**
+         * Set variables in error message
+         *
+         * @param array $vars
+         */
+        public function prepare(array $vars){
+            $this->message = strtr($this->message, $vars);
+        }
+
+        /**
+         * Set internal code
+         *
+         * @param string $code
+         */
+        public function setInternalCode($code){
+            $this->internalCode = $code;
+        }
+
+        /**
+         * Return internal code
+         *
+         * @return string
+         */
+        public function getInternalCode(){
+            return $this->internalCode;
+        }
+
+        public function getName(){
+            return $this->name;
+        }
+
+        public function setName($name){
+            $this->name = $name;
         }
 
         /**
          * To String Method
          *
-         * @return String
+         * @return string
          */
-        public function __toString()
+        public function __toString(): string
         {
             return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n" . "{$this->getTraceAsString()}";
         }

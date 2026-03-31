@@ -49,7 +49,7 @@
      * @filesource
      */
 
-    interface StorageDriveInterface {
+    interface StorageDriverInterface {
         public function connectToStorage($path):bool;
         public function getWebRoot(): string;
         public function mkdir($name, $mode=0777);

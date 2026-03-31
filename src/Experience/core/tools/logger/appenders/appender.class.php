@@ -59,11 +59,11 @@
 
         public $loglevel;
         public EConfigManager $cfg;
-        static $errorIdentifier;
+        public static $errorIdentifier;
 
         public function __construct(EConfigManager $config) {
 
-            self::$error_identifier = array(
+            self::$errorIdentifier = array(
                 407 => "EMERGENCY",
                 406 => "ALERT",
                 405 => "CRITICAL",

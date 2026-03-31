@@ -17,7 +17,7 @@
      * -------------------------------------------------------------------------------------------
      * License
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -36,15 +36,17 @@
 
     namespace Experience\Core\Io\Storage;
     
-    use Experience\Core\Io\Storage\Driver\Interface\StorageDriveInterface;
-    use Experience\Core\Io\Storage\Exceptions\StorageException;
+    use Experience\Core\Io\Storage\Driver\StorageDriver;
+
+    use function array_key_exists;
+    use function settype;
 
     /**
      * Storage interface class
      *
      * @author lucliscio <lucliscio@h0model.org>
-     * @version 1.1.1
-     * @copyright &copy;2025 HZKnight
+     * @version 1.1.3
+     * @copyright &copy;2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -57,7 +59,7 @@
 
         //Dati del logger
         private $storagename;
-        private StorageDriveInterface $driver;
+        private StorageDriver $driver;
         private string $webRoot;
 
         //Contiene le istanze di Estoreg
@@ -67,11 +69,11 @@
          * Crea una nuova istanza dello storage
          *
          * @param string $soragename nome della nuova istanza dello storage da creare
-         * @param integer $driver una implementazione dello storage driver
+         * @param StorageDriver $driver una implementazione dello storage driver
          * @return EStorage
          * @example $mioStorage = EStorage::getStorage("miostorage",$driver);
          */
-        public static function getStorage($storagename, StorageDriveInterface $driver, $connString="/"): EStorage {
+        public static function getStorage($storagename, StorageDriver $driver, $connString="/"): EStorage {
             if(array_key_exists($storagename, self::$instace)) {
                 if (!(self::$instace[$storagename] instanceof self)){
                     self::$instace[$storagename] = new self($storagename,$driver,$connString);
@@ -88,7 +90,7 @@
          *
          * @return EStorage[]
          */
-        public static function getIstances(){
+        public static function getInstances(){
                 
             return self::$instace;
 
@@ -98,16 +100,14 @@
          * Metodo costruttore
          *
          * @param string $storagename nome dello storage da creare
-         * @param integer $driver una implementazione dello storage driver
+         * @param StorageDriver $driver una implementazione dello storage driver
          * @param string $connString Stringa di connessione allo storage
          */
-        private function __construct($storagename, StorageDriveInterface $driver, $connString){
+        private function __construct($storagename, StorageDriver $driver, $connString){
             $this->storagename = $storagename;
             $this->driver = $driver;
             if($this->driver->connectToStorage($connString)){
                 $this->webRoot = $driver->getWebRoot();
-            } else {
-                throw new StorageException("Connection to storage failed");
             }
         }
 
@@ -157,17 +157,24 @@
         public function fileCreate($name,$content): bool{
             settype($name,"string");
             
-            $source = $this->webRoot.$name;
+            $source = "{$this->webRoot}{$name}";
 
-            if($this->fileExists($source)){
-                throw new StorageException("System Error: fileCreate(".$source.",...). File already exist");
+            if($this->fileExists($name)){
+                $vars = array(
+                    FILE => $source
+                );
+                $this->driver->exceptionManager->throwException("StorageFileAlreadyExistException", $vars);
+                return false;
             } else {
 
-                if($this->fileWrite($name,$content,"wb") && $this->fileExists($source)){
+                if($this->fileWrite($name,$content,"wb") && $this->fileExists($name)){
                     return true;
                 }
-
-                throw new StorageException("System Error: fileCreate(".$source.",...).");
+                $vars = array(
+                    FILE => $source
+                );
+                $this->driver->exceptionManager->throwException("StorageFileNotWritableException", $vars);
+                return false;
             }
 
         }

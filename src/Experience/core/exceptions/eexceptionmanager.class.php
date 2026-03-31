@@ -35,8 +35,11 @@
 
 
     namespace Experience\Core\Exceptions;
-
+    
     use Experience\Core\Exceptions\EException;
+    
+    use function array_keys;
+
     
     /**
      * Questa classe permette di definire e lanciare eccesioni personalizzate
@@ -55,14 +58,14 @@
     class EExceptionManager {
 
         private static $instance;
-        private $exceptions = array();
+        private static array $registry = [];
 
         /**
          * Return instace of EExceptionManager
          *
          * @return EExceptionManager
          */
-        public function getExceptionManager(): EExceptionManager {
+        public static function getExceptionManager(): EExceptionManager {
             if(!self::$instance){
                 self::$instance = new self();
             }
@@ -73,8 +76,8 @@
          * Costruttore
          */
         private function __construct(){
-            self::$exceptions = array();
-            self::addExeption("ENotApplicableMethodException", dgettext("Elang","Not applicable method exception"), "EE00");
+            self::$registry = array();
+            self::addException("ENotApplicableMethodException", dgettext("Elang","Not applicable method exception"), "EE000");
         }
 
         /**
@@ -85,14 +88,23 @@
          * @param string $code
          * @return void
          */
-        public function addExeption(string $name, string $message, string $code){
+        public static function addException(string $name, string $message, string $code){
 
-            eval("class $name extends EException {
-                protected \$message = $message;
-                protected \$code = $code;
-            };");
+            // Creiamo un alias della nostra classe base con il nuovo nome
+            if (!class_exists($name)) {
+                class_alias(EException::class, $name);
 
-            self::$exceptions[$name] = new $name;
+                $hash = sprintf("%u", crc32($code));
+                $ncode = str_pad($hash % 1000000, 6, '0', STR_PAD_LEFT);
+            
+                self::$registry[$name] = array(
+                    "name" => $name,
+                    "message" => $message,
+                    "code" => $ncode,
+                    "internalCode" => $code
+                );
+            }
+
         }
 
         /**
@@ -101,17 +113,27 @@
          * @return array
          */
         public function getExceptionList(): array {
-            return array_keys(self::$exceptions);
+            return array_keys(self::$registry);
         }
 
         /**
          * Throw exception
          *
          * @param string $name
+         * @param array $vars
          * @return void
          */
-        public function throwException(string $name){
-            throw self::$exceptions[$name];
+        public function throwException(string $name, ?array $vars = null){
+            if(!array_key_exists($name, self::$registry)){
+                $name = "ENotApplicableMethodException";
+            }
+
+            $ex = new $name(self::$registry[$name]['name'], self::$registry[$name]['message'], self::$registry[$name]['code'], self::$registry[$name]['internalCode']);
+
+            if($vars !== null){
+                $ex->prepare($vars);
+            }
+            throw $ex;
         }
 
     }
