@@ -1,21 +1,24 @@
 <?php
 
 /*
- * experience_autoloader.php
- *                                        _____                      _                     
- *                                       | ____|_  ___ __   ___ _ __(_) ___ _ __   ___ ___ 
- *                                       |  _| \ \/ / '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
- *                                       | |___ >  <| |_) |  __/ |  | |  __/ | | | (_|  __/
- *                                       |_____/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
- *                                                  |_| HZKnight free PHP Scripts 
+ * eautoloader.class.php
  *
- *                                             lucliscio <lucliscio@h0model.org>, ITALY
- * 
+ *                                         __  __                _
+ *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
+ *                                     / _ \\  /| '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
+ *                                    |  __//  \| |_) |  __/ |  | |  __/ | | | (_|  __/
+ *                                     \___/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
+ *                                              |_| HZKnight free PHP Scripts
+ *
+ *                                           lucliscio <lucliscio@h0model.org>, ITALY
+ *
+ * CORE Ver.1.0.0
+ *
  * -------------------------------------------------------------------------------------------
  * Licence
  * -------------------------------------------------------------------------------------------
  *
- * Copyright (C) 2021 HZKnight
+ * Copyright (C) 2026 HZKnight
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -31,27 +34,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
  */
 
-/**
- *  Experience SPL autoloader. 
- *  This version can load class from Experience Pakages and Vendor directory 
- * 
- *  @author  Luca Liscio <lucliscio@h0model.org>
- *  @version v 2.0 2020/12/09 20:20:00
- *  @copyright Copyright 2021 HZKnight 
- *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
- *   
- *  @package Experience
- *  @filesource
- */
-
-if(session_id() == ""){
+ if(session_id() == ""){
     session_start();
-}
+ }
 
+
+ /**
+  * Summary of AutoloaderException
+  */
+ class AutoloaderException extends Exception {
+    protected $code = "AE001";
+ }
+
+
+/**
+ * Experience SPL autoloader.
+ * This version can load class from Experience Pakages and Vendor directory
+ *
+ * @author Luca Liscio <lucliscio@h0model.org>
+ * @version 2.0.1
+ * @copyright &copy;2021-2026 HZKnight
+ * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+ *
+ * @package eXperience
+ * @filesource eautoloader.class.php
+ */
 class EAutoloader{
 
-    private $ebase_path;
-    private $evendor_path;
+    private $ebasePath;
+    private $evendorPath;
     private $vendors;
 
     public function __construct(){
@@ -61,8 +72,8 @@ class EAutoloader{
         //Path definitions
         $_SESSION["experience_path"] = __DIR__.DIRECTORY_SEPARATOR;
 
-        $this->ebase_path = $_SESSION["experience_path"]."Experience";
-        $this->evendor_path = $this->ebase_path.DIRECTORY_SEPARATOR."vendor";
+        $this->ebasePath = $_SESSION["experience_path"]."Experience";
+        $this->evendorPath = $this->ebasePath.DIRECTORY_SEPARATOR."vendor";
 
         $this->registerVendor();
 
@@ -75,7 +86,7 @@ class EAutoloader{
         if(getenv("LANG")!=null){
             $language = getenv("LANG");
         } else {
-            putenv("LANG=".$language);
+            putenv("LANG=$language");
         }
             
         setlocale(LC_ALL, $language);
@@ -91,7 +102,7 @@ class EAutoloader{
      *
      * @return void
      */
-    static public function register(){
+    public static function register(){
 
         //Define SPL autoloader
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
@@ -106,11 +117,12 @@ class EAutoloader{
     private function registerVendor(){
         //Vendor Class map
         $this->vendors = array(
-            'Psr\Log\LoggerInterface' => $this->evendor_path."/Psr/log/LoggerInterface.php",
-            'Psr\Log\LogLevel' => $this->evendor_path."/Psr/log/LogLevel.php",
-            'PHPMailer\PHPMailer\PHPMailer' => $this->evendor_path."/PHPMailer/PHPMailer.php",
-            'PHPMailer\PHPMailer\SMTP' => $this->evendor_path."/PHPMailer/SMTP.php",
-            'PHPMailer\PHPMailer\Exception' => $this->evendor_path."/PHPMailer/Exception.php"
+            'Psr\Log\LoggerInterface' => "{$this->evendorPath}/Psr/Log/LoggerInterface.php",
+            'Psr\Log\LogLevel' => "{$this->evendorPath}/Psr/Log/LogLevel.php",
+            'Psr\Log\LoggerAwareInterface' => "{$this->evendorPath}/Psr/Log/LoggerAwareInterface.php",
+            'PHPMailer\PHPMailer\PHPMailer' => "{$this->evendorPath}/PHPMailer/PHPMailer.php",
+            'PHPMailer\PHPMailer\SMTP' => "{$this->evendorPath}/PHPMailer/SMTP.php",
+            'PHPMailer\PHPMailer\Exception' => "{$this->evendorPath}/PHPMailer/Exception.php"
         );
     }
 
@@ -133,24 +145,26 @@ class EAutoloader{
 
         if($this->isVendor($classname)){
             $pathtoclass = $this->vendors[$classname];
-        } else if(0 == strpos($classname, "Experience")){
+        } elseif(0 === strpos($classname, "Experience")){
             $pathtoclass = str_replace('Experience', '', $classname);
             $pathtoclass = str_replace('\\', DIRECTORY_SEPARATOR, $pathtoclass);
-            $pathtoclass = $this->ebase_path.strtolower($pathtoclass).'.class.php';            
+            $pathtoclass = $this->ebasePath.strtolower($pathtoclass).'.class.php';
         } else {
             return;
         }
 
         if(file_exists($pathtoclass)){
             if(is_readable($pathtoclass)) {
-                require $pathtoclass;
+                require_once $pathtoclass;
                 return;
             } else {
-                throw new Exception("Unable to load file: ".$pathtoclass);
+                throw new AutoloaderException("Unable to load file: \"$pathtoclass\"");
             }
         }
 
-        throw new Exception("Unable to find class: ".$classname);
+        throw new AutoloaderException("Unable to find class: \"$classname\" in path: \"$pathtoclass\"");
     }
 
 }
+
+EAutoloader::register();

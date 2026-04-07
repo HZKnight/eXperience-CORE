@@ -1,5 +1,5 @@
 -- -----------------------------------------------------
--- Table `hzsystem`.`hz_system_logs`
+-- Table `eXperience`.`hz_system_logs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `$_system_logs` (
   `idh_post` INT NOT NULL AUTO_INCREMENT,
