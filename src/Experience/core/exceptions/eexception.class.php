@@ -1,20 +1,22 @@
 <?php
-
     /*
-     *                                        _____                      _                     
-     *                                       | ____|_  ___ __   ___ _ __(_) ___ _ __   ___ ___ 
-     *                                       |  _| \ \/ / '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
-     *                                       | |___ >  <| |_) |  __/ |  | |  __/ | | | (_|  __/
-     *                                       |_____/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
-     *                                                  |_| HZKnight free PHP Scripts 
+     * eexception.class.php
      *
-     *                                             lucliscio <lucliscio@h0model.org>, ITALY
-     * 
-     * -------------------------------------------------------------------------------------------
-     * Licence
-     * -------------------------------------------------------------------------------------------
+     *                                         __  __                _
+     *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
+     *                                     / _ \\  /| '_ \ / _ \ '__| |/ _ \ '_ \ / __/ _ \
+     *                                    |  __//  \| |_) |  __/ |  | |  __/ | | | (_|  __/
+     *                                     \___/_/\_\ .__/ \___|_|  |_|\___|_| |_|\___\___|
+     *                                              |_| HZKnight free PHP Scripts
      *
-     * Copyright (C) 2021 HZKnight
+     *                                           lucliscio <lucliscio@h0model.org>, ITALY
+     *
+     * CORE Ver.1.0.0
+     *
+     * -------------------------------------------------------------------------------------------
+     * License
+     * -------------------------------------------------------------------------------------------
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -28,23 +30,25 @@
      *
      * You should have received a copy of the GNU Affero General Public License
      * along with this program.  If not, see <http://www.gnu.org/licenses/agpl-3.0.html>.
+     * -------------------------------------------------------------------------------------------
      */
 
 
     namespace Experience\Core\Exceptions;
 
-	/**
+    /**
      * Interfaccia generica per le eccezioni basata sulla interfaccia
      * prevista dal linguaggio PHP
      *
-     *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 0.0.1 2016/05/31 12:14:20
-     *  @copyright 2021 HZKnight
-     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     * @author Luca Liscio <lucliscio@h0model.org>
+     * @version 0.0.1
+     * @copyright &copy;2016-2026 HZKnight
+     * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package Experience
-     *  @subpackage exceptions
-     *  @filesource
+     * @package eXperience
+     * @subpackage Core\Exceptions
+     *
+     * @filesource
      */
     interface IException
     {
@@ -55,58 +59,104 @@
         public function getLine();                    // Source line
         public function getTrace();                   // An array of the backtrace()
         public function getTraceAsString();           // Formated string of trace
-	
+
         /* Overrideable methods inherited from Exception class */
         public function __toString();                 // formated string for display
         public function __construct($message = null, $code = 0);
     }
-	
+
 
     /**
      * Eccezione generica per Experience
      *
-     *  @author  Luca Liscio <lucliscio@h0model.org>
-     *  @version 0.0.2 2020/11/29 20:14:20
-     *  @copyright 2021 HZKnight
-     *  @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
+     * @author  Luca Liscio <lucliscio@h0model.org>
+     * @version 0.0.4
+     * @copyright &copy;2020-2026 HZKnight
+     * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
-     *  @package Experience
-     *  @subpackage exceptions
-     *  @filesource
+     * @package eXperience
+     * @subpackage Core\Exceptions
+     *
+     * @filesource
      */
-    abstract class EException extends Exception implements IException
+    class EException extends \Exception implements IException
     {
         protected $message = "";                      // Exception message
-        private   $string;                            // Unknown
         protected $code    = 0;                       // User-defined exception code
         protected string $file;                       // Source filename of exception
         protected int $line;                          // Source line of exception
-        private   $trace;                             // Unknown
+        private  $internalCode = "E000";              // Internal code for exception
+        private  $name = "EException";                // Name of the exception
         
         /**
          * Constructor
-         * 
-         * @param String $message Error Message
-         * @param String $code Error Code
+         *
+         * @param string $message Error Message
+         * @param string $code Error Code
          */
-        public function __construct($message = null, $code = 0)
-	    {
+        public function __construct($name = "EException", $message = null, $code = 0, $internalCode = "E000")
+        {
+            // if message in null use message
             if (!$message) {
-                $this->message = dgettext("ELang",'Unknown exception');
-                throw new $this($this->message. get_class($this));
+                $message = dgettext("ELang",'Unknown exception');
             }
+
+            // if $code == 0 use exception default code
+            if($code == 0){
+                $code = $this->code;
+            }
+
+            $this->name = $name;
+            $this->internalCode = $internalCode;
+            $this->message = $message;
+            $this->code = $code;
+
             parent::__construct($message, $code);
-	    }
-	
+        }
+
         /**
-         * To String Method 
-         * 
-         * @return String
+         * Set variables in error message
+         *
+         * @param array $vars
          */
-        public function __toString()
+        public function prepare(array $vars){
+            $this->message = strtr($this->message, $vars);
+        }
+
+        /**
+         * Set internal code
+         *
+         * @param string $code
+         */
+        public function setInternalCode($code){
+            $this->internalCode = $code;
+        }
+
+        /**
+         * Return internal code
+         *
+         * @return string
+         */
+        public function getInternalCode(){
+            return $this->internalCode;
+        }
+
+        public function getName(){
+            return $this->name;
+        }
+
+        public function setName($name){
+            $this->name = $name;
+        }
+
+        /**
+         * To String Method
+         *
+         * @return string
+         */
+        public function __toString(): string
         {
             return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n" . "{$this->getTraceAsString()}";
-	    }
+        }
 
     }
-?>
