@@ -12,12 +12,11 @@
         <api>
             <source dsn=".">
                 <path>src</path>
-                
-                <ignore>
-                    <path>vendor/**</path>
-                    <path>tests/**</path>
-                </ignore>
             </source>
+            <ignore>
+                <path>vendor/**/*</path>
+                <path>tests/**/*</path>
+            </ignore>
         </api>
     </version>
 </phpdocumentor>
