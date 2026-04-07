@@ -36,6 +36,7 @@
 
     namespace Experience\Core\Io\Storage;
     
+    use Experience\Core\Exceptions\EExceptionManager;
     use Experience\Core\Io\Storage\Driver\StorageDriver;
 
     use function array_key_exists;
@@ -45,7 +46,7 @@
      * Storage interface class
      *
      * @author lucliscio <lucliscio@h0model.org>
-     * @version 1.1.3
+     * @version 1.1.4
      * @copyright &copy;2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -73,7 +74,7 @@
          * @return EStorage
          * @example $mioStorage = EStorage::getStorage("miostorage",$driver);
          */
-        public static function getStorage($storagename, StorageDriver $driver, $connString="/"): EStorage {
+        public static function getStorage($storagename, StorageDriver $driver, string $connString="/"): EStorage {
             if(array_key_exists($storagename, self::$instace)) {
                 if (!(self::$instace[$storagename] instanceof self)){
                     self::$instace[$storagename] = new self($storagename,$driver,$connString);
@@ -90,7 +91,7 @@
          *
          * @return EStorage[]
          */
-        public static function getInstances(){
+        public static function getInstances(): array{
                 
             return self::$instace;
 
@@ -103,7 +104,7 @@
          * @param StorageDriver $driver una implementazione dello storage driver
          * @param string $connString Stringa di connessione allo storage
          */
-        private function __construct($storagename, StorageDriver $driver, $connString){
+        private function __construct(string $storagename, StorageDriver $driver, string $connString){
             $this->storagename = $storagename;
             $this->driver = $driver;
             if($this->driver->connectToStorage($connString)){
@@ -111,39 +112,39 @@
             }
         }
 
-        public function mkdir($name, $mode=0777){
+        public function mkdir(string $name, string $mode="0777"):bool{
             return $this->driver->mkdir($name, $mode);
         }
 
-        public function rm($name):bool{
+        public function rm(string $name):bool{
             return $this->driver->rm($name);
         }
 
-        public function fcopy($source,$target){
+        public function fcopy(string $source,string $target){
             return $this->driver->fcopy($source,$target);
         }
 
-        public function ls($dir="./",$pattern="*.*"):array{
+        public function ls(string $dir="./", string $pattern="*.*"):array{
             return $this->driver->ls($dir,$pattern);
         }
 
-        public function fileCompare($src, $dest):bool{
+        public function fileCompare(string $src, string $dest):bool{
             return $this->driver->fileCompare($src, $dest);
         }
 
-        public function fileExists($src):bool{
+        public function fileExists(string $src):bool{
             return $this->driver->fileExists($src);
         }
 
-        public function fileWrite($name,$content,$mode="a"):bool{
+        public function fileWrite(string $name, mixed $content, string $mode="a"):bool{
             return $this->driver->fileWrite($name,$content,$mode);
         }
 
-        public function fileRead($name):mixed{
+        public function fileRead(string $name):mixed{
             return $this->driver->fileRead($name);
         }
 
-        public function isDir($name):bool{
+        public function isDir(string $name):bool{
             return $this->driver->isDir($name);
         }
 
@@ -154,7 +155,7 @@
          * @param mixed $content
          * @return boolean
          */
-        public function fileCreate($name,$content): bool{
+        public function fileCreate(string $name, mixed $content): bool{
             settype($name,"string");
             
             $source = "{$this->webRoot}{$name}";
@@ -163,7 +164,7 @@
                 $vars = array(
                     FILE => $source
                 );
-                $this->driver->exceptionManager->throwException("StorageFileAlreadyExistException", $vars);
+                EExceptionManager::throwException("StorageFileAlreadyExistException", $vars);
                 return false;
             } else {
 
@@ -173,7 +174,7 @@
                 $vars = array(
                     FILE => $source
                 );
-                $this->driver->exceptionManager->throwException("StorageFileNotWritableException", $vars);
+                EExceptionManager::throwException("StorageFileNotWritableException", $vars);
                 return false;
             }
 

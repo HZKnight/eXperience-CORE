@@ -37,6 +37,7 @@
     namespace Experience\Core\Io\Storage\Driver;
 
     use Experience\Core\Io\Storage\Driver\StorageDriver;
+    use Experience\Core\Exceptions\EExceptionManager;
 
     // Costanti per i segnaposto nei messaggi delle accezioni
     define("FILE", "[FILE]");
@@ -50,7 +51,7 @@
      * Driver for local storage (file system)
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version 2.0.1
+     * @version 2.1.0
      * @copyright &copy;2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -64,6 +65,7 @@
         
         private string $webRoot;
 
+
         /**
          * Costruttore
          */
@@ -72,9 +74,15 @@
             $this->webRoot = "";
         }
 
-        public function connectToStorage($path): bool{
+
+        /**
+         * Connessione allo storage locale
+         * @param mixed $path
+         * @return bool
+         */
+        public function connectToStorage(mixed $path): bool{
             if(!$this->fileExists($path)){
-                $this->exceptionManager->throwException("StorageConnectionException");
+                EExceptionManager::throwException("StorageConnectionException");
                 return false;
             }
             $this->webRoot = getcwd().$path;
@@ -85,15 +93,17 @@
             return $this->webRoot;
         }
 
+
         /**
          * Make a directory
          *
          * @param string $name
          * @param string $mode default 0777
-         * @return void
+         * @return boolean
          */
-        public function mkdir($name, $mode=0777){
+        public function mkdir(string $name, string $mode="0777"): bool{
             settype($name,"string");
+            settype($mode,"string");
 
             $source = $this->webRoot.$name;
 
@@ -105,15 +115,19 @@
                         DIR => $source,
                         MODE => $mode
                     );
-                    $this->exceptionManager->throwException("StorageDirectoryNotCreatedException", $vars);
+                    EExceptionManager::throwException("StorageDirectoryNotCreatedException", $vars);
+                    return false;
                 }
             } else {
                 $vars = array(
                     DIR => $source,
                     MODE => $mode
                 );
-                $this->exceptionManager->throwException("StorageDirectoryAlreadyExistException", $vars);
+                EExceptionManager::throwException("StorageDirectoryAlreadyExistException", $vars);
+                return false;
             }
+
+            return true;
         }
 
 
@@ -123,7 +137,7 @@
          * @param string $name
          * @return void
          */
-        public function rm($name): bool{
+        public function rm(string $name): bool{
             settype($name,"string");
 
             clearstatcache();
@@ -134,12 +148,12 @@
                 $vars = array(
                     FILE => $source
                 );
-                $this->exceptionManager->throwException("StorageFileNotFoundException", $vars);
+                EExceptionManager::throwException("StorageFileNotFoundException", $vars);
             } elseif(!is_writable($source)){
                 $vars = array(
                     FILE => $source
                 );
-                $this->exceptionManager->throwException("StorageFileNotWritableException", $vars);
+                EExceptionManager::throwException("StorageFileNotWritableException", $vars);
             } else {
                 if(is_dir($source)){
                     $it = new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS);
@@ -161,7 +175,7 @@
                 $vars = array(
                     FILE => $source
                 );
-                $this->exceptionManager->throwException("StorageFileNotWritableException", $vars);
+                EExceptionManager::throwException("StorageFileNotWritableException", $vars);
             }
             return false;
         }
@@ -172,9 +186,9 @@
          *
          * @param string $source
          * @param string $target
-         * @return void
+         * @return boolean
          */
-        public function fcopy($source,$target){
+        public function fcopy(string $source, string $target): bool{
             settype($source,"string");
             settype($target,"string");
           
@@ -184,14 +198,13 @@
             $dest = $this->webRoot.$target;
           
             if(!$this->fileExists($src)){
-                return;
+                return false;
             }elseif(copy($src, $dest)){
                 clearstatcache();
           
                 if($this->fileExists($dest) && $this->fileCompare($src, $dest)){
-                    return;
+                    return true;
                 }
-
             }
           
             $this->rm($dest);
@@ -200,7 +213,8 @@
                 SOURCE => $src,
                 TARGET => $dest
             );
-            $this->exceptionManager->throwException("StorageCopyException", $vars);
+            EExceptionManager::throwException("StorageCopyException", $vars);
+            return false;
         }
 
 
@@ -211,7 +225,7 @@
          * @param string $pattern default *.*
          * @return array $ls
          */
-        public function ls($dir="./",$pattern="*.*"): array{
+        public function ls(string $dir="./", string $pattern="*.*"): array{
             settype($dir,"string");
             settype($pattern,"string");
 
@@ -240,7 +254,7 @@
                 SOURCE => $source,
                 PATTERN => $pattern
             );
-            $this->exceptionManager->throwException("StorageFileListingException", $vars);
+            EExceptionManager::throwException("StorageFileListingException", $vars);
             return [];
         }
 
@@ -252,7 +266,7 @@
          * @param string $dest
          * @return boolean
          */
-        public function fileCompare($src, $dest): bool{
+        public function fileCompare(string $src, string $dest): bool{
             settype($src,"string");
             settype($dest,"string");
 
@@ -270,7 +284,7 @@
          * @param string $src
          * @return boolean
          */
-        public function fileExists($src): bool{
+        public function fileExists(string $src): bool{
             settype($src,"string");
             $source = $this->webRoot.$src;
             return file_exists($source);
@@ -285,8 +299,10 @@
          * @param string $mode default a
          * @return boolean
          */
-        public function fileWrite($name,$content,$mode="a"): bool{
+        public function fileWrite(string $name, mixed $content, string $mode="a"): bool{
             settype($name,"string");
+            settype($content,"string");
+            settype($mode,"string");
 
             $source = "{$this->webRoot}{$name}";
 
@@ -294,7 +310,7 @@
                 $vars = array(
                     FILE => $source
                 );
-                $this->exceptionManager->throwException("StorageFileNotFoundException", $vars);
+                EExceptionManager::throwException("StorageFileNotFoundException", $vars);
             } elseif(($fid=fopen($source,$mode))!==false){
                 if(fwrite($fid,$content)===strlen($content)){
                     fflush($fid);
@@ -314,10 +330,10 @@
          * @param string $name
          * @return mixed
          */
-        public function fileRead($name): mixed{
+        public function fileRead(string $name): mixed{
             settype($name,"string");
 
-            $source = $this->webRoot.$name;
+            $source = "{$this->webRoot}{$name}";
 
             if($this->fileExists($name)){
                 return file_get_contents($source);
@@ -326,7 +342,7 @@
             $vars = array(
                 FILE => $source
             );
-            $this->exceptionManager->throwException("StorageFileNotFoundException", $vars);
+            EExceptionManager::throwException("StorageFileNotFoundException", $vars);
             return false;
         }
 
@@ -337,9 +353,9 @@
          * @param string $name
          * @return boolean
          */
-        public function isDir($name): bool{
+        public function isDir(string $name): bool{
             settype($name,"string");
-            $source = $this->webRoot.$name;
+            $source = "{$this->webRoot}{$name}";
             return is_dir($source);
         }
 

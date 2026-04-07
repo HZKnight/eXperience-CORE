@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * License
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,8 +35,16 @@
    
     namespace Experience\Core\Tools\Config;
     
-    use Experience\Core\Tools\Config\Exceptions\ConfigException;
-    use Experience\Core\Io\Storage\Estorage;
+    use Experience\Core\Exceptions\EException;
+    use Experience\Core\Io\Storage\EStorage;
+    use Experience\Core\Exceptions\EExceptionManager;
+
+    use function array_key_exists;
+    use function array_keys;
+    use function json_decode;
+    use function json_encode;
+    use function explode;
+    use function in_array;
 
 
    /**
@@ -45,7 +53,7 @@
     * @author Luca Liscio <lucliscio@h0model.org>
     * @author Marco Lettieri
     * @version 2.1.0
-    * @copyright &copy;2025 HZKnight
+    * @copyright &copy;2026 HZKnight
     * @copyright &copy;2013 Luca Liscio & Marco Lettieri
     * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
     *
@@ -67,23 +75,33 @@
          *
          * @param string $cfile path del file di configurazione
          * @param EStorage $storage oggetto storage
-         * @throws ConfigException
+         * @throws EException
          */
-        public function __construct($cfile, $storage=null){
+        public function __construct($cfile, ?EStorage $storage){
+            $this->cfg = array();
+            $this->cfgJson = array();
+            $this->cfgfile = "";
+
+            //Definisco le eccezioni
+            EExceptionManager::addException("ConfigFileNotExistException", dgettext("Elang","Config file not exist"), "EC001");
+            EExceptionManager::addException("ConfigFileCorruptedException", dgettext("Elang","Config file is corrupted"), "EC002");
+            EExceptionManager::addException("ConfigInvalidStorageException", dgettext("Elang","Invalid Storage"), "EC003");
+            EExceptionManager::addException("ConfigFileNonWritableException", dgettext("Elang","Config file is not writable"), "EC004");
+            
             if($storage){
                 $this->storage = $storage;
 
                 if (!$this->storage->fileExists($cfile)){
-                    throw new ConfigException(dgettext("ELang","Config file not exist"),103);
+                    EExceptionManager::throwException("ConfigFileNotExistException");
                 } elseif (($this->cfgJson=json_decode($this->storage->fileRead($cfile), true))==null){
-                    throw new ConfigException(dgettext("Elang","Config file is corrupted"),113);
+                    EExceptionManager::throwException("ConfigFileCorruptedException");
                 }
                  
                 $this->cfgfile = $cfile;
                 $this->parseCfg();
 
             } else {
-                throw new ConfigException("Invalid Storage",103);
+                EExceptionManager::throwException("ConfigInvalidStorageException");
             }
         }
           
@@ -144,7 +162,7 @@
          
         private function setParam3($section,$param,$val){
             if (!array_key_exists($section, $this->cfgJson)){
-                $this->cfgJson[$section] = array();
+                $this->cfgJson[$section] = [];
             }
             $this->cfgJson[$section][$param] = $val;
             $this->cfg[$section.".".$param] = $val;
@@ -155,7 +173,7 @@
         private function saveCfg(){
             $status = $this->storage->fileWrite($this->cfgfile, json_encode($this->cfgJson, JSON_PRETTY_PRINT), "w");
             if(!$status) {
-                throw new ConfigException(dgettext("Elang","Config file isn't wirittable"),123);
+                EExceptionManager::throwException("ConfigFileNonWritableException");
             }
         }
 

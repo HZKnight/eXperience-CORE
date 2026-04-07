@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -37,15 +37,14 @@
     namespace Experience\Core\Tools\Logger\Appenders;
     
     use Experience\Core\Tools\Config\EConfigManager;
-    use Experience\Core\Tools\Logger\ELogger;
     use Experience\Core\Tools\Logger\ELogRow;
 
     /**
      * Abstract appender per ELogger
      *
      * @author  Luca Liscio <lucliscio@h0model.org>
-     * @version 0.0.5
-     * @copyright 2020-2025 HZKnight
+     * @version 1.0.0
+     * @copyright 2020-2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -78,12 +77,15 @@
         }
 
         abstract public function add(ELogRow $log_row);
-        abstract public function getLog($start,$stop);
+        abstract public function getLog(int $start, int $stop): array;
 
+        /**
+         * Summary of setLogLevel
+         * @param mixed $level
+         * @return void
+         */
         public function setLogLevel($level){
-
             $this->loglevel = $level;
-
         }
 
     }

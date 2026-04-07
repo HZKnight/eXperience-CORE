@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -45,11 +45,11 @@
     use PHPMailer\PHPMailer\Exception;
 
     /**
-     * Classe per l'invio di email basata su PHPMailer 6.8.0
+     * Classe per l'invio di email basata su PHPMailer 7.0.2
      *
      * @author  Luca Liscio <lucliscio@h0model.org>
-     * @version 1.2.0
-     * @copyright 2023-2025 HZKnight
+     * @version 1.2.2
+     * @copyright 2023-2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -62,9 +62,9 @@
         
         // Message type
         /** Simple text */
-        const TEXT = 601;
+        public const TEXT = 601;
         /** HTML text */
-        const HTML = 602;
+        public const HTML = 602;
 
         // Mailer
         private $mailer;
@@ -73,7 +73,7 @@
         private $config;
 
         // logger
-        private $log;
+        //private $log;
 
         /**
          * Costruttore
@@ -115,11 +115,11 @@
          * @param string $path
          * @return boolean
          */
-        public function addAttachment(string $name, string $path){
-            if($name == ""){
-                $this->mailer->addAttachment($path);
+        public function addAttachment(string $name, string $path): bool {
+            if(empty(trim($name))){
+                return $this->mailer->addAttachment($path);
             } else {
-                $this->mailer->addAttachment($path, $name);
+                return $this->mailer->addAttachment($path, $name);
             }
         }
 
@@ -127,7 +127,7 @@
          * Send email message
          *
          * @param EMessage $message
-         * @return void
+         * @return string Empty string if the message was sent successfully, error message otherwise
          */
         public function send(EMessage $message){
 

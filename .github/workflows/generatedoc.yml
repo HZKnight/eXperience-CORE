@@ -1,0 +1,31 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches:
+      - '**' # Si attiva su ogni push in qualsiasi branch
+
+jobs:
+  phpdoc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run phpDocumentor
+        # Usiamo il file phpdoc.dist.xml che abbiamo creato prima
+        run: |
+          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run
+
+      - name: Fix permissions
+        run: sudo chown -R $USER:$USER docs/
+
+      - name: Deploy to GitHub Pages
+        # Questa action ufficiale prende il contenuto di una cartella 
+        # e lo sposta in un branch separato (gh-pages) in modo automatico
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          force_orphan: true # Mantiene il branch gh-pages leggero

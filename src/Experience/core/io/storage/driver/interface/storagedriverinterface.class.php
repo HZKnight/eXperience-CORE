@@ -50,15 +50,15 @@
      */
 
     interface StorageDriverInterface {
-        public function connectToStorage($path):bool;
+        public function connectToStorage(mixed $path):bool;
         public function getWebRoot(): string;
-        public function mkdir($name, $mode=0777);
-        public function rm($name):bool;
-        public function fcopy($source,$target);
-        public function ls($dir="./",$pattern="*.*"):array;
-        public function fileCompare($src, $dest):bool;
-        public function fileExists($src):bool;
-        public function fileWrite($name,$content,$mode="a"):bool;
-        public function fileRead($name):mixed;
-        public function isDir($name):bool;
+        public function mkdir(string $name, string $mode="0777"):bool;
+        public function rm(string $name):bool;
+        public function fcopy(string $source, string $target):bool;
+        public function ls(string $dir="./", string $pattern="*.*"):array;
+        public function fileCompare(string $src, string $dest):bool;
+        public function fileExists(string $src):bool;
+        public function fileWrite(string $name, mixed $content, string $mode="a"):bool;
+        public function fileRead(string $name):mixed;
+        public function isDir(string $name):bool;
     }

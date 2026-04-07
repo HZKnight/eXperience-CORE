@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * License
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -43,7 +43,7 @@
      *
      * @author  lucliscio <lucliscio@h0model.org>
      * @version 1.0.0
-     * @copyright &copy;2025 HZKnight
+     * @copyright &copy;2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -66,32 +66,26 @@
             $this->webRoot = "";
 
             //Exception definition
-            if(is_array($environment) && isset($environment['emanager'])){
-                $this->exceptionManager = $environment['emanager'];
-            } else {
-                $this->exceptionManager = EExceptionManager::getExceptionManager();
-            }
-
-            $this->exceptionManager->addException("StorageConnectionException", dgettext("Elang","Connection to storage failed"), "SE001");
-            $this->exceptionManager->addException("StorageDirectoryNotCreatedException", dgettext("Elang","Directoty [DIR] with mode [MODE] not created"), "SE002");
-            $this->exceptionManager->addException("StorageDirectoryAlreadyExistException", dgettext("Elang","Directoty [DIR] with mode [MODE] already exist"), "SE003");
-            $this->exceptionManager->addException("StorageFileNotFoundException", dgettext("Elang","File [FILE] not found"), "SE004");
-            $this->exceptionManager->addException("StorageFileNotWritableException", dgettext("Elang","File [FILE] not writable"), "SE005");
-            $this->exceptionManager->addException("StorageCopyException", dgettext("Elang","Copy [SOURCE] to [TARGET] filed"), "SE006");
-            $this->exceptionManager->addException("StorageFileListingException", dgettext("Elang","System Error: ls ([SOURCE], [PATTERN])"), "SE007");
-            $this->exceptionManager->addException("StorageFileAlreadyExistException", dgettext("Elang","File [FILE] already exist"), "SE008");
+            EExceptionManager::addException("StorageConnectionException", dgettext("Elang","Connection to storage failed"), "SE001");
+            EExceptionManager::addException("StorageDirectoryNotCreatedException", dgettext("Elang","Directoty [DIR] with mode [MODE] not created"), "SE002");
+            EExceptionManager::addException("StorageDirectoryAlreadyExistException", dgettext("Elang","Directoty [DIR] with mode [MODE] already exist"), "SE003");
+            EExceptionManager::addException("StorageFileNotFoundException", dgettext("Elang","File [FILE] not found"), "SE004");
+            EExceptionManager::addException("StorageFileNotWritableException", dgettext("Elang","File [FILE] not writable"), "SE005");
+            EExceptionManager::addException("StorageCopyException", dgettext("Elang","Copy [SOURCE] to [TARGET] filed"), "SE006");
+            EExceptionManager::addException("StorageFileListingException", dgettext("Elang","System Error: ls ([SOURCE], [PATTERN])"), "SE007");
+            EExceptionManager::addException("StorageFileAlreadyExistException", dgettext("Elang","File [FILE] already exist"), "SE008");
         }
 
-        abstract public function connectToStorage($path):bool;
+        abstract public function connectToStorage(mixed $path):bool;
         abstract public function getWebRoot(): string;
-        abstract public function mkdir($name, $mode=0777);
-        abstract public function rm($name):bool;
-        abstract public function fcopy($source,$target);
-        abstract public function ls($dir="./",$pattern="*.*"):array;
-        abstract public function fileCompare($src, $dest):bool;
-        abstract public function fileExists($src):bool;
-        abstract public function fileWrite($name,$content,$mode="a"):bool;
-        abstract public function fileRead($name):mixed;
-        abstract public function isDir($name):bool;
+        abstract public function mkdir(string $name, string $mode="0777"):bool;
+        abstract public function rm(string $name):bool;
+        abstract public function fcopy(string $source, string $target):bool;
+        abstract public function ls(string $dir="./", string $pattern="*.*"):array;
+        abstract public function fileCompare(string $src, string $dest):bool;
+        abstract public function fileExists(string $src):bool;
+        abstract public function fileWrite(string $name, mixed $content, string $mode="a"):bool;
+        abstract public function fileRead(string $name):mixed;
+        abstract public function isDir(string $name):bool;
 
     }

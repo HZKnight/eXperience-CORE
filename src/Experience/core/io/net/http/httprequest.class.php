@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,12 +35,17 @@
 
      namespace Experience\Core\Io\Net\Http;
 
+     use function array_keys;
+     use function in_array;
+     use function strtolower;
+
+
     /**
      * Classe che rappresenta la richiesta http
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version 2.1.0
-     * @copyright &copy;2023-2025 HZKnight
+     * @version 2.3.0
+     * @copyright &copy;2023-2026 HZKnight
      * @copyright &copy;2013 Luca Liscio & Marco Lettieri
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -51,7 +56,7 @@
      */
 
      class HttpRequest {
-          private $requestParams = array();
+          private $requestParams = [];
           private $requestMethod = "";
 
           /**
@@ -73,7 +78,7 @@
            * @param string $paramName
            * @return mixed
            */
-          public function getParam($paramName) {
+          public function getParam(string $paramName): mixed {
 
                //Do priorita all'array che rappresenta il metodo della richiesta
                if (in_array($paramName, array_keys($this->requestParams[$this->requestMethod]))) {
@@ -88,7 +93,6 @@
                }
 
                return '';
-
           }
 
           /**
@@ -98,7 +102,7 @@
            * @param string $paramName
            * @return string
            */
-          public function getParamRequestMethod($paramName) {
+          public function getParamRequestMethod(string $paramName): string {
                
                //Do priorita all'array che rappresenta il metodo della richiesta
                if (in_array($paramName, array_keys($this->requestParams[$this->requestMethod]))) {
@@ -106,7 +110,7 @@
                }
 
                //Cerco in tutti gli altri array
-               foreach ($this->_requestParams as $key => $value) {
+               foreach ($this->requestParams as $key => $value) {
                     if (in_array($paramName, array_keys($value))) {
                          return $key;
                     }
@@ -120,7 +124,7 @@
            * @param string $paramName
            * @return boolean
            */
-          public function has($paramName){
+          public function has(string $paramName){
                $exist = false;
                foreach ($this->requestParams as &$value) {
                     if (in_array($paramName, array_keys($value))) {
@@ -131,27 +135,32 @@
           }
 
           /**
-           * Inserisce n parametro alla request
+           * Setta un parametro della richiesta
            *
            * @param string $paramName
            * @param string $rtype
            * @param mixed $value
            * @return void
            */
-          public function setParam($paramName, $rtype, $value){
+          public function setParam(string $paramName, string $rtype, mixed $value){
                $this->requestParams[$rtype][$paramName] = $value;
           }
 
           /**
-           * Undocumented function
+           * Restituisce tutti i parametri della richiesta
            *
-           * @return void
+           * @return array
            */
-          public function getRequest() {
+          public function getRequest(): array {
                return $this->requestParams;
           }
 
-          public function getRequestMethod() {
+          /**
+           * Restituisce il metodo della richiesta
+           *
+           * @return string
+           */
+          public function getRequestMethod(): string {
                return $this->requestMethod;
           }
      }

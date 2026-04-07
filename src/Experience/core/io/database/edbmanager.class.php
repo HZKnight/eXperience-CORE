@@ -17,7 +17,7 @@
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -38,12 +38,18 @@
     
     use Experience\Core\Tools\Config\EConfigManager;
 
+    use \PDO;
+    use \Exception;
+    use \PDOException;
+
+    use function str_replace;
+
     /**
      * Interfaccia di comunicazione con il db (Database type MySql-PDO)
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version 3.1.0-PDO
-     * @copyright Copyright 2022-2025 HZKnight
+     * @version 3.3.0-PDO
+     * @copyright Copyright 2022-2026 HZKnight
      * @copyright Copyright 2013 Luca Liscio & Marco Lettieri
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -55,8 +61,8 @@
 
     class EDbManager {
 
-        const VERSION = '3.1.0-PDO';
-        const DATE_APPROVED = '2025-02-18';
+        const VERSION = '3.3.0-PDO';
+        const DATE_APPROVED = '2026-04-04';
 
         private mixed $conn;
         private string $tbprefix;
@@ -66,15 +72,26 @@
         /**
          * All'atto della costruziine di un nuovo ogetto esegue la connessione al DB
          *
-         * @param array $config contiene i parametri (type, host, uname, passwd, db) necessari alla connesione
+         * @param EConfigManager|array $config contiene i parametri (type, host, uname, passwd, db) necessari alla connesione
          * @throws PDOException
          */
-        public function __construct(EConfigManager $config) {
+        public function __construct(EConfigManager|array $config) {
             $this->connData = array();
-            $this->connData['connstr'] = $config->getParam('db.type').":host=".$config->getParam('db.host').";port=".$config->getParam('db.port').";dbname=".$config->getParam('db.table').";charset=utf8";
-            $this->connData['uname'] = $config->getParam('db.uname');
-            $this->connData['passwd'] = $config->getParam('db.passwd');
-            $this->tbprefix = $config->getParam('db.tb_prefix');
+            
+             if (is_array($config)) {
+                // Se passato array, usa direttamente
+                $this->connData['connstr'] = $config['db.type'].":host=".$config['db.host'].";port=".$config['db.port'].";dbname=".$config['db.table'].";charset=utf8";
+                $this->connData['uname'] = $config['db.uname'];
+                $this->connData['passwd'] = $config['db.passwd'];
+                $this->tbprefix = $config['db.tb_prefix'];
+            } else {
+                // Usa EConfigManager
+                $this->connData['connstr'] = $config->getParam('db.type').":host=".$config->getParam('db.host').";port=".$config->getParam('db.port').";dbname=".$config->getParam('db.table').";charset=utf8";
+                $this->connData['uname'] = $config->getParam('db.uname');
+                $this->connData['passwd'] = $config->getParam('db.passwd');
+                $this->tbprefix = $config->getParam('db.tb_prefix');
+            }
+
             $this->error = null;
         }
 
@@ -97,13 +114,21 @@
             //Send a sql query that returns a result
             $sql = str_replace('$_', $this->tbprefix, $sql);
 
-            if($this->connect()){
-                $stmt = $this->conn->query($sql);
-                $this->close();
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$this->connect()) {
+                $this->error = "Connection failed";
+                return [];
             }
-
-            return null;
+            
+            try {
+                $stmt = $this->conn->query($sql);
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $this->close();
+                return $result;
+            } catch (Exception $e) {
+                $this->close();
+                $this->error = $e->getMessage();
+                return [];
+            }
         }
 
         /**
@@ -116,17 +141,28 @@
             //Send a sql command that returns the number of rows affected
             $sql = str_replace('$_', $this->tbprefix, $sql);
 
-            if($this->connect()){
-                $af = $this->conn->exec($sql);
-                $this->error = $this->conn->errorInfo()[2];
-                $this->close();
-                $result["sql"] = $sql;
-                $result["nbrows"] = $af;
-                $result["error"] = $this->error;
+            $result = [
+                "sql" => $sql,
+                "nbrows" => null,
+                "error" => null
+            ];
+
+            if (!$this->connect()) {
+                $result["error"] = "Connection failed";
                 return $result;
             }
+            
+            try {
+                $af = $this->conn->exec($sql);
+                $result["nbrows"] = $af;
+                $result["error"] = $this->conn->errorInfo()[2];
+            } catch (Exception $e) {
+                $result["error"] = $e->getMessage();
+            } finally {
+                $this->close();
+            }
 
-            return null;
+            return $result;
         }
     
         /**
@@ -157,7 +193,7 @@
          * @param integer $numrow
          * @param string $order
          * @param string $otype
-         * @return resultset
+         * @return array|null
          */
         public function getRowSubSet($table, $start, $numrow, $order="", $otype=""){
             $sql = 'SELECT * FROM '.$table;

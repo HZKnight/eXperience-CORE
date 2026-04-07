@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,16 +35,18 @@
 
 
     namespace Experience\Core\Tools\Logger\Appenders;
+
+    use Experience\Core\Exceptions\EExceptionManager;
+    use Experience\Core\Exceptions\EException;
         
     use Experience\Core\Tools\Config\EConfigManager;
     use Experience\Core\Tools\Logger\Appenders\Appender;
-    use Experience\Core\Tools\Logger\ELogger;
     use Experience\Core\Tools\Logger\ELogRow;
     use Experience\Core\Io\Storage\EStorage;
 
-    use Experience\Core\Exceptions\ENotApplicableMethodException;
-    use Experience\Core\Tools\Logger\Exceptions\LogFileNotFoundException;
-
+    use function settype;
+    use function array_slice;
+    use function date;
 
     /**
      * File appender per ELogger
@@ -70,9 +72,11 @@
         /**
          * Construntor method
          *
-         * @param String $logname log name
+         * @param string $logname log name
+         * @param EConfigManager $cfg config manager
+         * @param EStorage $storage storage manager
          */
-        public function __construct($logname, EConfigManager $cfg, EStorage $storage){
+        public function __construct(string $logname, EConfigManager $cfg, EStorage $storage){
                 
             parent::__construct($cfg);
             
@@ -85,6 +89,9 @@
             $this->logfileBaseDir = $baseDir."log";
             $this->logfileBaseName = $logname;
             $this->logfile = $this->logfileBaseDir.DIRECTORY_SEPARATOR.$this->logfileBaseName."_".date("dmY").".log";
+
+            EExceptionManager::addException("LogFileNotFoundExceptions", dgettext("Elang","Log file not found"), "AFE001");
+            EExceptionManager::addException("LogDirCreateException", dgettext("Elang","Error creating log directory"), "AFE002");
         }
 
         /**
@@ -112,9 +119,9 @@
          * @param integer $start start row
          * @param integer $stop end row
          * @return list of log row
-         * @throws LogFileNotFoundException
+         * @throws EException
          */
-        public function getLog($start,$stop){
+        public function getLog(int $start, int $stop): array{
             
             if(!$start){
                 $start = 0;
@@ -131,7 +138,8 @@
                     return array_slice($log, $start, $stop-$start);
                 }
             } else {
-                throw new LogFileNotFoundExceprions(dgettext("Elang","Log file not found"));
+                EExceptionManager::throwException("LogFileNotFoundExceptions");
+                return [];
             }
                                         
         }
@@ -146,20 +154,21 @@
             $this->logfile = $this->logfileBaseDir.DIRECTORY_SEPARATOR.$this->logfileBaseName."_".date("dmY").".log";
         }
         
-        private function createLogDir(){
+        private function createLogDir(): bool {
             settype($this->logfileBaseDir,"string");
             $__mode=0777;
 
             if($this->storage->isDir($this->logfileBaseDir)) {
-                return;
+                return true;
             } elseif($this->storage->mkdir($this->logfileBaseDir,$__mode)) {
     
                 if($this->storage->isDir($this->logfileBaseDir)) {
-                    return;
+                    return true;
                 }
             }
 
-            throw new LogFileNotFoundExceprions("System Error: _mkdir_(".$this->logfileBaseDir.",".$__mode.").");
+            EExceptionManager::throwException("LogDirCreateException");
+            return false;
         }
 
     }

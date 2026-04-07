@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * License
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,7 @@
      *
      * @author Luca Liscio <lucliscio@h0model.org>
      * @version 0.0.1
-     * @copyright &copy;2016-2025 HZKnight
+     * @copyright &copy;2016-2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -70,8 +70,8 @@
      * Eccezione generica per Experience
      *
      * @author  Luca Liscio <lucliscio@h0model.org>
-     * @version 0.0.2
-     * @copyright &copy;2020-2025 HZKnight
+     * @version 0.0.4
+     * @copyright &copy;2020-2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -82,11 +82,9 @@
     class EException extends \Exception implements IException
     {
         protected $message = "";                      // Exception message
-        private   $string;                            // Unknown
         protected $code    = 0;                       // User-defined exception code
         protected string $file;                       // Source filename of exception
         protected int $line;                          // Source line of exception
-        private   $trace;                             // Unknown
         private  $internalCode = "E000";              // Internal code for exception
         private  $name = "EException";                // Name of the exception
         

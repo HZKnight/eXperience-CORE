@@ -119,6 +119,7 @@ class EAutoloader{
         $this->vendors = array(
             'Psr\Log\LoggerInterface' => "{$this->evendorPath}/Psr/Log/LoggerInterface.php",
             'Psr\Log\LogLevel' => "{$this->evendorPath}/Psr/Log/LogLevel.php",
+            'Psr\Log\LoggerAwareInterface' => "{$this->evendorPath}/Psr/Log/LoggerAwareInterface.php",
             'PHPMailer\PHPMailer\PHPMailer' => "{$this->evendorPath}/PHPMailer/PHPMailer.php",
             'PHPMailer\PHPMailer\SMTP' => "{$this->evendorPath}/PHPMailer/SMTP.php",
             'PHPMailer\PHPMailer\Exception' => "{$this->evendorPath}/PHPMailer/Exception.php"

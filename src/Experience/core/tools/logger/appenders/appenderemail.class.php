@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * Lincense
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,21 +35,24 @@
 
      namespace Experience\Core\Tools\Logger\Appenders;
      
-     use Experience\Core\Exceptions\ENotApplicableMethodException;
-     use Experience\Core\Tools\Logger\Exceptions\LogFileNotFoundException;
+     use Experience\Core\Exceptions\EException;
+     use Experience\Core\Exceptions\EExceptionManager;
         
      use Experience\Core\Tools\Logger\Appenders\Appender;
      use Experience\Core\Tools\Logger\ELogRow;
      use Experience\Core\Tools\Config\EConfigManager;
      use Experience\Core\Io\Net\Mailer\EMailer;
      use Experience\Core\Io\Net\Mailer\EMessage;
+
+     // Costanti per i segnaposto nei messaggi delle accezioni
+     define("MESSAGE", "[MESSAGE]");
      
     /**
      * Mail appender per ELogger
      *
      * @author  Luca Liscio <lucliscio@h0model.org>
-     * @version 0.0.3
-     * @copyright 2020-2025 HZKnight
+     * @version 0.0.5
+     * @copyright 2020-2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -65,9 +68,11 @@
            * Construntor method
            *
            * @param string $logname log name
+           * @param EConfigManager $cfg config manager
            */
-          public function __construct($logname, EConfigManager $cfg){
+          public function __construct(string $logname, EConfigManager $cfg){
                $this->logname = $logname;
+               EExceptionManager::addException("EMailAppenderException", dgettext("ELang","Error sending log mail: [MESSAGE]"), "EL001");
                parent::__construct($cfg);
           }
 
@@ -81,7 +86,7 @@
                if($log_row->type >= $this->loglevel){
                     $message = new EMessage();
                     $errIdentity = self::$errorIdentifier[$log_row->type];
-                    $message->setSubject("[LOGGER NOTIFY: ".$errIdentity."] - $log_row->date");
+                    $message->setSubject("[LOGGER NOTIFY: {$errIdentity}] - {$log_row->date}");
                     
                     $body = "
                     ------------------------------------------------------------------------------
@@ -99,11 +104,12 @@
                     $message->setBody($body);
                     $message->addAddres($this->cfg->getParam('admin_email'));
                     
-                    $mailer = new EMailer($this->cfg, null);
+                    $mailer = new EMailer($this->cfg);
                     $result = $mailer->send($message);
                     
                     if($result != ""){
-                         throw new \Exception($result);
+                         $var = [MESSAGE => $result];
+                         EExceptionManager::throwException("EMailAppenderException", $var);
                     }
 
                }
@@ -115,11 +121,12 @@
            *
            * @param integer $start start row
            * @param integer $stop end row
-           * @return list of log row
-           * @throws LogFileNotFoundException
+           * @return array list of log row
+           * @throws EException
            */
-          public function getLog($start,$stop){
-               throw new ENotApplicableMethodException(dgettext("Elang","Method not applicable"));
+          public function getLog(int $start, int $stop): array{
+               EExceptionManager::throwException("ENotApplicableMethodException");
+               return [];
           }
 
      }

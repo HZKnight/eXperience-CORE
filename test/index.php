@@ -5,12 +5,6 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.25.13/dist/css/uikit.min.css" />
         <!-- UIkit Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.25.13/dist/css/uikit-icons.min.css" />
-        
-        <style>
-            body{
-                padding: 20px;
-            }
-        </style>
 
 
         <!-- UIkit JS -->
@@ -18,6 +12,10 @@
         <script src="https://cdn.jsdelivr.net/npm/uikit@3.25.13/dist/js/uikit-icons.min.js"></script>
     </head>
     <body>
+    <nav class="uk-navbar-container">
+        <div class="uk-container">
+            <div uk-navbar>
+
 <?php
 
 /** 
@@ -47,7 +45,17 @@ use Experience\Core\Io\Storage\Estorage;
 use Experience\Core\Io\Storage\Driver\LocalStorageDriver;
 
 
-echo "<h1 class='uk-heading-divider'>eXperience CORE ".getenv("ECORE")." - Test application</h1><br/>";
+echo "<h1 class='uk-navbar-item uk-logo'>eXperience CORE ".getenv("ECORE")." - Test application</h1>";
+echo "</div>";
+echo "</div>";
+echo "</nav>";
+echo "<p>Questo è un file di test per eXperience CORE, non è destinato ad essere eseguito in produzione.</p><hr>";
+echo "<p>Il test include:</p><ul>
+<li>Informazioni di sistema</li>
+<li>Test del logger</li>
+<li>Test del gestore di configurazione</li>
+</ul><hr>";
+
 try{
     //Show system information
     echo "<h2 class='uk-heading-divider'>System information</h2>";

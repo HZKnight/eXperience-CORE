@@ -1,2 +1,3 @@
 .phpdoc
 ast.dump
+/test/log/*.log

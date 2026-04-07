@@ -16,7 +16,7 @@
      * -------------------------------------------------------------------------------------------
      * License
      * -------------------------------------------------------------------------------------------
-     * Copyright (C)2025 HZKnight
+     * Copyright (C)2026 HZKnight
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +35,8 @@
     
     namespace Experience\Core\Tools\Logger;
     
-    use Experience\Core\Tools\Logger\Exceptions\AppenderNotFoundException;
+    use Experience\Core\Exceptions\EExceptionManager;
+    use Experience\Core\Exceptions\EException;
 
     use Experience\Core\Tools\Logger\Appenders\Appender;
     use Experience\Core\Tools\Logger\Appenders\AppenderFile;
@@ -48,12 +49,18 @@
     use Psr\Log\LoggerInterface;
     use Psr\Log\LogLevel;
 
+    use function array_key_exists;
+    use function settype;
+    use function array_keys;
+    use function strtr;
+    use function date;
+
     /**
      * Logger di sistema
      *
      * @author  Luca Liscio <lucliscio@h0model.org>
      * @version 2.1.0
-     * @copyright &copy;2021-2025 HZKnight
+     * @copyright &copy;2021-2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
@@ -66,16 +73,19 @@
         
         // Appenders type
         /** File type log */
-        const LOG_APPENDER_FILE =    501;
+        public const LOG_APPENDER_FILE =    501;
         /** Email type log */
-        const LOG_APPENDER_EMAIL =   502;
+        public const LOG_APPENDER_EMAIL =   502;
         /** Data base type log */
-        const LOG_APPENDER_DB =      503;
+        public const LOG_APPENDER_DB =      503;
 
         //Dati del logger
         private $logname;
         private $dateFormat;
-        private $appenders = array();
+
+        /** @var Appender[] */
+        private array $appenders = [];
+
         private $loglevel;
         private EConfigManager $cfg;
         private EStorage $storage;
@@ -92,7 +102,6 @@
          * @param integer $type tipo di logger da creare
          * @param integer $loglevel livello di errore da cui cominciare a registrare il log
          * @return ELogger
-         * @throws AppenderNotFoundException
          *
          * @example $miolog = ELogger::getLogger($cfg, $storage, "miolog",ELogger::LOG_APPENDER_FILE,ELogLevel::INFO);
          *
@@ -114,9 +123,7 @@
          * @return ELogger[]
          */
         public static function getIstances(){
-
             return self::$instace;
-
         }
 
         /**
@@ -136,6 +143,8 @@
             $this->get_appender($type)->setLogLevel($this->loglevel);
             $this->dateFormat = "d-m-Y H:i:s";
 
+            EExceptionManager::addException("AppenderNotFoundException", dgettext("Elang","Appender requested not found"), "ELE001");
+
         }
 
         /**
@@ -143,7 +152,7 @@
          *
          * @param integer $type tipo di appender da aggiungere
          */
-        public function add_appender($type){
+        public function add_appender(int $type){
 
             switch($type){
                 case self::LOG_APPENDER_FILE:
@@ -168,14 +177,14 @@
          * Rimuove un appender dal logger
          *
          * @param integer $type tipo di appender da rimuovere
-         * @throws AppenderNotFoundException
+         * @throws EException
          */
-        public function remove_appender($type){
+        public function remove_appender(int $type){
 
             if(isset($this->appenders[$type])){
                 unset($this->appenders[$type]);
             } else {
-                throw new AppenderNotFoundException(dgettext("Elang","Appender requested not found"));
+                EExceptionManager::throwException("AppenderNotFoundException");
             }
             
         }
@@ -184,15 +193,16 @@
          * restituisce l'appender associato al tipo specifiato
          *
          * @param integer $type tipo di appender che si vuole ottenere
-         * @throws AppenderNotFoundException
-         * @return Appenders\Appender
+         * @throws EException
+         * @return Appenders\Appender|null
          */
-        public function get_appender($type){
+        public function get_appender(int $type){
 
             if(isset($this->appenders[$type])){
                 return $this->appenders[$type];
             } else {
-                throw new AppenderNotFoundException(dgettext("Elang","Appender requested not found"));
+                EExceptionManager::throwException("AppenderNotFoundException");
+                return null;
             }
 
         }
@@ -201,11 +211,11 @@
          * Restituisce la lista degli appenders attivi sotto forma di array
          * bidimensionale [codice][tipo]
          *
-         * @return string
+         * @return array
          */
         public function get_appenders_list(){
             
-            $list = array();
+            $list = [];
             
             $keys = array_keys($this->appenders);
             
@@ -213,16 +223,13 @@
                 
                 switch($key){
                     case self::LOG_APPENDER_FILE:
-                        $list[][0] = self::LOG_APPENDER_FILE;
-                        $list[][1] = "FILE";
+                        $list[] = array(self::LOG_APPENDER_FILE, "FILE");
                         break;
                     case self::LOG_APPENDER_EMAIL:
-                        $list[][0] = self::LOG_APPENDER_EMAIL;
-                        $list[][1] = "EMAIL";
+                        $list[] = array(self::LOG_APPENDER_EMAIL, "EMAIL");
                         break;
                     case self::LOG_APPENDER_DB:
-                        $list[][0] = self::LOG_APPENDER_DB;
-                        $list[][1] = "DB";
+                        $list[] = array(self::LOG_APPENDER_DB, "DB");
                         break;
                     default:
                         break;
@@ -239,10 +246,8 @@
          *
          * @param string $dateFormat
          */
-        public function setDateFormat($dateFormat){
-
+        public function setDateFormat(string $dateFormat){
             $this->dateFormat = $dateFormat;
-
         }
 
         /**
@@ -273,7 +278,7 @@
          * @param integer $level livello dell'errore
          * @param string $msg messaggio di errore
          */
-        private function append($level, $msg){
+        private function append(int $level, string $msg){
 
             $logrow = new ELogRow();
             $logrow->date = date($this->dateFormat);
@@ -291,13 +296,13 @@
         /**
          * Generic log.
          *
-         * @param integer $level: this param can aasume only values in ELogLevel
+         * @param int $level: this param can aasume only values in ELogLevel
          * @param string $message
          * @param array  $context
          *
          * @return void
          */
-        public function log($level, $message, array $context = array())
+        public function log($level, $message, array $context = [])
         {
             settype($elevel,"integer");
            
