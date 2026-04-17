@@ -34,7 +34,7 @@
      * -------------------------------------------------------------------------------------------
      */
 
-    namespace Experience\Core\Io\Database;
+    namespace Experience\Core\Io\Dbal;
     
     use Experience\Core\Tools\Config\EConfigManager;
 
@@ -43,6 +43,8 @@
     use \PDOException;
 
     use function str_replace;
+    use function is_array;
+
 
     /**
      * Interfaccia di comunicazione con il db (Database type MySql-PDO)
@@ -54,15 +56,15 @@
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
-     * @subpackage Core\Io\Database
+     * @subpackage Core\Io\Dbal
      *
      * @filesource
      */
 
     class EDbManager {
 
-        const VERSION = '3.3.0-PDO';
-        const DATE_APPROVED = '2026-04-04';
+        public const string VERSION = '3.3.0-PDO';
+        public const string DATE_APPROVED = '2026-04-04';
 
         private mixed $conn;
         private string $tbprefix;
