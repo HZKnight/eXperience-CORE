@@ -40,6 +40,13 @@
     use Experience\Core\Tools\Config\EConfigManager;
 
     use SQLite3;
+    use SQLite3Result;
+
+    use function is_array;
+    use function is_int;
+    use function is_float;
+    use function is_null;
+    use function is_resource;
 
 
     /**
@@ -76,24 +83,20 @@
          * - 'tbprefix': il prefisso da utilizzare per le tabelle (opzionale)
          * Se viene passato un array, i parametri devono essere presenti come chiavi. Se viene passato un'istanza di EConfigManager
          * , i parametri vengono letti tramite il metodo getParam con chiavi 'db.path' e 'db.tbprefix'
-         * 
+         *
          * @param EConfigManager|array $config configurazione della connessione
          */
         public function __construct(EConfigManager|array $config) {
-            $this->connData = array();
+            $this->connData = [];
             $this->config = $config;
             $this->error = null;
 
-            if (is_array($config)) {
-                $this->connData = [
-                    'path' => $this->config['path'] ?? self::DEFAULT_CONFIG['path'],
-                    'tbprefix' => $this->config['tbprefix'] ?? self::DEFAULT_CONFIG['tbprefix'],
-                ];
+            if(is_array($config)) {
+                $this->connData['path'] = $this->config['path'] ?? self::DEFAULT_CONFIG['path'];
+                $this->connData['tbprefix'] = $this->config['tbprefix'] ?? self::DEFAULT_CONFIG['tbprefix'];
             } else {
-                $this->connData = [
-                    'path' => $this->config->getParam('db.path', self::DEFAULT_CONFIG['path']),
-                    'tbprefix' => $this->config->getParam('db.tbprefix', self::DEFAULT_CONFIG['tbprefix']),
-                ];
+                $this->connData['path'] = $this->config->getParam('db.path', self::DEFAULT_CONFIG['path']);
+                $this->connData['tbprefix'] = $this->config->getParam('db.tbprefix', self::DEFAULT_CONFIG['tbprefix']);
             }
             $this->tbprefix = $this->connData['tbprefix'];
         }
@@ -142,7 +145,7 @@
                 if (is_float($value)){
                     $type = SQLITE3_FLOAT;
                 }
-                if (is_null($value)){
+                if ($value === null){
                     $type = SQLITE3_NULL;
                 }
                 if (is_resource($value)){
