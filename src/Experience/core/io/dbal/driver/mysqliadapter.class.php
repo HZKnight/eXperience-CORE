@@ -37,6 +37,7 @@
 
     use Experience\Core\Tools\Config\EConfigManager;
     use Experience\Core\Io\Dbal\Driver\BaseAdapter;
+    use Experience\Core\Io\Dbal\Driver\Interface\DatabaseAdapterInterface;
 
     use function is_array;
     use function is_int;
@@ -56,7 +57,7 @@
      *
      * @filesource
      */
-    class MySqliAdapter extends BaseAdapter {
+    class MySqliAdapter extends BaseAdapter implements DatabaseAdapterInterface {
 
         private const DEFAULT_HOST = 'localhost';
         private const DEFAULT_PORT = 3306;
@@ -90,11 +91,11 @@
                 $this->tbprefix = $config['tb_prefix'];
             } else {
                 // Usa EConfigManager
-                $this->connData['host'] = $config->getParam('db.host') ?? self::DEFAULT_HOST;
-                $this->connData['port'] = $config->getParam('db.port') ?? self::DEFAULT_PORT;
-                $this->connData['uname'] = $config->getParam('db.uname');
-                $this->connData['passwd'] = $config->getParam('db.passwd');
-                $this->tbprefix = $config->getParam('db.tb_prefix');
+                $this->connData['host'] = $config->getParam('db.host', self::DEFAULT_HOST);
+                $this->connData['port'] = $config->getParam('db.port', self::DEFAULT_PORT);
+                $this->connData['uname'] = $config->getParam('db.uname', '');
+                $this->connData['passwd'] = $config->getParam('db.passwd', '');
+                $this->tbprefix = $config->getParam('db.tb_prefix', '');
             }
         }
        
@@ -134,9 +135,7 @@
          * @param array $params I parametri da bindare alla query
          * @return \mysqli_stmt La statement eseguita, da cui è possibile ottenere risultati o il numero di righe interessate
          */
-        private function doexecute(string $sql, array $params = []): \mysqli_stmt {
-            $this->connect();
-
+        private function doexecute(string $sql, ?array $params = []): \mysqli_stmt {
             $stmt = $this->connection->prepare($sql);
                 
             if (!empty($params)) {
@@ -155,7 +154,7 @@
          * @param array $params I parametri da bindare alla query
          * @return int|false Il numero di righe interessate o false in caso di errore
          */
-        public function execute(string $sql, array $params = []): int|false {
+        public function execute(string $sql, ?array $params = []): int|false {
             try {
                 $stmt = $this->doexecute($sql, $params);
                 return $stmt->affected_rows;
@@ -176,13 +175,13 @@
          * @param array $params
          * @return array
          */
-        public function fetchAll(string $sql, array $params = []): array {
+        public function fetchAll(string $sql, ?array $params = []): ?array {
             try {
                 $stmt = $this->doexecute($sql, $params);
                 $result = $stmt->get_result();
             
                 if ($result === false){
-                    return [];
+                    return null;
                 }
                 
                 $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -191,7 +190,7 @@
                 return $data;
             } catch (\Exception $e) {
                 $this->error = !$this->connection ? self::NO_CONNECTION_ERROR . $e->getMessage() : $e->getMessage();
-                return [];
+                return null;
             }
         }
 
@@ -207,7 +206,7 @@
          * @param array $params
          * @return null|array
          */
-        public function fetchOne(string $sql, array $params = []): ?array {
+        public function fetchOne(string $sql, ?array $params = []): ?array {
             try {
                 $stmt = $this->doexecute($sql, $params);
                 $result = $stmt->get_result();
@@ -231,7 +230,7 @@
          * @param array $params
          * @return mixed
          */
-        public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed {
+        public function fetchColumn(string $sql, ?array $params = [], int $columnOffset = 0): mixed {
             try {
                 $stmt = $this->doexecute($sql, $params);
                 $result = $stmt->get_result();

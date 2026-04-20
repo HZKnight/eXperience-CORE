@@ -36,6 +36,7 @@
     namespace Experience\Core\Io\Dbal\Driver;
 
     use Experience\Core\Tools\Config\EConfigManager;
+    use Experience\Core\Io\Dbal\Driver\BaseAdapter;
     use Experience\Core\Io\Dbal\Driver\Interface\DatabaseAdapterInterface;
 
     use \PDO;
@@ -60,7 +61,7 @@
      *
      * @filesource
      */
-    class PdoAdapter implements DatabaseAdapterInterface {
+    class PdoAdapter extends BaseAdapter implements DatabaseAdapterInterface {
 
         private PDO $pdo;
         private string $error;
@@ -166,7 +167,7 @@
          * @param array $params I parametri da bindare alla query
          * @return PDOStatement L'oggetto statement risultante dall'esecuzione della query
          */
-        private function doexecute(string $sql, array $params = []): \PDOStatement {
+        private function doexecute(string $sql, ?array $params = []): \PDOStatement {
             $stmt = $this->pdo->prepare($sql);
 
             // Gestione automatica dei tipi per i parametri
@@ -192,7 +193,7 @@
          * @param array $params I parametri da bindare alla query
          * @return int|false Il numero di righe interessate o false in caso di errore
          */
-        public function execute(string $sql, array $params = []): int|false {
+        public function execute(string $sql, ?array $params = []): int|false {
             try {
                 $stmt = $this->doexecute($sql, $params);
 
@@ -211,14 +212,14 @@
          * @return array Un array di righe risultanti
          * @throws PDOException
          */
-        public function fetchAll(string $sql, array $params = []): array {
+        public function fetchAll(string $sql, ?array $params = []): ?array {
             try {
                 $stmt = $this->doexecute($sql, $params);
 
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 $this->error = $e->getMessage();
-                return [];
+                return null;
             }
         }
 
@@ -231,7 +232,7 @@
          * @return array|null La prima riga risultante o null se non ci sono risultati
          * @throws PDOException
          */
-        public function fetchOne(string $sql, array $params = []): ?array {
+        public function fetchOne(string $sql, ?array $params = []): ?array {
             try {
                 $stmt = $this->doexecute($sql, $params);
 
@@ -251,10 +252,10 @@
          * @return mixed Il valore recuperato o null se non ci sono risultati
          * @throws PDOException
          */
-        public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed {
+        public function fetchColumn(string $sql, ?array $params = [], int $columnOffset = 0): mixed {
             try {
                 $stmt = $this->doexecute($sql, $params);
-                
+
                 return $stmt->fetchColumn($columnOffset);
             } catch (PDOException $e) {
                 $this->error = $e->getMessage();

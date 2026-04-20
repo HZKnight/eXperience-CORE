@@ -51,10 +51,10 @@
 
     interface DatabaseAdapterInterface{
         public function connect(): bool;
-        public function execute(string $sql, array $params = []): int|false; // Per INSERT/UPDATE/DELETE
-        public function fetchAll(string $sql, array $params = []): array;
-        public function fetchOne(string $sql, array $params = []): ?array;
-        public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed;
+        public function execute(string $sql, ?array $params = []): int|false; // Per INSERT/UPDATE/DELETE
+        public function fetchAll(string $sql, ?array $params = []): ?array;
+        public function fetchOne(string $sql, ?array $params = []): ?array;
+        public function fetchColumn(string $sql, ?array $params = [], int $columnOffset = 0): mixed;
         public function lastInsertId();
         public function beginTransaction();
         public function commit();

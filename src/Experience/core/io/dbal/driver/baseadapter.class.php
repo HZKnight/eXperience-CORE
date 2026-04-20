@@ -68,10 +68,10 @@
          
 
         abstract public function connect(): bool;
-        abstract public function execute(string $sql, array $params = []): int|false; // Per INSERT/UPDATE/DELETE
-        abstract public function fetchAll(string $sql, array $params = []): array;
-        abstract public function fetchOne(string $sql, array $params = []): ?array;
-        abstract public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed;
+        abstract public function execute(string $sql, ?array $params = []): int|false; // Per INSERT/UPDATE/DELETE
+        abstract public function fetchAll(string $sql, ?array $params = []): ?array;
+        abstract public function fetchOne(string $sql, ?array $params = []): ?array;
+        abstract public function fetchColumn(string $sql, ?array $params = [], int $columnOffset = 0): mixed;
         abstract public function lastInsertId();
         abstract public function beginTransaction();
         abstract public function commit();
