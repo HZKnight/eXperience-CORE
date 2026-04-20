@@ -96,12 +96,6 @@
 
         }
 
-        /**
-         * Distruttore dell'adapter PDO, chiude la connessione al database
-         */
-        public function __destruct() {
-            $this->disconnect();
-        }
 
         /**
          * Restituisce il messaggio di errore
@@ -162,6 +156,35 @@
             }
         }
 
+
+         /**
+         * Metodo centrale per l'esecuzione di query con prepared statements
+         * Si occupa di preparare la query, bindare i parametri con i tipi corretti e eseguire la query
+         * Restituisce l'oggetto statement per ulteriori operazioni (fetch, rowCount, etc.)
+         *
+         * @param string $sql La query da eseguire
+         * @param array $params I parametri da bindare alla query
+         * @return PDOStatement L'oggetto statement risultante dall'esecuzione della query
+         */
+        private function doexecute(string $sql, array $params = []): \PDOStatement {
+            $stmt = $this->pdo->prepare($sql);
+
+            // Gestione automatica dei tipi per i parametri
+            foreach ($params as $index => $value) {
+                $type = PDO::PARAM_STR;
+                if (is_int($value)) {$type = PDO::PARAM_INT;}
+                if (is_bool($value)) {$type = PDO::PARAM_BOOL;}
+                if (is_null($value)) {$type = PDO::PARAM_NULL;}
+                if (is_resource($value)) {$type = PDO::PARAM_LOB;} // Gestione BLOB
+
+                $stmt->bindValue($index + 1, $value, $type);
+            }
+
+            $stmt->execute();
+            return $stmt;
+        }
+
+
         /**
          * Esegue un query sql e restituisce il risultato
          *
@@ -171,20 +194,8 @@
          */
         public function execute(string $sql, array $params = []): int|false {
             try {
-                $stmt = $this->pdo->prepare($sql);
+                $stmt = $this->doexecute($sql, $params);
 
-                // Gestione automatica dei tipi per i parametri
-                foreach ($params as $index => $value) {
-                    $type = PDO::PARAM_STR;
-                    if (is_int($value)) {$type = PDO::PARAM_INT;}
-                    if (is_bool($value)) {$type = PDO::PARAM_BOOL;}
-                    if (is_null($value)) {$type = PDO::PARAM_NULL;}
-                    if (is_resource($value)) {$type = PDO::PARAM_LOB;} // Gestione BLOB
-
-                    $stmt->bindValue($index + 1, $value, $type);
-                }
-
-                $stmt->execute();
                 return $stmt->rowCount();
             } catch (PDOException $e) {
                 $this->error = $e->getMessage();
@@ -202,20 +213,8 @@
          */
         public function fetchAll(string $sql, array $params = []): array {
             try {
-                $stmt = $this->pdo->prepare($sql);
+                $stmt = $this->doexecute($sql, $params);
 
-                // Gestione automatica dei tipi per i parametri
-                foreach ($params as $index => $value) {
-                    $type = PDO::PARAM_STR;
-                    if (is_int($value)) {$type = PDO::PARAM_INT;}
-                    if (is_bool($value)) {$type = PDO::PARAM_BOOL;}
-                    if (is_null($value)) {$type = PDO::PARAM_NULL;}
-                    if (is_resource($value)) {$type = PDO::PARAM_LOB;} // Gestione BLOB
-
-                    $stmt->bindValue($index + 1, $value, $type);
-                }
-
-                $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 $this->error = $e->getMessage();
@@ -234,20 +233,8 @@
          */
         public function fetchOne(string $sql, array $params = []): ?array {
             try {
-                $stmt = $this->pdo->prepare($sql);
+                $stmt = $this->doexecute($sql, $params);
 
-                // Gestione automatica dei tipi per i parametri
-                foreach ($params as $index => $value) {
-                    $type = PDO::PARAM_STR;
-                    if (is_int($value)) {$type = PDO::PARAM_INT;}
-                    if (is_bool($value)) {$type = PDO::PARAM_BOOL;}
-                    if (is_null($value)) {$type = PDO::PARAM_NULL;}
-                    if (is_resource($value)) {$type = PDO::PARAM_LOB;} // Gestione BLOB
-
-                    $stmt->bindValue($index + 1, $value, $type);
-                }
-
-                $stmt->execute();
                 return $stmt->fetchObject(PDO::FETCH_ASSOC) ?: null;
             } catch (PDOException $e) {
                 $this->error = $e->getMessage();
@@ -264,23 +251,11 @@
          * @return mixed Il valore recuperato o null se non ci sono risultati
          * @throws PDOException
          */
-        public function fetchColumn(string $sql, array $params = []): mixed {
+        public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed {
             try {
-                $stmt = $this->pdo->prepare($sql);
-
-                // Gestione automatica dei tipi per i parametri
-                foreach ($params as $index => $value) {
-                    $type = PDO::PARAM_STR;
-                    if (is_int($value)) {$type = PDO::PARAM_INT;}
-                    if (is_bool($value)) {$type = PDO::PARAM_BOOL;}
-                    if (is_null($value)) {$type = PDO::PARAM_NULL;}
-                    if (is_resource($value)) {$type = PDO::PARAM_LOB;} // Gestione BLOB
-
-                    $stmt->bindValue($index + 1, $value, $type);
-                }
-
-                $stmt->execute();
-                return $stmt->fetchColumn();
+                $stmt = $this->doexecute($sql, $params);
+                
+                return $stmt->fetchColumn($columnOffset);
             } catch (PDOException $e) {
                 $this->error = $e->getMessage();
                 return null;

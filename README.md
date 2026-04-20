@@ -13,8 +13,8 @@ eXperience CORE
 Licences
 -------------------------
 
-- **eXperience CORE code** ©2022-2025 by HZKnight is licensed under [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
-- **eXperience CORE User Guide and all related documentation** ©2022-2025 by HZKnight is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- **eXperience CORE code** ©2022-2026 by HZKnight is licensed under [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
+- **eXperience CORE User Guide and all related documentation** ©2022-2026 by HZKnight is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 
 Descriprion

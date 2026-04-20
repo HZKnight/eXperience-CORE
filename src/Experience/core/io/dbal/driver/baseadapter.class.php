@@ -1,6 +1,6 @@
 <?php
     /*
-     * DatabaseAdapterInterface.class.php
+     * BaseAdapter.class.php
      *
      *                                         __  __                _
      *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
@@ -33,31 +33,49 @@
      * -------------------------------------------------------------------------------------------
      */
 
-    namespace Experience\Core\Io\Dbal\Driver\Interface;
+    namespace Experience\Core\Io\Dbal\Driver;
+
+    use Experience\Core\Io\Dbal\Driver\Interface\DatabaseAdapterInterface;
 
     /**
-     * Definizione delle api dei driver per il database
+     * Abstract class for database adapter
      *
      * @author  lucliscio <lucliscio@h0model.org>
      * @version 1.0.0
      * @copyright &copy;2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
-     *
      * @package eXperience
-     * @subpackage Core\Io\Dbal\Driver\Interface
+     * @subpackage Core\Io\Dbal\Driver
      *
      * @filesource
      */
 
-    interface DatabaseAdapterInterface{
-        public function connect(): bool;
-        public function execute(string $sql, array $params = []): int|false; // Per INSERT/UPDATE/DELETE
-        public function fetchAll(string $sql, array $params = []): array;
-        public function fetchOne(string $sql, array $params = []): ?array;
-        public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed;
-        public function lastInsertId();
-        public function beginTransaction();
-        public function commit();
-        public function rollBack();
-        public function disconnect();
-    }
+    abstract class BaseAdapter implements DatabaseAdapterInterface{
+
+        protected ?string $error = null;
+
+        public function __construct() {
+            // Costruttore vuoto, le classi figlie possono sovrascriverlo se necessario
+        }
+
+
+        /**
+         * Distruttore dell'adapter PDO, chiude la connessione al database
+         */
+        public function __destruct() {
+            $this->disconnect();
+         }
+         
+
+        abstract public function connect(): bool;
+        abstract public function execute(string $sql, array $params = []): int|false; // Per INSERT/UPDATE/DELETE
+        abstract public function fetchAll(string $sql, array $params = []): array;
+        abstract public function fetchOne(string $sql, array $params = []): ?array;
+        abstract public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed;
+        abstract public function lastInsertId();
+        abstract public function beginTransaction();
+        abstract public function commit();
+        abstract public function rollBack();
+        abstract public function disconnect();
+}
+        

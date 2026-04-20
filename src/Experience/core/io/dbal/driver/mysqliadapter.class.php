@@ -1,6 +1,6 @@
 <?php
     /*
-     * DatabaseAdapterInterface.class.php
+     * MySqliAdapter.class.php
      *
      *                                         __  __                _
      *                                      ___\ \/ /_ __   ___ _ __(_) ___ _ __   ___ ___
@@ -36,7 +36,7 @@
     namespace Experience\Core\Io\Dbal\Driver;
 
     use Experience\Core\Tools\Config\EConfigManager;
-    use Experience\Core\Io\Dbal\Driver\Interface\DatabaseAdapterInterface;
+    use Experience\Core\Io\Dbal\Driver\BaseAdapter;
 
     use function is_array;
     use function is_int;
@@ -56,10 +56,11 @@
      *
      * @filesource
      */
-    class MySqliAdapter implements DatabaseAdapterInterface {
+    class MySqliAdapter extends BaseAdapter {
 
         private const DEFAULT_HOST = 'localhost';
         private const DEFAULT_PORT = 3306;
+        private const NO_CONNECTION_ERROR = dgettext('Elang','No database connection ');
 
         private \mysqli $connection = null;
         private string $error = '';
@@ -96,15 +97,7 @@
                 $this->tbprefix = $config->getParam('db.tb_prefix');
             }
         }
-
-        
-        /**
-         * Distruttore dell'adapter PDO, chiude la connessione al database
-         */
-        public function __destruct() {
-            $this->disconnect();
-         }
-
+       
 
         /**
          * Esegue la connessione al database
@@ -134,6 +127,26 @@
             return true;
         }
 
+        /**
+         * Metodo centrale per l'esecuzione di query con prepared statements
+         *
+         * @param string $sql La query da eseguire
+         * @param array $params I parametri da bindare alla query
+         * @return \mysqli_stmt La statement eseguita, da cui è possibile ottenere risultati o il numero di righe interessate
+         */
+        private function doexecute(string $sql, array $params = []): \mysqli_stmt {
+            $this->connect();
+
+            $stmt = $this->connection->prepare($sql);
+                
+            if (!empty($params)) {
+                $this->bindDynamicParams($stmt, $params);
+            }
+
+            $stmt->execute();
+            return $stmt;
+        }
+
 
         /**
          * Esegue un query sql e restituisce il risultato
@@ -144,16 +157,10 @@
          */
         public function execute(string $sql, array $params = []): int|false {
             try {
-                $stmt = $this->connection->prepare($sql);
-            
-                if (!empty($params)) {
-                    $this->bindDynamicParams($stmt, $params);
-                }
-
-                $stmt->execute();
+                $stmt = $this->doexecute($sql, $params);
                 return $stmt->affected_rows;
             } catch (\Exception $e) {
-                $this->error = !$this->connection ? 'No database connection '. $e->getMessage() : $e->getMessage();
+                $this->error = !$this->connection ? self::NO_CONNECTION_ERROR . $e->getMessage() : $e->getMessage();
                 return false;
             }
         }
@@ -162,7 +169,7 @@
         /**
          * Esegue una query di selezione e restituisce tutte le righe risultanti come array associativo
          * Nota: mysqli non supporta direttamente il fetchAll, quindi utilizziamo get_result e fetch_all per ottenere i dati
-         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso 
+         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso
          * restituendo un array vuoto
          *
          * @param string $sql
@@ -171,13 +178,7 @@
          */
         public function fetchAll(string $sql, array $params = []): array {
             try {
-                $stmt = $this->connection->prepare($sql);
-            
-                if (!empty($params)) {
-                    $this->bindDynamicParams($stmt, $params);
-                }
-
-                $stmt->execute();
+                $stmt = $this->doexecute($sql, $params);
                 $result = $stmt->get_result();
             
                 if ($result === false){
@@ -186,42 +187,145 @@
                 
                 $data = $result->fetch_all(MYSQLI_ASSOC);
                 $result->free();
+
                 return $data;
             } catch (\Exception $e) {
-                $this->error = !$this->connection ? 'No database connection '. $e->getMessage() : $e->getMessage();
+                $this->error = !$this->connection ? self::NO_CONNECTION_ERROR . $e->getMessage() : $e->getMessage();
                 return [];
             }
         }
 
+
+        /**
+         * Esegue una query di selezione e restituisce la prima riga risultante come array associativo
+         * Nota: mysqli non supporta direttamente il fetchOne, quindi utilizziamo get_result e fetch_assoc per ottenere la prima riga
+         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso restituendo null
+         * Nota: se la query restituisce risultati, ma non ci sono righe, fetch_assoc restituirà null, quindi gestiamo anche questo caso
+         * restituendo null
+         *
+         * @param string $sql
+         * @param array $params
+         * @return null|array
+         */
         public function fetchOne(string $sql, array $params = []): ?array {
-            // FetchOne implementation
-            return null;
+            try {
+                $stmt = $this->doexecute($sql, $params);
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                $result->free();
+
+                return $row ?: null;
+            } catch (\Exception $e) {
+                $this->error = !$this->connection ? self::NO_CONNECTION_ERROR . $e->getMessage() : $e->getMessage();
+                return null;
+            }
         }
 
-        public function fetchColumn(string $sql, array $params = []): mixed {
-            // FetchColumn implementation
-            return null;
+
+        /**
+         * Esegue una query di selezione e restituisce il valore della prima colonna della prima riga risultante
+         * Nota: mysqli non supporta direttamente il fetchColumn, quindi utilizziamo get_result e fetch_assoc per ottenere la prima riga
+         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso restituendo null
+         *
+         * @param string $sql
+         * @param array $params
+         * @return mixed
+         */
+        public function fetchColumn(string $sql, array $params = [], int $columnOffset = 0): mixed {
+            try {
+                $stmt = $this->doexecute($sql, $params);
+                $result = $stmt->get_result();
+                $row = $result->fetch_array(MYSQLI_NUM); // Recuperiamo come array numerico
+                $result->free();
+
+                return ($row && isset($row[$columnOffset])) ? $row[$columnOffset] : null;
+            } catch (\Exception $e) {
+                $this->error = !$this->connection ? self::NO_CONNECTION_ERROR . $e->getMessage() : $e->getMessage();
+                return null;
+            }
         }
 
+
+        /**
+         * Restituisce l'ID dell'ultima riga inserita
+         * Nota: mysqli fornisce la proprietà insert_id per ottenere l'ID dell'ultima riga inserita, quindi possiamo restituire direttamente questo valore
+         * Nota: se non c'è una connessione al database, insert_id restituirà 0, quindi gestiamo questo caso restituendo null o un valore appropriato
+         *
+         * @return int|string
+         */
         public function lastInsertId() {
-            // LastInsertId implementation
-            return null;
+            return $this->connection->insert_id;
         }
 
+
+        /**
+         * Gestisce le transazioni in modo ricorsivo, supportando interazioni tramite savepoint per consentire transazioni annidate
+         * Nota: mysqli supporta le transazioni e i savepoint, quindi utilizziamo begin_transaction per avviare una transazione e query SAVEPOINT per gestire le transazioni annidate
+         * Nota: manteniamo un contatore delle transazioni per sapere quando avviare una nuova transazione o creare un savepoint, e per gestire correttamente commit e rollBack in base al livello di annidamento
+         *
+         * @return void
+         */
         public function beginTransaction() {
-            // BeginTransaction implementation
+            $this->connect();
+            if ($this->transactionCounter === 0) {
+                $this->connection->begin_transaction();
+            } else {
+                $this->connection->query("SAVEPOINT trans_{$this->transactionCounter}");
+            }
+            $this->transactionCounter++;
         }
 
+
+        /**
+         * Gestisce il commit delle transazioni, rilasciando i savepoint se ci sono transazioni annidate, o eseguendo il commit completo se siamo al livello più esterno
+         * Nota: se ci sono transazioni annidate, invece di eseguire un commit completo, rilasciamo il savepoint corrispondente al livello di annidamento attuale, in modo da consentire alle transazioni esterne di continuare a gestire il commit o il rollBack
+         *
+         * @return void
+         */
         public function commit() {
-            // Commit implementation
+            if ($this->transactionCounter > 0) {
+                $this->transactionCounter--;
+                if ($this->transactionCounter === 0) {
+                    $this->connection->commit();
+                } else {
+                    $this->connection->query("RELEASE SAVEPOINT trans_{$this->transactionCounter}");
+                }
+            }
         }
 
+
+        /**
+         * Gestisce il rollBack delle transazioni, eseguendo un rollBack completo se siamo al livello più esterno, o tornando al save
+         * point se ci sono transazioni annidate, in modo da consentire alle transazioni esterne di continuare a gestire il commit o il rollBack
+         * Nota: se ci sono transazioni annidate, invece di eseguire un rollBack completo, torniamo al savepoint corrispondente al livello di annidamento attuale, in modo da consentire alle transazioni esterne di continuare a gestire il commit o il rollBack
+         *
+         * @return void
+         */
         public function rollBack() {
-            // RollBack implementation
+            if ($this->transactionCounter > 0) {
+                $this->transactionCounter--;
+                if ($this->transactionCounter === 0) {
+                    $this->connection->rollback();
+                } else {
+                    $this->connection->query("ROLLBACK TO SAVEPOINT trans_" . $this->transactionCounter);
+                }
+            }
         }
 
+
+        /**
+         * Chiude la connessione al database, se esiste, e resetta la proprietà connection a null
+         * Nota: mysqli chiude automaticamente la connessione quando l'oggetto mysqli viene distrutto, ma è buona pratica chiudere esplicitamente la connessione quando non è più necessaria, soprattutto
+         * se si gestiscono più connessioni o se si desidera liberare risorse in modo proattivo
+         * Nota: se non c'è una connessione attiva, non è necessario fare nulla, quindi gestiamo questo caso verificando se la proprietà connection è null prima di tentare di chiudere la connessione
+         *
+         * @return void
+         */
         public function disconnect() {
-            // Disconnect implementation
+            if ($this->connection) {
+                $this->connection->close();
+                $this->connection = null;
+            }
         }
 
 
