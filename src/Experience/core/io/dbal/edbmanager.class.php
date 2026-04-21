@@ -43,7 +43,6 @@
     use Experience\Core\Io\Dbal\Driver\PdoAdapter;
 
     use \Exception;
-    use \PDOException;
 
     use function str_replace;
     use function is_array;
@@ -80,8 +79,7 @@
         /**
          * All'atto della costruziine di un nuovo ogetto esegue la connessione al DB
          *
-         * @param EConfigManager|array $config contiene i parametri (type, host, uname, passwd, db) necessari alla connesione
-         * @throws PDOException
+         * @param EConfigManager|array $config contiene i parametri (driver, host, uname, passwd, db, path) necessari alla connesione
          */
         public function __construct(EConfigManager|array $config) {
 
@@ -100,7 +98,7 @@
                     $this->adapter = new SqliteAdapter($config);
                     break;
                 default:
-                    $this->error = "Unsupported database driver: ".$this->dbtype;
+                    $this->error = "Unsupported database driver: {$this->dbtype}";
                     break;
             }
             
