@@ -60,4 +60,5 @@
         public function commit();
         public function rollBack();
         public function disconnect();
+        public function getError(): ?string;
     }

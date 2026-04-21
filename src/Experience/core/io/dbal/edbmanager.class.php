@@ -37,8 +37,11 @@
     namespace Experience\Core\Io\Dbal;
     
     use Experience\Core\Tools\Config\EConfigManager;
+    use Experience\Core\Io\Dbal\Driver\BaseAdapter;
+    use Experience\Core\Io\Dbal\Driver\SqliteAdapter;
+    use Experience\Core\Io\Dbal\Driver\MySqliAdapter;
+    use Experience\Core\Io\Dbal\Driver\PdoAdapter;
 
-    use \PDO;
     use \Exception;
     use \PDOException;
 
@@ -50,7 +53,7 @@
      * Interfaccia di comunicazione con il db (Database type MySql-PDO)
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version 3.3.0-PDO
+     * @version 4.0.0
      * @copyright Copyright 2022-2026 HZKnight
      * @copyright Copyright 2013 Luca Liscio & Marco Lettieri
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
@@ -63,13 +66,16 @@
 
     class EDbManager {
 
-        public const string VERSION = '3.3.0-PDO';
-        public const string DATE_APPROVED = '2026-04-04';
+        public const string VERSION = '4.0.0';
+        public const string DATE_APPROVED = '2026-04-21';
 
-        private mixed $conn;
+        
+        private BaseAdapter $adapter;
+        private string $dbtype;
         private string $tbprefix;
         private array $connData;
         private mixed $error;
+
 
         /**
          * All'atto della costruziine di un nuovo ogetto esegue la connessione al DB
@@ -78,24 +84,36 @@
          * @throws PDOException
          */
         public function __construct(EConfigManager|array $config) {
-            $this->connData = array();
-            
-             if (is_array($config)) {
-                // Se passato array, usa direttamente
-                $this->connData['connstr'] = $config['db.type'].":host=".$config['db.host'].";port=".$config['db.port'].";dbname=".$config['db.table'].";charset=utf8";
-                $this->connData['uname'] = $config['db.uname'];
-                $this->connData['passwd'] = $config['db.passwd'];
-                $this->tbprefix = $config['db.tb_prefix'];
-            } else {
-                // Usa EConfigManager
-                $this->connData['connstr'] = $config->getParam('db.type').":host=".$config->getParam('db.host').";port=".$config->getParam('db.port').";dbname=".$config->getParam('db.table').";charset=utf8";
-                $this->connData['uname'] = $config->getParam('db.uname');
-                $this->connData['passwd'] = $config->getParam('db.passwd');
-                $this->tbprefix = $config->getParam('db.tb_prefix');
-            }
 
+            $this->connData = array();
+            $this->dbtype = is_array($config) ? $config['driver'] : $config->getParam('db.driver');
             $this->error = null;
+            
+            switch($this->dbtype) {
+                case 'pdo_mysql':
+                    $this->adapter = new PdoAdapter($config);
+                    break;
+                case 'mysqli':
+                    $this->adapter = new MySqliAdapter($config);
+                    break;
+                case 'sqlite':
+                    $this->adapter = new SqliteAdapter($config);
+                    break;
+                default:
+                    $this->error = "Unsupported database driver: ".$this->dbtype;
+                    break;
+            }
+            
         }
+
+        
+        /**
+         * Distruttore dell'oggetto, chiude la connessione al database
+         */
+        public function __destruct() {
+            $this->close();
+        }
+
 
         /**
          * Restituisce il messaggio di errore
@@ -110,36 +128,36 @@
          * Esegue un query sql e restituisce il risultato
          *
          * @param string $sql stringa contenente la query
+         * @param array|null $params array associativo dei parametri da bindare alla query (opzionale)
          * @return array $res contiene il resultset
          */
-        public function doQuery($sql){
+        public function doQuery(string $sql, ?array $params = []): ?array {
             //Send a sql query that returns a result
             $sql = str_replace('$_', $this->tbprefix, $sql);
 
             if (!$this->connect()) {
                 $this->error = "Connection failed";
-                return [];
+                return null;
             }
             
-            try {
-                $stmt = $this->conn->query($sql);
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $this->close();
-                return $result;
-            } catch (Exception $e) {
-                $this->close();
-                $this->error = $e->getMessage();
-                return [];
+           
+            $result = $this->adapter->fetchAll($sql, $params);
+            if($this->adapter->getError()) {
+                $this->error = $this->adapter->getError();
+                return null;
             }
+            return $result;
         }
+
 
         /**
          * Invia al db query di tipo comando e restituisce l'esito dell'esecuzione
          *
          * @param string $sql
+         * @param array|null $params
          * @return array restituisce l'esito della query
          */
-        public function doUpdate($sql){
+        public function doUpdate(string $sql, ?array $params = []): ?array {
             //Send a sql command that returns the number of rows affected
             $sql = str_replace('$_', $this->tbprefix, $sql);
 
@@ -150,30 +168,31 @@
             ];
 
             if (!$this->connect()) {
-                $result["error"] = "Connection failed";
-                return $result;
+                $this->error = "Connection failed";
+                return null;
             }
             
             try {
-                $af = $this->conn->exec($sql);
+                $af = $this->adapter->execute($sql, $params);
                 $result["nbrows"] = $af;
-                $result["error"] = $this->conn->errorInfo()[2];
+                $result["error"] = $this->adapter->getError();
             } catch (Exception $e) {
                 $result["error"] = $e->getMessage();
-            } finally {
-                $this->close();
+                return null;
             }
 
             return $result;
         }
     
+
         /**
          * Restituisce l'ultimo id inserito
          * @return mixed
          */
         public function sqlInsertId(){
-            return $this->conn->lastInsertId();
+            return $this->adapter->lastInsertId();
         }
+
 
         /**
          * Restituisce il numero di righe di una tebella
@@ -181,11 +200,11 @@
          * @param string $table tabella
          * @return int numero di righe della tabella
          */
-        public function getTableNumRows($table){
-            $sql = 'SELECT COUNT(*) AS "rows" FROM '.$table;
-            $num = $this->doQuery($sql);
-            return $num[0]['rows'];
+        public function getTableNumRows(string $table): ?int {
+            $sql = "SELECT COUNT(*) FROM $table";
+            return $this->adapter->fetchColumn($sql, [],  0);
         }
+
 
         /**
          * Restituisce un sottoinsieme delle righe di una tabella
@@ -197,18 +216,19 @@
          * @param string $otype
          * @return array|null
          */
-        public function getRowSubSet($table, $start, $numrow, $order="", $otype=""){
-            $sql = 'SELECT * FROM '.$table;
+        public function getRowSubSet(string $table, int $start, int $numrow, string $order = "", string $otype = ""): ?array {
+            $sql = "SELECT * FROM $table";
             
             // Tipo di ordinamento delle righe
             if($order != ""){
-                $sql .= ' ORDER BY '.$order." ".$otype;
+                $sql .= " ORDER BY {$order} {$otype}";
             }
             
-            $sql .=' LIMIT '.$start.', '.$numrow;
+            $sql .= " LIMIT {$start}, {$numrow}";
 
             return $this->doQuery($sql);
         }
+        
     
         /**
          * Formater for \' items
@@ -229,22 +249,20 @@
          * Apre la connesione con il db
          */
         private function connect(): bool{
-            try {
-                $this->conn = new PDO($this->connData['connstr'], $this->connData['uname'], $this->connData['passwd']);
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            if ($this->adapter->connect()) {
                 return true;
-            } catch (Exception $e){
-                $this->error = $e->getMessage();
+            } else {
+                $this->error = $this->adapter->getError();
                 return false;
             }
         }
 
+
         /**
          * Chiude la connesione con il db
          */
-        private function close(){
-            $this->conn = null;
+        public function close(){
+            $this->adapter->disconnect();
         }
     
     }

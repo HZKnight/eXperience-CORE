@@ -77,5 +77,15 @@
         abstract public function commit();
         abstract public function rollBack();
         abstract public function disconnect();
+
+        
+        /**
+         * Restituisce l'ultimo errore
+         *
+         * @return string
+         */
+        public function getError(): ?string {
+            return $this->error;
+        }
 }
         
