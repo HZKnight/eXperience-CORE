@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="it" xml:lang="it">
     <head>
         <title>eXperience CORE Test</title>
         <!-- UIkit CSS -->
@@ -13,14 +14,14 @@
     </head>
     <body>
     <nav class="uk-navbar-container">
-        <div class="uk-container">
+        <div class="uk-container uk-container-expand">
             <div uk-navbar>
 
 <?php
 
-/** 
+/**
  * This is a test file for Experience
- * 
+ *
  * @author  Luca Liscio <lucliscio@h0model.org>
  * @version 0.0.2 2020/11/29 19:25:34
  * @copyright 2021 HZKnight
@@ -31,7 +32,7 @@
  * @filesource
  */
 
-require "../src/eautoloader.class.php";
+require_once "../src/eautoloader.class.php";
 
 if(session_id() == ""){
     session_start();
@@ -45,23 +46,26 @@ use Experience\Core\Io\Storage\Estorage;
 use Experience\Core\Io\Storage\Driver\LocalStorageDriver;
 
 
-echo "<h1 class='uk-navbar-item uk-logo'>eXperience CORE ".getenv("ECORE")." - Test application</h1>";
+echo '<a class="uk-navbar-item uk-logo" href="#" aria-label="Back to Home">eXperience CORE ' . getenv("ECORE") . ' - Test application</a>';
 echo "</div>";
 echo "</div>";
 echo "</nav>";
+echo "<div class='uk-container uk-margin-top'>";
 echo "<p>Questo è un file di test per eXperience CORE, non è destinato ad essere eseguito in produzione.</p><hr>";
 echo "<p>Il test include:</p><ul>
 <li>Informazioni di sistema</li>
 <li>Test del logger</li>
 <li>Test del gestore di configurazione</li>
-</ul><hr>";
+</ul><hr>
+<p>Se si verificano errori, verrà mostrato un messaggio dettagliato con il codice di errore, il nome dell'eccezione, il messaggio, il file e la linea in cui si è verificato l'errore, e lo stack trace.</p><hr>";
+
 
 try{
     //Show system information
     echo "<h2 class='uk-heading-divider'>System information</h2>";
     echo "<b>Sistema Operativo</b>: " . php_uname('s') . " " . php_uname('m') . "<br/>";
     echo "<b>Release</b>: " . php_uname('r') . "<br/>";
-    echo "<b>Versione</b>: " . php_uname('v') . "<br/>";    
+    echo "<b>Versione</b>: " . php_uname('v') . "<br/>";
 
     $server = $_SERVER['SERVER_SOFTWARE'] ?? 'Esecuzione da riga di comando (CLI)';
     echo "<b>Server Web</b>: " . $server . "<br/>";
@@ -165,5 +169,6 @@ try{
     echo "</div>";
 }
 ?>
+        </div>
     </body>
 </html>
