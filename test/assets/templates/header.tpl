@@ -23,7 +23,9 @@
         <nav class="uk-navbar-container">
             <div class="uk-container uk-container-expand">
                 <div uk-navbar>
-                    <a class="uk-navbar-item uk-logo" href="#" aria-label="Back to Home">eXperience CORE {$version} - Test application</a>
+                    <a class="uk-navbar-item uk-logo" href="#" aria-label="Back to Home">
+                        <img src="assets/img/logo.png" alt="eXperience CORE - Test application" class="logo">
+                    </a>
                 </div>
             </div>
         </nav>
