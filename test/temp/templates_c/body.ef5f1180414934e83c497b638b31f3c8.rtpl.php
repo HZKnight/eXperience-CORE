@@ -55,7 +55,7 @@
                                 <b>Versione PHP</b>
                             </div>
                             <div>
-                                <?php echo $phpversion;?> (<?php echo $phpbits;?> bit) <b><span uk-icon='icon: <?php echo $phpstatus;?>; ratio: 1' style='color: <?php echo $phpcolor;?>;'></span></b></br/>
+                                <?php echo $phpversion;?> (<?php echo $phpbits;?> bit) <b><span uk-icon='icon: <?php echo $phpstatus;?>; ratio: 1' style='color: <?php echo $phpcolor;?>;'></span></b>
                             </div>
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
@@ -155,10 +155,59 @@
                                 </div>
                             </div>
                         </h2>
-                        <pre>
-                            <?php echo $cfg;?>
+                        <div class="uk-grid-small " uk-grid>
+                            <div class="uk-width-expand header_title">
+                                Parametro
+                            </div>
+                            <div class="header_title">
+                                Valore
+                            </div>
+                        </div>
 
-                        </pre>
+                        <?php $counter1=-1; if( isset($cfg) && is_array($cfg) && sizeof($cfg) ) foreach( $cfg as $key1 => $value1 ){ $counter1++; ?>
+
+                            <?php if( is_array($value1) ){ ?>
+
+                                <div class="uk-grid-small " uk-grid>
+                                    <div class="uk-width-expand header_title">
+                                        <b><?php echo $key1;?></b>
+                                    </div>
+                                    <div class="header_title">
+                                    </div>
+                                </div>
+                                <?php $counter2=-1; if( isset($value1) && is_array($value1) && sizeof($value1) ) foreach( $value1 as $key2 => $value2 ){ $counter2++; ?>
+
+                                    <div class="uk-grid-small little_border_bt" uk-grid>
+                                        <div class="uk-width-expand key-name">
+                                            <?php echo $key2;?>
+
+                                        </div>
+                                        <div>
+                                            <ul>
+                                                <?php echo $value2;?>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+                            <?php }else{ ?>
+
+                                <div class="uk-grid-small little_border_bt" uk-grid>
+                                    <div class="uk-width-expand key-name">
+                                        <?php echo $key1;?>
+
+                                    </div>
+                                    <div>
+                                        <?php echo $value1;?>
+
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+                        <?php } ?>
+
+                        
                     </div>
                 </div>
 
@@ -174,12 +223,44 @@
                                 </div>
                             </div>
                         </h2>
-                        <b>Start logger Test: <?php echo $logger_test;?></b>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Config read</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $testCfgRead;?>; ratio: 1' style='color: green;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Config write</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $testCfgWrite;?>; ratio: 1' style='color: green;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Logger</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $logger_test;?>; ratio: 1' style='color: <?php echo $logger_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Mailer</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $mailer_test;?>; ratio: 1' style='color: <?php echo $mailer_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
 
+            <br>
             <br>
 
 

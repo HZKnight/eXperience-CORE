@@ -6,6 +6,17 @@ body {
     padding: 0;
 }
 
+
+.header_title {
+    padding: 16px 12px;
+    text-align: left;
+    vertical-align: bottom;
+    font-size: .875rem;
+    font-weight: 400;
+    color: #999;
+    text-transform: uppercase;
+}
+
 .uk-navbar-container {
     background-color: #194466 !important;
     color: #fff !important;

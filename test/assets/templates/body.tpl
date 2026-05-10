@@ -50,7 +50,7 @@
                                 <b>Versione PHP</b>
                             </div>
                             <div>
-                                {$phpversion} ({$phpbits} bit) <b><span uk-icon='icon: {$phpstatus}; ratio: 1' style='color: {$phpcolor};'></span></b></br/>
+                                {$phpversion} ({$phpbits} bit) <b><span uk-icon='icon: {$phpstatus}; ratio: 1' style='color: {$phpcolor};'></span></b>
                             </div>
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
@@ -143,9 +143,48 @@
                                 </div>
                             </div>
                         </h2>
-                        <pre>
-                            {$cfg}
-                        </pre>
+                        <div class="uk-grid-small " uk-grid>
+                            <div class="uk-width-expand header_title">
+                                Parametro
+                            </div>
+                            <div class="header_title">
+                                Valore
+                            </div>
+                        </div>
+
+                        {loop="$cfg"}
+                            {if="is_array($value)"}
+                                <div class="uk-grid-small " uk-grid>
+                                    <div class="uk-width-expand header_title">
+                                        <b>{$key}</b>
+                                    </div>
+                                    <div class="header_title">
+                                    </div>
+                                </div>
+                                {loop="$value"}
+                                    <div class="uk-grid-small little_border_bt" uk-grid>
+                                        <div class="uk-width-expand key-name">
+                                            {$key}
+                                        </div>
+                                        <div>
+                                            <ul>
+                                                {$value}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {/loop}
+                            {else}
+                                <div class="uk-grid-small little_border_bt" uk-grid>
+                                    <div class="uk-width-expand key-name">
+                                        {$key}
+                                    </div>
+                                    <div>
+                                        {$value}
+                                    </div>
+                                </div>
+                            {/if}
+                        {/loop}
+                        
                     </div>
                 </div>
 
@@ -161,12 +200,44 @@
                                 </div>
                             </div>
                         </h2>
-                        <b>Start logger Test: {$logger_test}</b>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Config read</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$testCfgRead}; ratio: 1' style='color: green;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Config write</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$testCfgWrite}; ratio: 1' style='color: green;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Logger</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$logger_test}; ratio: 1' style='color: {$logger_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Mailer</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$mailer_test}; ratio: 1' style='color: {$mailer_color};'></span></b></br/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
 
+            <br>
             <br>
 
 

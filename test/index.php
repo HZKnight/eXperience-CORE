@@ -103,11 +103,18 @@
 
         $cfg = new EConfigManager('test_config.json', $estorage);
 
-        $view->assign('cfg', json_encode($cfg->getCfg(), JSON_PRETTY_PRINT));
+        $view->assign('testCfgRead', 'check');
+
+        $date = new DateTimeImmutable();
+        $cfg->setParam("test.time", $date->getTimestamp()." (". $date->format("Y-m-d H:i:s") .")");
+
+        $view->assign('testCfgWrite', 'check');
+
+        $view->assign('cfg', $cfg->getCfg());
         
         $log = null;
 
-        if($log = ELogger::getLogger($cfg, $estorage,  "test", ELogger::LOG_APPENDER_FILE, ELogLevel::INFO)){
+        if($log = ELogger::getLogger($cfg, $estorage,  "test", ELogger::LOG_APPENDER_FILE, ELogLevel::DEBUG)) {
 
             $log->get_appender(ELogger::LOG_APPENDER_FILE)->setLogDir("log");
             
@@ -125,17 +132,19 @@
             $log->info("Info Test message");
             $log->debug("Debug Test message");
             
-            $view->assign('logger_test', 'OK');
+            $view->assign('logger_test', 'check');
+            $view->assign('logger_color', 'green');
+            $view->assign('mailer_test', 'check');
+            $view->assign('mailer_color', 'green');
         }
         else {
-            $view->assign('logger_test', 'ERROR');
+            $view->assign('logger_test', 'warning');
+            $view->assign('logger_color', 'orange');
+            $view->assign('mailer_test', 'warning');
+            $view->assign('mailer_color', 'orange');
         }
 
         $view->draw("body");
-
-
-        $date = new DateTimeImmutable();
-        $cfg->setParam("test.time", $date->getTimestamp());
 
         $view->draw("footer");
 
