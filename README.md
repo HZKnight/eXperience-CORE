@@ -1,5 +1,4 @@
-eXperience CORE
-===============
+![#eXperiance CORE](https://brend.h0model.org/software/core/github/experiance_core_github.png)
 
 [![eXperience-CORE](https://github.com/HZKnight/eXperience-CORE/workflows/PHP%20Composer/badge.svg)](https://github.com/HZKnight/eXperience-CORE/actions)
 [![Release](https://img.shields.io/github/release/HZKnight/eXperience-CORE.svg)](https://github.com/HZKnight/eXperience-CORE/releases/latest)
