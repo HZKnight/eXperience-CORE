@@ -60,6 +60,7 @@
     use Experience\Core\Tools\Config\EConfigManager;
     use Experience\Core\Io\Storage\Estorage;
     use Experience\Core\Io\Storage\Driver\LocalStorageDriver;
+    use Experience\Core\Io\Dbal\EDbManager;
 
     use RainTpl\RainTPL;
 
@@ -142,6 +143,15 @@
             $view->assign('logger_color', 'orange');
             $view->assign('mailer_test', 'warning');
             $view->assign('mailer_color', 'orange');
+        }
+
+        $db = new EDbManager($cfg);
+        if($db->getError()) {
+            $view->assign('db_test', 'warning');
+            $view->assign('db_color', 'orange');
+        } else {
+            $view->assign('db_test', 'check');
+            $view->assign('db_color', 'green');
         }
 
         $view->draw("body");

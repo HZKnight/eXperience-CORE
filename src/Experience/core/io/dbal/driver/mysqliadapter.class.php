@@ -61,9 +61,9 @@
 
         private const DEFAULT_HOST = 'localhost';
         private const DEFAULT_PORT = 3306;
-        private const NO_CONNECTION_ERROR = dgettext('Elang','No database connection ');
+        private const NO_CONNECTION_ERROR = 'No database connection';
 
-        private \mysqli $connection = null;
+        private \mysqli $connection;
         private string $error = '';
         private array $connData;
         private string $tbprefix;
@@ -80,7 +80,7 @@
         public function __construct(EConfigManager|array $config) {
             $this->connData = array();
             $this->config = $config;
-            $this->error = null;
+            $this->error = '';
 
              if (is_array($config)) {
                 // Se passato array, usa direttamente
@@ -321,7 +321,7 @@
          * @return void
          */
         public function disconnect() {
-            if ($this->connection) {
+            if (isset($this->connection)) {
                 $this->connection->close();
                 $this->connection = null;
             }

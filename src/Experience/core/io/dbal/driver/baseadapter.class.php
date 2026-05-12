@@ -52,7 +52,7 @@
 
     abstract class BaseAdapter implements DatabaseAdapterInterface{
 
-        protected ?string $error = null;
+        private ?string $error = null;
 
         public function __construct() {
             // Costruttore vuoto, le classi figlie possono sovrascriverlo se necessario

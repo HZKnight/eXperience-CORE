@@ -232,6 +232,14 @@
                                 <b><span uk-icon='icon: {$mailer_test}; ratio: 1' style='color: {$mailer_color};'></span></b></br/>
                             </div>
                         </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database driver loading</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$db_test}; ratio: 1' style='color: {$db_color};'></span></b></br/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -73,7 +73,7 @@
         private string $dbtype;
         private string $tbprefix;
         private array $connData;
-        private mixed $error;
+        private string $error;
 
 
         /**
@@ -85,8 +85,8 @@
 
             $this->connData = array();
             $this->dbtype = is_array($config) ? $config['driver'] : $config->getParam('db.driver');
-            $this->error = null;
-            
+            $this->error = '';
+
             switch($this->dbtype) {
                 case 'pdo_mysql':
                     $this->adapter = new PdoAdapter($config);
@@ -101,10 +101,10 @@
                     $this->error = "Unsupported database driver: {$this->dbtype}";
                     break;
             }
-            
+
         }
 
-        
+
         /**
          * Distruttore dell'oggetto, chiude la connessione al database
          */
