@@ -98,7 +98,7 @@
                 $this->tbprefix = $config->getParam('db.tb_prefix', '');
             }
         }
-       
+
 
         /**
          * Esegue la connessione al database
@@ -106,12 +106,11 @@
          * @return bool
          */
         public function connect(): bool {
-            if ($this->connection) {
+            if (isset($this->connection)) {
                 return true; // Se già connesso, restituisci true
             }
 
             mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
-
             try {
                 $this->connection = new \mysqli(
                     $this->connData['host'],
@@ -167,9 +166,7 @@
 
         /**
          * Esegue una query di selezione e restituisce tutte le righe risultanti come array associativo
-         * Nota: mysqli non supporta direttamente il fetchAll, quindi utilizziamo get_result e fetch_all per ottenere i dati
-         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso
-         * restituendo un array vuoto
+         * Nota: se la query non restituisce risultati in questo caso restituendo un array vuoto
          *
          * @param string $sql
          * @param array $params
@@ -222,9 +219,8 @@
 
 
         /**
-         * Esegue una query di selezione e restituisce il valore della prima colonna della prima riga risultante
-         * Nota: mysqli non supporta direttamente il fetchColumn, quindi utilizziamo get_result e fetch_assoc per ottenere la prima riga
-         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso restituendo null
+         * Esegue una query di selezione e restituisce il valore della prima colonna della prima riga risultanteriga
+         * Nota: se la query non restituisce risultati,gestiamo questo caso restituendo null
          *
          * @param string $sql
          * @param array $params
@@ -247,19 +243,25 @@
 
         /**
          * Restituisce l'ID dell'ultima riga inserita
-         * Nota: mysqli fornisce la proprietà insert_id per ottenere l'ID dell'ultima riga inserita, quindi possiamo restituire direttamente questo valore
-         * Nota: se non c'è una connessione al database, insert_id restituirà 0, quindi gestiamo questo caso restituendo null o un valore appropriato
          *
          * @return int|string
          */
         public function lastInsertId() {
-            return $this->connection->insert_id;
+            try {
+                if (!$this->connection) {
+                    $this->error = self::NO_CONNECTION_ERROR;
+                    return null;
+                }
+                return $this->connection->insert_id;
+            } catch (\Exception $e) {
+                $this->error = self::NO_CONNECTION_ERROR . $e->getMessage();
+                return null;
+            }
         }
 
 
         /**
          * Gestisce le transazioni in modo ricorsivo, supportando interazioni tramite savepoint per consentire transazioni annidate
-         * Nota: mysqli supporta le transazioni e i savepoint, quindi utilizziamo begin_transaction per avviare una transazione e query SAVEPOINT per gestire le transazioni annidate
          * Nota: manteniamo un contatore delle transazioni per sapere quando avviare una nuova transazione o creare un savepoint, e per gestire correttamente commit e rollBack in base al livello di annidamento
          *
          * @return void
@@ -296,7 +298,6 @@
         /**
          * Gestisce il rollBack delle transazioni, eseguendo un rollBack completo se siamo al livello più esterno, o tornando al save
          * point se ci sono transazioni annidate, in modo da consentire alle transazioni esterne di continuare a gestire il commit o il rollBack
-         * Nota: se ci sono transazioni annidate, invece di eseguire un rollBack completo, torniamo al savepoint corrispondente al livello di annidamento attuale, in modo da consentire alle transazioni esterne di continuare a gestire il commit o il rollBack
          *
          * @return void
          */
@@ -313,17 +314,14 @@
 
 
         /**
-         * Chiude la connessione al database, se esiste, e resetta la proprietà connection a null
-         * Nota: mysqli chiude automaticamente la connessione quando l'oggetto mysqli viene distrutto, ma è buona pratica chiudere esplicitamente la connessione quando non è più necessaria, soprattutto
-         * se si gestiscono più connessioni o se si desidera liberare risorse in modo proattivo
-         * Nota: se non c'è una connessione attiva, non è necessario fare nulla, quindi gestiamo questo caso verificando se la proprietà connection è null prima di tentare di chiudere la connessione
+         * Chiude la connessione al database, se esistente, e pulisce le risorse associate
          *
          * @return void
          */
         public function disconnect() {
             if (isset($this->connection)) {
                 $this->connection->close();
-                $this->connection = null;
+                unset($this->connection);
             }
         }
 
@@ -331,11 +329,6 @@
         /**
          * Gestisce il binding dei parametri in modo dinamico
          * Determina i tipi dei parametri e li lega alla query preparata
-         * Nota: mysqli richiede di specificare i tipi dei parametri (i, d, s, b) e di passarli come argomenti separati
-         * Il metodo accetta un array di parametri e costruisce la stringa dei tipi corrispondente, quindi utilizza l'operatore
-         * spread per passare i parametri a bind_param
-         * Nota: se si inviano BLOB tramite risorsa, mysqli_stmt_send_long_data andrebbe gestito separatamente, ma per semplicità
-         * in questo esempio consideriamo solo i tipi base
          *
          * @param \mysqli_stmt $stmt La query preparata
          * @param array $params I parametri da bindare
@@ -356,5 +349,15 @@
             }
 
             $stmt->bind_param($types, ...$params);
+        }
+
+
+        /**
+         * Restituisce l'ultimo errore
+         *
+         * @return string
+         */
+        public function getError(): ?string {
+            return $this->error;
         }
     }

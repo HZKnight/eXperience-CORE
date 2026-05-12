@@ -319,4 +319,13 @@
                 unset($this->connection);
             }
         }
+
+        /**
+         * Restituisce l'ultimo errore
+         *
+         * @return string
+         */
+        public function getError(): ?string {
+            return $this->error;
+        }
 }

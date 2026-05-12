@@ -103,7 +103,7 @@
          *
          * @return string
          */
-        public function getError():string {
+        public function getError(): ?string {
             return $this->error;
         }
 
@@ -335,5 +335,4 @@
         public function disconnect() {
             unset($this->pdo);
         }
-        
     }

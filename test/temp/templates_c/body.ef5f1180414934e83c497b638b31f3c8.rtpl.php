@@ -263,6 +263,14 @@
                                 <b><span uk-icon='icon: <?php echo $db_test;?>; ratio: 1' style='color: <?php echo $db_color;?>;'></span></b></br/>
                             </div>
                         </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database connection</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $db_conn_test;?>; ratio: 1' style='color: <?php echo $db_conn_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

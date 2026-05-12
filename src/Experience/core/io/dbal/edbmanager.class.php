@@ -85,6 +85,7 @@
 
             $this->connData = array();
             $this->dbtype = is_array($config) ? $config['driver'] : $config->getParam('db.driver');
+            $this->tbprefix = is_array($config) ? $config['tb_prefix'] : $config->getParam('db.tb_prefix');
             $this->error = '';
 
             switch($this->dbtype) {

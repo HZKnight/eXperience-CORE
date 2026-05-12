@@ -5,7 +5,7 @@
     "admin_email": "admin@email.local",
     "db": {
         "driver": "mysqli",
-        "host": "localhost",
+        "host": "127.0.0.1",
         "port": "3306",
         "table": "hzsystem",
         "uname": "root",
@@ -24,6 +24,6 @@
         "sender_name": "Test Sender"
     },
     "test": {
-        "time": "1778568116 (2026-05-12 06:41:56)"
+        "time": "1778587030 (2026-05-12 11:57:10)"
     }
 }

@@ -52,8 +52,6 @@
 
     abstract class BaseAdapter implements DatabaseAdapterInterface{
 
-        private ?string $error = null;
-
         public function __construct() {
             // Costruttore vuoto, le classi figlie possono sovrascriverlo se necessario
         }
@@ -77,15 +75,5 @@
         abstract public function commit();
         abstract public function rollBack();
         abstract public function disconnect();
-
-        
-        /**
-         * Restituisce l'ultimo errore
-         *
-         * @return string
-         */
-        public function getError(): ?string {
-            return $this->error;
-        }
+        abstract public function getError(): ?string;
 }
-        
