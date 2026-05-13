@@ -196,10 +196,8 @@
 
         /**
          * Esegue una query di selezione e restituisce la prima riga risultante come array associativo
-         * Nota: mysqli non supporta direttamente il fetchOne, quindi utilizziamo get_result e fetch_assoc per ottenere la prima riga
-         * Nota: se la query non restituisce risultati, get_result potrebbe restituire false, quindi gestiamo questo caso restituendo null
-         * Nota: se la query restituisce risultati, ma non ci sono righe, fetch_assoc restituirà null, quindi gestiamo anche questo caso
-         * restituendo null
+         * Nota: se la query non restituisce risultati restituisce null
+         * Nota: se la query restituisce risultati, ma non ci sono righe anche questo caso restituisce null
          *
          * @param string $sql
          * @param array $params
