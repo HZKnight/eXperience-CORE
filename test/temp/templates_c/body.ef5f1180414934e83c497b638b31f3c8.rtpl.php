@@ -272,6 +272,40 @@
                             </div>
                         </div>
                     </div>
+                    <br> <br>
+                    <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                        <h2 class="uk-card-title">
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand">
+                                    Errors
+                                </div>
+                                <div>
+                                    <span uk-icon="icon: warning; ratio: 2" class="icon_title"></span>
+                                </div>
+                            </div>
+                        </h2>
+                        <?php if( isset($db_error) ){ ?>
+
+                            <div class="uk-alert-danger" uk-alert>
+                                <p><b>Database error:</b> <?php echo $db_error;?></p>
+                            </div>
+                        <?php } ?>
+
+                        <?php if( isset($logger_error) ){ ?>
+
+                            <div class="uk-alert-danger" uk-alert>
+                                <p><b>Logger error:</b> <?php echo $logger_error;?></p> 
+                            </div>
+                        <?php } ?>
+
+                        <?php if( isset($mailer_error) ){ ?>
+
+                            <div class="uk-alert-danger" uk-alert>
+                                <p><b>Mailer error:</b> <?php echo $mailer_error;?></p> 
+                            </div>
+                        <?php } ?>
+
+                    </div>
                 </div>
 
             </div>

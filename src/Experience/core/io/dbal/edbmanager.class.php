@@ -157,9 +157,7 @@
          * @return array restituisce l'esito della query
          */
         public function doUpdate(string $sql, ?array $params = []): ?array {
-            //Send a sql command that returns the number of rows affected
             $sql = str_replace('$_', $this->tbprefix, $sql);
-
             $result = [
                 "sql" => $sql,
                 "nbrows" => null,

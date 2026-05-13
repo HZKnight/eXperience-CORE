@@ -89,6 +89,7 @@
                 $this->connData['uname'] = $config['uname'];
                 $this->connData['passwd'] = $config['passwd'];
                 $this->tbprefix = $config['tb_prefix'];
+                $this->connData['db'] = $config['db'] ?? '';
             } else {
                 // Usa EConfigManager
                 $this->connData['host'] = $config->getParam('db.host', self::DEFAULT_HOST);
@@ -96,6 +97,7 @@
                 $this->connData['uname'] = $config->getParam('db.uname', '');
                 $this->connData['passwd'] = $config->getParam('db.passwd', '');
                 $this->tbprefix = $config->getParam('db.tb_prefix', '');
+                $this->connData['db'] = $config->getParam('db.db', '');
             }
         }
 
@@ -116,7 +118,7 @@
                     $this->connData['host'],
                     $this->connData['uname'],
                     $this->connData['passwd'],
-                    '', // Database name can be selected later
+                    $this->connData['db'] ?? '', // Se il database non è specificato, usa stringa vuota
                     $this->connData['port']
                 );
             } catch (\mysqli_sql_exception $e) {

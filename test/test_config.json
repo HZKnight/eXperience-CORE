@@ -7,7 +7,7 @@
         "driver": "mysqli",
         "host": "127.0.0.1",
         "port": "3306",
-        "table": "hzsystem",
+        "db": "hzsystem",
         "uname": "root",
         "passwd": "miotuo",
         "tb_prefix": "hz_"
@@ -24,6 +24,6 @@
         "sender_name": "Test Sender"
     },
     "test": {
-        "time": "1778587030 (2026-05-12 11:57:10)"
+        "time": "1778651878 (2026-05-13 05:57:58)"
     }
 }
