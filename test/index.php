@@ -158,7 +158,7 @@
             if($result && !$result["error"]) {
                 $view->assign('db_conn_test', 'check');
                 $view->assign('db_conn_color', 'green');
-                $result = $db->doUpdate('INSERT INTO $_test_table (name) VALUES (:name)', ['name' => 'Test Name']);
+                $result = $db->doUpdate('INSERT INTO $_test_table (name) VALUES (?)', [1 => 'Test Name']);
                 if($result && !$result["error"]) {
                     $view->assign('db_conn_test', 'check');
                     $view->assign('db_conn_color', 'green');

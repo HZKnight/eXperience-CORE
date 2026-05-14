@@ -138,7 +138,7 @@
          */
         private function doexecute(string $sql, ?array $params = []): \mysqli_stmt {
             $stmt = $this->connection->prepare($sql);
-                
+            
             if (!empty($params)) {
                 $this->bindDynamicParams($stmt, $params);
             }
