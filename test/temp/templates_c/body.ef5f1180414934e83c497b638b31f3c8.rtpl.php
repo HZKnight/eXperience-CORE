@@ -272,8 +272,8 @@
                             </div>
                         </div>
                     </div>
-                    <br> <br>
-                    <div class="uk-card uk-card-default uk-card-small uk-card-body">
+
+                    <div class="uk-card uk-card-default uk-card-small uk-card-body" style="margin-top: 40px;">
                         <h2 class="uk-card-title">
                             <div class="uk-grid-small" uk-grid>
                                 <div class="uk-width-expand">

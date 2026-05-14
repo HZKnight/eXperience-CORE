@@ -156,10 +156,14 @@
             $result = $db->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
 
             if($result && !$result["error"]) {
-                if($db->doUpdate('INSERT INTO $_test_table (name) VALUES (:name)', ['name' => 'Test Name'])) {
+                $view->assign('db_conn_test', 'check');
+                $view->assign('db_conn_color', 'green');
+                $result = $db->doUpdate('INSERT INTO $_test_table (name) VALUES (:name)', ['name' => 'Test Name']);
+                if($result && !$result["error"]) {
                     $view->assign('db_conn_test', 'check');
                     $view->assign('db_conn_color', 'green');
                 } else {
+                    $view->assign('db_error', $result ? $result["error"] : "Unknown error");
                     $view->assign('db_conn_test', 'warning');
                     $view->assign('db_conn_color', 'orange');
                 }

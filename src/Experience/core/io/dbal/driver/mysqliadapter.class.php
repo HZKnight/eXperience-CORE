@@ -334,7 +334,7 @@
          * @param array $params I parametri da bindare
          * @return void
          */
-        private function bindDynamicParams($stmt, array $params) {
+        private function bindDynamicParams(\mysqli_stmt $stmt, array $params) {
             $types = "";
             foreach ($params as $param) {
                 if (is_int($param)) {
