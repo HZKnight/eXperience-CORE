@@ -160,8 +160,7 @@
             $sql = str_replace('$_', $this->tbprefix, $sql);
             $result = [
                 "sql" => $sql,
-                "nbrows" => null,
-                "error" => null
+                "nbrows" => null
             ];
 
             if (!$this->connect()) {
@@ -172,7 +171,9 @@
             try {
                 $af = $this->adapter->execute($sql, $params);
                 $result["nbrows"] = $af;
-                $result["error"] = $this->adapter->getError();
+                if($this->adapter->getError()) {
+                    $result["error"] = $this->adapter->getError();
+                }
             } catch (Exception $e) {
                 $result["error"] = $e->getMessage();
                 return null;

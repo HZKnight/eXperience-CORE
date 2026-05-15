@@ -157,31 +157,31 @@
 
             $result = $db->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
 
-            if($result && !$result["error"]) {
+            //DEfinisco lo stoto di default in caso di errore
+            $view->assign('db_conn_test', 'warning');
+            $view->assign('db_conn_color', 'orange');
+            $view->assign('db_query_test', 'warning');
+            $view->assign('db_query_color', 'orange');
+            
+            if($result && !key_exists("error", $result) ) {
                 $view->assign('db_conn_test', 'check');
                 $view->assign('db_conn_color', 'green');
                 $result = $db->doUpdate('INSERT INTO $_test_table (name) VALUES (?)', [1 => 'Test Name']);
-                if($result && !$result["error"]) {
+                if($result && !key_exists("error", $result)) {
                     $view->assign('db_conn_test', 'check');
                     $view->assign('db_conn_color', 'green');
                     $result = $db->doQuery('SELECT * FROM $_test_table WHERE id = ?', [1 => 1]);
-                    if($result && !$result["error"]) {
+                    if($result && !key_exists("error", $result)) {
                         $view->assign('db_query_test', 'check');
                         $view->assign('db_query_color', 'green');
                     } else {
                         $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
-                        $view->assign('db_query_test', 'warning');
-                        $view->assign('db_query_color', 'orange');
                     }
                 } else {
                     $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
-                    $view->assign('db_conn_test', 'warning');
-                    $view->assign('db_conn_color', 'orange');
                 }
             } else {
                 $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
-                $view->assign('db_conn_test', 'warning');
-                $view->assign('db_conn_color', 'orange');
             }
         }
 
