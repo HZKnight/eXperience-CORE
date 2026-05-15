@@ -170,7 +170,8 @@
 
                                 <div class="uk-grid-small " uk-grid>
                                     <div class="uk-width-expand header_title">
-                                        <b><?php echo $key1;?></b>
+                                        <?php echo $key1;?>
+
                                     </div>
                                     <div class="header_title">
                                     </div>
@@ -255,6 +256,13 @@
                                 <b><span uk-icon='icon: <?php echo $mailer_test;?>; ratio: 1' style='color: <?php echo $mailer_color;?>;'></span></b></br/>
                             </div>
                         </div>
+                        <div class="uk-grid-small " uk-grid>
+                            <div class="uk-width-expand header_title">
+                                MySqli Driver Test
+                            </div>
+                            <div class="header_title">
+                            </div>
+                        </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
                                 <b>Test Database driver loading</b>
@@ -269,6 +277,14 @@
                             </div>
                             <div>
                                 <b><span uk-icon='icon: <?php echo $db_conn_test;?>; ratio: 1' style='color: <?php echo $db_conn_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database query</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $db_query_test;?>; ratio: 1' style='color: <?php echo $db_query_color;?>;'></span></b></br/>
                             </div>
                         </div>
                     </div>

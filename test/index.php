@@ -64,6 +64,9 @@
 
     use RainTpl\RainTPL;
 
+
+    const DEFAULT_ERRROR_MESSAGE = "An error occurred while executing the script.";
+ 
     //Template manager configuration
     RainTPL::$tpl_ext = "tpl";
     RainTPL::$tpl_dir = __DIR__ . '/assets/templates/';
@@ -77,7 +80,6 @@
         $view->assign("version", getenv("ECORE"));
         $view->draw("header");
 
-        
         $view->assign('os', php_uname('s') . " " . php_uname('m'));
         $view->assign('release', php_uname('r'));
         $view->assign('version', php_uname('v'));
@@ -162,13 +164,22 @@
                 if($result && !$result["error"]) {
                     $view->assign('db_conn_test', 'check');
                     $view->assign('db_conn_color', 'green');
+                    $result = $db->doQuery('SELECT * FROM $_test_table WHERE id = ?', [1 => 1]);
+                    if($result && !$result["error"]) {
+                        $view->assign('db_query_test', 'check');
+                        $view->assign('db_query_color', 'green');
+                    } else {
+                        $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+                        $view->assign('db_query_test', 'warning');
+                        $view->assign('db_query_color', 'orange');
+                    }
                 } else {
-                    $view->assign('db_error', $result ? $result["error"] : "Unknown error");
+                    $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
                     $view->assign('db_conn_test', 'warning');
                     $view->assign('db_conn_color', 'orange');
                 }
             } else {
-                $view->assign('db_error', $result ? $result["error"] : "Unknown error");
+                $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
                 $view->assign('db_conn_test', 'warning');
                 $view->assign('db_conn_color', 'orange');
             }

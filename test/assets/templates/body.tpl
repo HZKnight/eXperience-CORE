@@ -156,7 +156,7 @@
                             {if="is_array($value)"}
                                 <div class="uk-grid-small " uk-grid>
                                     <div class="uk-width-expand header_title">
-                                        <b>{$key}</b>
+                                        {$key}
                                     </div>
                                     <div class="header_title">
                                     </div>
@@ -232,6 +232,13 @@
                                 <b><span uk-icon='icon: {$mailer_test}; ratio: 1' style='color: {$mailer_color};'></span></b></br/>
                             </div>
                         </div>
+                        <div class="uk-grid-small " uk-grid>
+                            <div class="uk-width-expand header_title">
+                                MySqli Driver Test
+                            </div>
+                            <div class="header_title">
+                            </div>
+                        </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
                                 <b>Test Database driver loading</b>
@@ -246,6 +253,14 @@
                             </div>
                             <div>
                                 <b><span uk-icon='icon: {$db_conn_test}; ratio: 1' style='color: {$db_conn_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database query</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$db_query_test}; ratio: 1' style='color: {$db_query_color};'></span></b></br/>
                             </div>
                         </div>
                     </div>
