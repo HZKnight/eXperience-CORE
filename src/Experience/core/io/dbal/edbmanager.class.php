@@ -216,6 +216,7 @@
          * @return array|null
          */
         public function getRowSubSet(string $table, int $start, int $numrow, string $order = "", string $otype = ""): ?array {
+            $table = str_replace('$_', $this->tbprefix, $table);
             $sql = "SELECT * FROM $table";
             
             // Tipo di ordinamento delle righe
