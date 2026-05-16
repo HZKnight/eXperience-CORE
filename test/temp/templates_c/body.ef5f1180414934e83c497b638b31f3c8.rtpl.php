@@ -281,6 +281,15 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
+                                <b>Test Database insert query</b>
+                            </div>
+                            <div>
+                                Last Insert ID: <?php echo $db_iquery_id;?> &nbsp;
+                                <b><span uk-icon='icon: <?php echo $db_iquery_test;?>; ratio: 1' style='color: <?php echo $db_iquery_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
                                 <b>Test Database query</b>
                             </div>
                             <div>

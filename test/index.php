@@ -160,28 +160,46 @@
             //DEfinisco lo stoto di default in caso di errore
             $view->assign('db_conn_test', 'warning');
             $view->assign('db_conn_color', 'orange');
+            $view->assign('db_iquery_test', 'warning');
+            $view->assign('db_iquery_color', 'orange');
+            $view->assign('db_iquery_id', '');
             $view->assign('db_query_test', 'warning');
             $view->assign('db_query_color', 'orange');
             
             if($result && !key_exists("error", $result) ) {
+
                 $view->assign('db_conn_test', 'check');
                 $view->assign('db_conn_color', 'green');
+                
                 $result = $db->doUpdate('INSERT INTO $_test_table (name) VALUES (?)', [1 => 'Test Name']);
+                
                 if($result && !key_exists("error", $result)) {
-                    $view->assign('db_conn_test', 'check');
-                    $view->assign('db_conn_color', 'green');
+
+                    $view->assign('db_iquery_id', $db->sqlInsertId());
+                    $view->assign('db_iquery_test', 'check');
+                    $view->assign('db_iquery_color', 'green');
+                    
                     $result = $db->doQuery('SELECT * FROM $_test_table WHERE id = ?', [1 => 1]);
+                    
                     if($result && !key_exists("error", $result)) {
+
                         $view->assign('db_query_test', 'check');
                         $view->assign('db_query_color', 'green');
+
                     } else {
+
                         $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+
                     }
                 } else {
+
                     $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+
                 }
             } else {
+
                 $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+
             }
         }
 

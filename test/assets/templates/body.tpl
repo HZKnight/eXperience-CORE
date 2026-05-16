@@ -257,6 +257,17 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
+                                <b>Test Database insert query</b>
+                            </div>
+                            <div>
+                                {if="isset($db_iquery_id)"}
+                                    Last Insert ID: {$db_iquery_id} &nbsp;
+                                {/if}
+                                <b><span uk-icon='icon: {$db_iquery_test}; ratio: 1' style='color: {$db_iquery_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
                                 <b>Test Database query</b>
                             </div>
                             <div>
