@@ -199,6 +199,7 @@
          * @return int numero di righe della tabella
          */
         public function getTableNumRows(string $table): ?int {
+            $table = str_replace('$_', $this->tbprefix, $table);
             $sql = "SELECT COUNT(*) FROM $table";
             return $this->adapter->fetchColumn($sql, [],  0);
         }

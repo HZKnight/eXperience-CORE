@@ -165,6 +165,8 @@
             $view->assign('db_iquery_id', '');
             $view->assign('db_query_test', 'warning');
             $view->assign('db_query_color', 'orange');
+            $view->assign('db_num_rows_test', 'warning');
+            $view->assign('db_num_rows_color', 'orange');
             
             if($result && !key_exists("error", $result) ) {
 
@@ -185,6 +187,20 @@
 
                         $view->assign('db_query_test', 'check');
                         $view->assign('db_query_color', 'green');
+
+                        $result = $db->getTableNumRows('$_test_table');
+
+                        if($result !== null) {
+
+                            $view->assign('db_num_rows', $result);
+                            $view->assign('db_num_rows_test', 'check');
+                            $view->assign('db_num_rows_color', 'green');
+
+                        } else {
+
+                            $view->assign('db_num_rows', 'N/A');
+
+                        }
 
                     } else {
 

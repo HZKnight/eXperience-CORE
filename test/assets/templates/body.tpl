@@ -274,6 +274,17 @@
                                 <b><span uk-icon='icon: {$db_query_test}; ratio: 1' style='color: {$db_query_color};'></span></b></br/>
                             </div>
                         </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database get table num rows</b>
+                            </div>
+                            <div>
+                                {if="isset($db_num_rows)"}
+                                    Num rows in test table: {$db_num_rows} &nbsp;
+                                {/if}
+                                <b><span uk-icon='icon: {$db_num_rows_test}; ratio: 1' style='color: {$db_num_rows_color};'></span></b></br/>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="uk-card uk-card-default uk-card-small uk-card-body" style="margin-top: 40px;">

@@ -284,7 +284,11 @@
                                 <b>Test Database insert query</b>
                             </div>
                             <div>
-                                Last Insert ID: <?php echo $db_iquery_id;?> &nbsp;
+                                <?php if( isset($db_iquery_id) ){ ?>
+
+                                    Last Insert ID: <?php echo $db_iquery_id;?> &nbsp;
+                                <?php } ?>
+
                                 <b><span uk-icon='icon: <?php echo $db_iquery_test;?>; ratio: 1' style='color: <?php echo $db_iquery_color;?>;'></span></b></br/>
                             </div>
                         </div>
@@ -294,6 +298,19 @@
                             </div>
                             <div>
                                 <b><span uk-icon='icon: <?php echo $db_query_test;?>; ratio: 1' style='color: <?php echo $db_query_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database get table num rows</b>
+                            </div>
+                            <div>
+                                <?php if( isset($db_num_rows) ){ ?>
+
+                                    Num rows in test table: <?php echo $db_num_rows;?> &nbsp;
+                                <?php } ?>
+
+                                <b><span uk-icon='icon: <?php echo $db_num_rows_test;?>; ratio: 1' style='color: <?php echo $db_num_rows_color;?>;'></span></b></br/>
                             </div>
                         </div>
                     </div>
