@@ -313,6 +313,19 @@
                                 <b><span uk-icon='icon: <?php echo $db_num_rows_test;?>; ratio: 1' style='color: <?php echo $db_num_rows_color;?>;'></span></b></br/>
                             </div>
                         </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test Database get table subset of rows</b>
+                            </div>
+                            <div>
+                                <?php if( isset($db_subset_rows) ){ ?>
+
+                                    Subset of rows in test table: <?php echo $db_subset_rows;?> &nbsp;
+                                <?php } ?>
+
+                                <b><span uk-icon='icon: <?php echo $db_subset_test;?>; ratio: 1' style='color: <?php echo $db_subset_color;?>;'></span></b></br/>
+                            </div>
+                        </div>    
                     </div>
 
                     <div class="uk-card uk-card-default uk-card-small uk-card-body" style="margin-top: 40px;">

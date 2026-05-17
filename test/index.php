@@ -64,9 +64,8 @@
 
     use RainTpl\RainTPL;
 
+    define('BASE_ERROR_MESSAGE', 'An error occurred while executing the script.');
 
-    const DEFAULT_ERRROR_MESSAGE = "An error occurred while executing the script.";
- 
     //Template manager configuration
     RainTPL::$tpl_ext = "tpl";
     RainTPL::$tpl_dir = __DIR__ . '/assets/templates/';
@@ -167,6 +166,8 @@
             $view->assign('db_query_color', 'orange');
             $view->assign('db_num_rows_test', 'warning');
             $view->assign('db_num_rows_color', 'orange');
+            $view->assign('db_subset_test', 'warning');
+            $view->assign('db_subset_color', 'orange');
             
             if($result && !key_exists("error", $result) ) {
 
@@ -196,25 +197,41 @@
                             $view->assign('db_num_rows_test', 'check');
                             $view->assign('db_num_rows_color', 'green');
 
+                            $result = $db->getRowSubSet('$_test_table', 5, 10, "id", "DESC");
+
+                            if($result !== null) {
+
+                                $view->assign('db_subset_test', 'check');
+                                $view->assign('db_subset_color', 'green');
+                                $view->assign('db_subset_rows', count($result));
+
+                            } else {
+
+                                $view->assign('db_subset_rows', 'N/A');
+                                $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
+
+                            }
+
                         } else {
 
                             $view->assign('db_num_rows', 'N/A');
+                            $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
 
                         }
 
                     } else {
 
-                        $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+                        $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
 
                     }
                 } else {
 
-                    $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+                    $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
 
                 }
             } else {
 
-                $view->assign('db_error', $result ? $result["error"] : DEFAULT_ERRROR_MESSAGE);
+                $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
 
             }
         }

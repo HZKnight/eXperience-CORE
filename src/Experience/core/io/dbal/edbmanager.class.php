@@ -226,6 +226,8 @@
             
             $sql .= " LIMIT {$start}, {$numrow}";
 
+            echo "Executing SQL: $sql"; // Debug line, can be removed in production
+
             return $this->doQuery($sql);
         }
         
