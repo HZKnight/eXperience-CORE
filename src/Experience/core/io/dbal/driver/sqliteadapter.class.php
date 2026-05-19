@@ -45,7 +45,6 @@
     use function is_array;
     use function is_int;
     use function is_float;
-    use function is_null;
     use function is_resource;
 
 
@@ -69,7 +68,7 @@
         ];
 
         private SQLite3 $connection;
-        private string $error;
+        private string $error = "";
         private array $connData;
         private string $tbprefix;
         private EConfigManager|array $config;
@@ -89,7 +88,7 @@
         public function __construct(EConfigManager|array $config) {
             $this->connData = [];
             $this->config = $config;
-            $this->error = null;
+            $this->error = "";
 
             if(is_array($config)) {
                 $this->connData['path'] = $this->config['path'] ?? self::DEFAULT_CONFIG['path'];
@@ -108,7 +107,7 @@
          * @return boolean
          */
         public function connect(): bool {
-            if ($this->connection) {
+            if (isset($this->connection)) {
                 return true; // Connessione già stabilita
             }
 
@@ -314,7 +313,7 @@
          * @return void
          */
         public function disconnect() {
-            if ($this->connection) {
+            if (isset($this->connection)) {
                 $this->connection->close();
                 unset($this->connection);
             }

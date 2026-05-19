@@ -122,7 +122,8 @@
         public function getError():string {
             return $this->error;
         }
-        
+
+
         /**
          * Esegue un query sql e restituisce il risultato
          *
@@ -181,7 +182,7 @@
 
             return $result;
         }
-    
+
 
         /**
          * Restituisce l'ultimo id inserito
@@ -226,12 +227,10 @@
             
             $sql .= " LIMIT {$start}, {$numrow}";
 
-            echo "Executing SQL: $sql"; // Debug line, can be removed in production
-
             return $this->doQuery($sql);
         }
-        
-    
+
+
         /**
          * Formater for \' items
          */
@@ -266,5 +265,5 @@
         public function close(){
             $this->adapter->disconnect();
         }
-    
+
     }

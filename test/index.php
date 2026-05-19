@@ -148,15 +148,14 @@
 
         $db = new EDbManager($cfg);
         if($db->getError()) {
+            $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
             $view->assign('db_test', 'warning');
             $view->assign('db_color', 'orange');
         } else {
             $view->assign('db_test', 'check');
             $view->assign('db_color', 'green');
 
-            $result = $db->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
-
-            //DEfinisco lo stoto di default in caso di errore
+            //Definisco lo stoto di default in caso di errore
             $view->assign('db_conn_test', 'warning');
             $view->assign('db_conn_color', 'orange');
             $view->assign('db_iquery_test', 'warning');
@@ -168,7 +167,9 @@
             $view->assign('db_num_rows_color', 'orange');
             $view->assign('db_subset_test', 'warning');
             $view->assign('db_subset_color', 'orange');
-            
+
+            $result = $db->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
+
             if($result && !key_exists("error", $result) ) {
 
                 $view->assign('db_conn_test', 'check');
@@ -222,6 +223,103 @@
                     } else {
 
                         $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
+
+                    }
+                } else {
+
+                    $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
+
+                }
+            } else {
+
+                $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
+
+            }
+        }
+
+        $sqliteDbConfiig = [
+            "driver" => "sqlite",
+            "path" => __DIR__ . DIRECTORY_SEPARATOR . "temp/test_sqlite.db",
+            "tb_prefix" => "test_"
+        ];
+
+        $db_sqlite = new EDbManager($sqliteDbConfiig);
+        if($db_sqlite->getError()) {
+            $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+            $view->assign('db_sqlite_test', 'warning');
+            $view->assign('db_sqlite_color', 'orange');
+        } else {
+            $view->assign('db_sqlite_test', 'check');
+            $view->assign('db_sqlite_color', 'green');
+
+            //Definisco lo stoto di default in caso di errore
+            $view->assign('db_sqlite_conn_test', 'warning');
+            $view->assign('db_sqlite_conn_color', 'orange');
+            $view->assign('db_sqlite_iquery_test', 'warning');
+            $view->assign('db_sqlite_iquery_color', 'orange');
+            $view->assign('db_sqlite_iquery_id', '');
+            $view->assign('db_sqlite_query_test', 'warning');
+            $view->assign('db_sqlite_query_color', 'orange');
+            $view->assign('db_sqlite_num_rows_test', 'warning');
+            $view->assign('db_sqlite_num_rows_color', 'orange');
+            $view->assign('db_sqlite_subset_test', 'warning');
+            $view->assign('db_sqlite_subset_color', 'orange');
+
+            $result = $db_sqlite->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
+
+            if($result && !key_exists("error", $result) ) {
+
+                $view->assign('db_sqlite_conn_test', 'check');
+                $view->assign('db_sqlite_conn_color', 'green');
+                
+                $result = $db_sqlite->doUpdate('INSERT INTO $_test_table (name) VALUES (?)', [0 => 'Test Name']);
+                
+                if($result && !key_exists("error", $result)) {
+
+                    $view->assign('db_sqlite_iquery_id', $db_sqlite->sqlInsertId());
+                    $view->assign('db_sqlite_iquery_test', 'check');
+                    $view->assign('db_sqlite_iquery_color', 'green');
+                    
+                    $result = $db_sqlite->doQuery('SELECT * FROM $_test_table WHERE id = ?', [0 => 1]);
+                    
+                    if($result && !key_exists("error", $result)) {
+
+                        $view->assign('db_sqlite_query_test', 'check');
+                        $view->assign('db_sqlite_query_color', 'green');
+
+                        $result = $db_sqlite->getTableNumRows('$_test_table');
+
+                        if($result !== null) {
+
+                            $view->assign('db_sqlite_num_rows', $result);
+                            $view->assign('db_sqlite_num_rows_test', 'check');
+                            $view->assign('db_sqlite_num_rows_color', 'green');
+
+                            $result = $db_sqlite->getRowSubSet('$_test_table', 5, 10, "id", "DESC");
+
+                            if($result !== null) {
+
+                                $view->assign('db_sqlite_subset_test', 'check');
+                                $view->assign('db_sqlite_subset_color', 'green');
+                                $view->assign('db_sqlite_subset_rows', count($result));
+
+                            } else {
+
+                                $view->assign('db_sqlite_subset_rows', 'N/A');
+                                $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+
+                            }
+
+                        } else {
+
+                            $view->assign('db_sqlite_num_rows', 'N/A');
+                            $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+
+                        }
+
+                    } else {
+
+                        $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
 
                     }
                 } else {

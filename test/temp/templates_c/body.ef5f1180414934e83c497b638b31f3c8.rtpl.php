@@ -256,9 +256,10 @@
                                 <b><span uk-icon='icon: <?php echo $mailer_test;?>; ratio: 1' style='color: <?php echo $mailer_color;?>;'></span></b></br/>
                             </div>
                         </div>
+
                         <div class="uk-grid-small " uk-grid>
                             <div class="uk-width-expand header_title">
-                                MySqli Driver Test
+                                MySqli Native Driver Test
                             </div>
                             <div class="header_title">
                             </div>
@@ -325,7 +326,78 @@
 
                                 <b><span uk-icon='icon: <?php echo $db_subset_test;?>; ratio: 1' style='color: <?php echo $db_subset_color;?>;'></span></b></br/>
                             </div>
-                        </div>    
+                        </div>
+
+                        <div class="uk-grid-small " uk-grid>
+                            <div class="uk-width-expand header_title">
+                                SQLLite Native Driver Test
+                            </div>
+                            <div class="header_title">
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test SQLLite Database driver loading</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $db_sqlite_test;?>; ratio: 1' style='color: <?php echo $db_sqlite_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test SQLLite Database connection</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $db_sqlite_conn_test;?>; ratio: 1' style='color: <?php echo $db_sqlite_conn_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test SQLLite Database insert query</b>
+                            </div>
+                            <div>
+                                <?php if( isset($db_sqlite_iquery_id) ){ ?>
+
+                                    Last Insert ID: <?php echo $db_sqlite_iquery_id;?> &nbsp;
+                                <?php } ?>
+
+                                <b><span uk-icon='icon: <?php echo $db_sqlite_iquery_test;?>; ratio: 1' style='color: <?php echo $db_sqlite_iquery_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test SQLLite Database query</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: <?php echo $db_sqlite_query_test;?>; ratio: 1' style='color: <?php echo $db_sqlite_query_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test SQLLite Database get table num rows</b>
+                            </div>
+                            <div>
+                                <?php if( isset($db_sqlite_num_rows) ){ ?>
+
+                                    Num rows in test table: <?php echo $db_sqlite_num_rows;?> &nbsp;
+                                <?php } ?>
+
+                                <b><span uk-icon='icon: <?php echo $db_sqlite_num_rows_test;?>; ratio: 1' style='color: <?php echo $db_sqlite_num_rows_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test SQLLite Database get table subset of rows</b>
+                            </div>
+                            <div>
+                                <?php if( isset($db_sqlite_subset_rows) ){ ?>
+
+                                    Subset of rows in test table: <?php echo $db_sqlite_subset_rows;?> &nbsp;
+                                <?php } ?>
+
+                                <b><span uk-icon='icon: <?php echo $db_sqlite_subset_test;?>; ratio: 1' style='color: <?php echo $db_sqlite_subset_color;?>;'></span></b></br/>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="uk-card uk-card-default uk-card-small uk-card-body" style="margin-top: 40px;">
