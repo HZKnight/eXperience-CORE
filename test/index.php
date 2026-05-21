@@ -265,7 +265,7 @@
             $view->assign('db_sqlite_subset_test', 'warning');
             $view->assign('db_sqlite_subset_color', 'orange');
 
-            $result = $db_sqlite->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
+            $result = $db_sqlite->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INTEGER PRIMARY KEY, name VARCHAR(255) NOT NULL)');
 
             if($result && !key_exists("error", $result) ) {
 
@@ -281,7 +281,7 @@
                     $view->assign('db_sqlite_iquery_color', 'green');
                     
                     $result = $db_sqlite->doQuery('SELECT * FROM $_test_table WHERE id = ?', [0 => 1]);
-                    
+
                     if($result && !key_exists("error", $result)) {
 
                         $view->assign('db_sqlite_query_test', 'check');
@@ -295,7 +295,7 @@
                             $view->assign('db_sqlite_num_rows_test', 'check');
                             $view->assign('db_sqlite_num_rows_color', 'green');
 
-                            $result = $db_sqlite->getRowSubSet('$_test_table', 5, 10, "id", "DESC");
+                            $result = $db_sqlite->getRowSubSet('$_test_table', 0, 10, "id", "DESC");
 
                             if($result !== null) {
 

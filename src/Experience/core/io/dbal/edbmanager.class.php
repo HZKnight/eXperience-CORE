@@ -139,7 +139,6 @@
                 $this->error = "Connection failed";
                 return null;
             }
-            
            
             $result = $this->adapter->fetchAll($sql, $params);
             if($this->adapter->getError()) {
@@ -163,7 +162,7 @@
                 "sql" => $sql,
                 "nbrows" => null
             ];
-
+          
             if (!$this->connect()) {
                 $this->error = "Connection failed";
                 return null;
@@ -172,6 +171,7 @@
             try {
                 $af = $this->adapter->execute($sql, $params);
                 $result["nbrows"] = $af;
+
                 if($this->adapter->getError()) {
                     $result["error"] = $this->adapter->getError();
                 }

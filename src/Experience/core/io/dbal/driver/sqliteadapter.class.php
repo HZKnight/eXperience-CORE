@@ -189,8 +189,8 @@
             try {
                $result = $this->doexecute($sql, $params);
                $data = [];
-                
-                // Itera sui risultati dell'oggetto SQLite3Result
+
+               // Itera sui risultati dell'oggetto SQLite3Result
                 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     $data[] = $row;
                 }
