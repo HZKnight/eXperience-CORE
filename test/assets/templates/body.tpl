@@ -300,14 +300,14 @@
 
                         <div class="uk-grid-small " uk-grid>
                             <div class="uk-width-expand header_title">
-                                SQLLite Native Driver Test
+                                SQLite Native Driver Test
                             </div>
                             <div class="header_title">
                             </div>
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
-                                <b>Test SQLLite Database driver loading</b>
+                                <b>Test SQLite Database driver loading</b>
                             </div>
                             <div>
                                 <b><span uk-icon='icon: {$db_sqlite_test}; ratio: 1' style='color: {$db_sqlite_color};'></span></b></br/>
@@ -315,7 +315,7 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
-                                <b>Test SQLLite Database connection</b>
+                                <b>Test SQLite Database connection</b>
                             </div>
                             <div>
                                 <b><span uk-icon='icon: {$db_sqlite_conn_test}; ratio: 1' style='color: {$db_sqlite_conn_color};'></span></b></br/>
@@ -323,7 +323,7 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
-                                <b>Test SQLLite Database insert query</b>
+                                <b>Test SQLite Database insert query</b>
                             </div>
                             <div>
                                 {if="isset($db_sqlite_iquery_id)"}
@@ -334,7 +334,7 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
-                                <b>Test SQLLite Database query</b>
+                                <b>Test SQLite Database query</b>
                             </div>
                             <div>
                                 <b><span uk-icon='icon: {$db_sqlite_query_test}; ratio: 1' style='color: {$db_sqlite_query_color};'></span></b></br/>
@@ -342,7 +342,7 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
-                                <b>Test SQLLite Database get table num rows</b>
+                                <b>Test SQLite Database get table num rows</b>
                             </div>
                             <div>
                                 {if="isset($db_sqlite_num_rows)"}
@@ -353,13 +353,78 @@
                         </div>
                         <div class="uk-grid-small little_border_bt" uk-grid>
                             <div class="uk-width-expand">
-                                <b>Test SQLLite Database get table subset of rows</b>
+                                <b>Test SQLite Database get table subset of rows</b>
                             </div>
                             <div>
                                 {if="isset($db_sqlite_subset_rows)"}
                                     Subset of rows in test table: {$db_sqlite_subset_rows} &nbsp;
                                 {/if}
                                 <b><span uk-icon='icon: {$db_sqlite_subset_test}; ratio: 1' style='color: {$db_sqlite_subset_color};'></span></b></br/>
+                            </div>
+                        </div>
+
+                        <div class="uk-grid-small " uk-grid>
+                            <div class="uk-width-expand header_title">
+                                PDO Driver Test
+                            </div>
+                            <div class="header_title">
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test PDO MySQL Database driver loading</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$db_pdo_test}; ratio: 1' style='color: {$db_pdo_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test PDO MySQL Database connection</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$db_pdo_conn_test}; ratio: 1' style='color: {$db_pdo_conn_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test PDO MySQL Database insert query</b>
+                            </div>
+                            <div>
+                                {if="isset($db_pdo_query_id)"}
+                                    Last Insert ID: {$db_pdo_query_id} &nbsp;
+                                {/if}
+                                <b><span uk-icon='icon: {$db_pdo_query_test}; ratio: 1' style='color: {$db_pdo_query_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test PDO MySQL Database query</b>
+                            </div>
+                            <div>
+                                <b><span uk-icon='icon: {$db_pdo_query_test}; ratio: 1' style='color: {$db_pdo_query_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test PDO MySQL Database get table num rows</b>
+                            </div>
+                            <div>
+                                {if="isset($db_pdo_num_rows)"}
+                                    Num rows in test table: {$db_pdo_num_rows} &nbsp;
+                                {/if}
+                                <b><span uk-icon='icon: {$db_pdo_num_rows_test}; ratio: 1' style='color: {$db_pdo_num_rows_color};'></span></b></br/>
+                            </div>
+                        </div>
+                        <div class="uk-grid-small little_border_bt" uk-grid>
+                            <div class="uk-width-expand">
+                                <b>Test PDO MySQL Database get table subset of rows</b>
+                            </div>
+                            <div>
+                                {if="isset($db_pdo_subset_rows)"}
+                                    Subset of rows in test table: {$db_pdo_subset_rows} &nbsp;
+                                {/if}
+                                <b><span uk-icon='icon: {$db_pdo_subset_test}; ratio: 1' style='color: {$db_pdo_subset_color};'></span></b></br/>
                             </div>
                         </div>
                     </div>

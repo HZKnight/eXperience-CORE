@@ -237,13 +237,13 @@
             }
         }
 
-        $sqliteDbConfiig = [
+        $sqliteDbConfig = [
             "driver" => "sqlite",
             "path" => __DIR__ . DIRECTORY_SEPARATOR . "temp/test_sqlite.db",
             "tb_prefix" => "test_"
         ];
 
-        $db_sqlite = new EDbManager($sqliteDbConfiig);
+        $db_sqlite = new EDbManager($sqliteDbConfig);
         if($db_sqlite->getError()) {
             $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
             $view->assign('db_sqlite_test', 'warning');
@@ -332,6 +332,116 @@
                 $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
 
             }
+        }
+
+        $pdoDbConfig = [
+            "driver" => "pdo_mysql",
+            "host" => "127.0.0.1",
+            "port" => 3306,
+            "db" => "hzsystem",
+            "uname" => "root",
+            "passwd" => "miotuo",
+            "tb_prefix" => "hz_"
+        ];
+
+        $error = '';
+
+        $db_pdo = new EDbManager($pdoDbConfig);
+
+        if($db_pdo->getError()) {
+            $view->assign('db_error', $db_pdo->getError() ? $db_pdo->getError() : \BASE_ERROR_MESSAGE);
+            $view->assign('db_pdo_test', 'warning');
+            $view->assign('db_pdo_color', 'orange');
+        } else {
+            $view->assign('db_pdo_test', 'check');
+            $view->assign('db_pdo_color', 'green');
+
+            //Definisco lo stoto di default in caso di errore
+            $view->assign('db_pdo_conn_test', 'warning');
+            $view->assign('db_pdo_conn_color', 'orange');
+            $view->assign('db_pdo_query_test', 'warning');
+            $view->assign('db_pdo_query_color', 'orange');
+            $view->assign('db_pdo_query_id', '');
+            $view->assign('db_pdo_query_test', 'warning');
+            $view->assign('db_pdo_query_color', 'orange');
+            $view->assign('db_pdo_num_rows_test', 'warning');
+            $view->assign('db_pdo_num_rows_color', 'orange');
+            $view->assign('db_pdo_subset_test', 'warning');
+            $view->assign('db_pdo_subset_color', 'orange');
+
+            $result = $db_pdo->doUpdate('CREATE TABLE IF NOT EXISTS $_test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL)');
+
+            if($result && !key_exists("error", $result) ) {
+
+                $view->assign('db_pdo_conn_test', 'check');
+                $view->assign('db_pdo_conn_color', 'green');
+                
+                $result = $db_pdo->doUpdate('INSERT INTO $_test_table (name) VALUES (?)', [0 => 'Test Name']);
+                
+                if($result && !key_exists("error", $result)) {
+
+                    $view->assign('db_pdo_query_id', $db_pdo->sqlInsertId());
+                    $view->assign('db_pdo_query_test', 'check');
+                    $view->assign('db_pdo_query_color', 'green');
+                    
+                    $result = $db_pdo->doQuery('SELECT * FROM $_test_table WHERE id = ?', [0 => 1]);
+                    
+                    if($result && !key_exists("error", $result)) {
+
+                        $view->assign('db_pdo_query_test', 'check');
+                        $view->assign('db_pdo_query_color', 'green');
+
+                        $result = $db_pdo->getTableNumRows('$_test_table');
+
+                        if($result !== null) {
+
+                            $view->assign('db_pdo_num_rows', $result);
+                            $view->assign('db_pdo_num_rows_test', 'check');
+                            $view->assign('db_pdo_num_rows_color', 'green');
+
+                            $result = $db_pdo->getRowSubSet('$_test_table', 5, 10, "id", "DESC");
+
+                            if($result !== null) {
+
+                                $view->assign('db_pdo_subset_test', 'check');
+                                $view->assign('db_pdo_subset_color', 'green');
+                                $view->assign('db_pdo_subset_rows', count($result));
+
+                            } else {
+
+                                $view->assign('db_pdo_subset_rows', 'N/A');
+                                $error = $db_pdo->getError() ? $db_pdo->getError() : $result['error'] ?? \BASE_ERROR_MESSAGE;
+
+                            }
+
+                        } else {
+
+                            $view->assign('db_pdo_num_rows', 'N/A');
+                            $error = $db_pdo->getError() ? $db_pdo->getError() : $result['error'] ?? \BASE_ERROR_MESSAGE;
+
+                        }
+
+                    } else {
+
+                        $error = $db_pdo->getError() ? $db_pdo->getError() : $result['error'] ?? \BASE_ERROR_MESSAGE;
+
+                    }
+
+                } else {
+
+                    $error = $db_pdo->getError() ? $db_pdo->getError() : $result['error'] ?? \BASE_ERROR_MESSAGE;
+
+                }
+
+            } else {
+
+                $error = $db_pdo->getError() ? $db_pdo->getError() : $result['error'] ?? \BASE_ERROR_MESSAGE;
+
+            }
+
+
+            $view->assign('db_error', $error);
+
         }
 
         $view->draw("body");

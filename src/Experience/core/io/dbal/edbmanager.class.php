@@ -92,6 +92,9 @@
                 case 'pdo_mysql':
                     $this->adapter = new PdoAdapter($config);
                     break;
+                case 'pdo_sqlite':
+                    $this->adapter = new PdoAdapter($config);
+                    break;
                 case 'mysqli':
                     $this->adapter = new MySqliAdapter($config);
                     break;
@@ -171,12 +174,11 @@
             try {
                 $af = $this->adapter->execute($sql, $params);
                 $result["nbrows"] = $af;
-
                 if($this->adapter->getError()) {
                     $result["error"] = $this->adapter->getError();
                 }
             } catch (Exception $e) {
-                $result["error"] = $e->getMessage();
+                $this->error = $e->getMessage();
                 return null;
             }
 

@@ -79,9 +79,9 @@
         public function __construct(EConfigManager|array $config) {
             $this->connData = array();
             $this->config = $config;
-            $this->error = null;
+            $this->error = '';
 
-             if (is_array($config)) {
+            if (is_array($config)) {
                 // Se passato array, usa direttamente
                 $this->connData['connstr'] = $this->buildDsn();
                 $this->connData['uname'] = $config['uname'];
@@ -119,7 +119,7 @@
             }
 
             $host = is_array($this->config) ? ($this->config['host'] ?? 'localhost') : ($this->config->getParam('db.host') ?? 'localhost');
-            $db   = is_array($this->config) ? $this->config['table'] : $this->config->getParam('db.table');
+            $db   = is_array($this->config) ? $this->config['db'] : $this->config->getParam('db.db');
             
             $defaultPort = $driver === 'pgsql' ? 5432 : 3306;
             $configPort = is_array($this->config) ? ($this->config['port'] ?? $defaultPort) : ($this->config->getParam('db.port') ?? $defaultPort);
@@ -133,7 +133,7 @@
          * @return bool
          */
         public function connect(): bool {
-            if ($this->pdo) {
+            if (isset($this->pdo)) {
                 return true; // Se già connesso, restituisci true
             }
 
