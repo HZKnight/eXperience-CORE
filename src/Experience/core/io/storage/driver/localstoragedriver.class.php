@@ -36,8 +36,13 @@
 
     namespace Experience\Core\Io\Storage\Driver;
 
+    use Experience\Core\Io\Storage\Driver\Interface\StorageDriverInterface;
     use Experience\Core\Io\Storage\Driver\StorageDriver;
     use Experience\Core\Exceptions\EExceptionManager;
+
+    use \RecursiveDirectoryIterator;
+    use \RecursiveIteratorIterator;
+
 
     // Costanti per i segnaposto nei messaggi delle accezioni
     define("FILE", "[FILE]");
@@ -61,7 +66,7 @@
      * @filesource
      */
 
-    class LocalStorageDriver extends StorageDriver{
+    class LocalStorageDriver extends StorageDriver implements StorageDriverInterface {
         
         private string $webRoot;
 
@@ -156,8 +161,8 @@
                 EExceptionManager::throwException("StorageFileNotWritableException", $vars);
             } else {
                 if(is_dir($source)){
-                    $it = new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS);
-                    $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
+                    $it = new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS);
+                    $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
                     foreach($files as $file) {
                         $this->rm($file->getPathname());
                     }
@@ -237,8 +242,8 @@
             $regexp=str_replace("/\\x5C\\x3F/",".",str_replace("/\\x5C\\x2A/",".*",preg_quote($pattern,"/")));
 
             if($this->isDir($source)){
-                $it = new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS);
-                $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
+                $it = new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS);
+                $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
                 foreach($files as $file) {
                     $fileName = $file->getFilename();
                     if(preg_match("/^".$regexp."$/", $fileName)){

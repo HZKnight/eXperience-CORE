@@ -4,10 +4,10 @@
     "site_name": "Test site",
     "admin_email": "admin@email.local",
     "db": {
-        "type": "mysql",
-        "host": "localhost",
-        "port": "3307",
-        "table": "hzsystem",
+        "driver": "mysqli",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "hzsystem",
         "uname": "root",
         "passwd": "miotuo",
         "tb_prefix": "hz_"
@@ -24,6 +24,6 @@
         "sender_name": "Test Sender"
     },
     "test": {
-        "time": 1775590144
+        "time": "1779450281 (2026-05-22 11:44:41)"
     }
 }
