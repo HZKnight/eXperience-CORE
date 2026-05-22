@@ -128,13 +128,14 @@
          * Restituisce il contenuto di una voce della configuarazione
          *
          * @param string $param nome del parametro
+         * @param mixed $default valore di default da restituire se il parametro non esiste
          * @return mixed
          */
-        public function getParam($param){
+        public function getParam(string $param, mixed $default = null){
             if($this->has($param)){
                 return $this->cfg[$param];
             } else {
-                return null;
+                return $default;
             }
         }
          

@@ -69,7 +69,7 @@
         /**
          * Crea una nuova istanza dello storage
          *
-         * @param string $soragename nome della nuova istanza dello storage da creare
+         * @param string $storagename nome della nuova istanza dello storage da creare
          * @param StorageDriver $driver una implementazione dello storage driver
          * @return EStorage
          * @example $mioStorage = EStorage::getStorage("miostorage",$driver);
