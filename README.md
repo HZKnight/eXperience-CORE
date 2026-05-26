@@ -25,6 +25,11 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
 
+<p style="text-align: right;">
+    <a href="https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE">
+        <img src="https://sonarcloud.io/images/project_badges/sonarcloud-light.svg" alt="SonarQube Cloud">
+    </a>
+</p>
 
 ---
 
