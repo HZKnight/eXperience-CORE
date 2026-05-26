@@ -10,6 +10,24 @@
 
 ---
 
+## 💎 Quality gate status
+
+![Issue](https://img.shields.io/github/issues/HZKnight/eXperience-CORE.svg)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=bugs)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=coverage)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=HZKnight_eXperience-CORE&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=HZKnight_eXperience-CORE)
+
+
+---
+
 ## 🇮🇹 Italiano
 
 `eXperience-CORE` è un framework di sistema leggero e ad alte prestazioni in PHP, progettato per orchestrare l'architettura di rete disaccoppiata e i sistemi CMS dell'ecosistema HZKnight. Fornisce componenti solidi per l'astrazione del database (DBAL), la gestione sicura delle configurazioni aziendali, logging standardizzato e gestione avanzata delle eccezioni.
@@ -82,6 +100,8 @@ $db = new EDbManager($config);
 $results = $db->getRowSubSet("hz_test_table", 5, 10, "id", "DESC");
 ```
 
+[Technical Documentation](https://hzknight.github.io/eXperience-CORE/)
+
 ---
 
 ## 📋 Requirements & Specs / Requisiti di Sistema
@@ -98,33 +118,8 @@ $results = $db->getRowSubSet("hz_test_table", 5, 10, "id", "DESC");
 * **Network Ecosystem:** Part of the **H0Model.Org** software network and company ecosystem.
 
 ---
-Copyright (C) 2026 HZKnight. Produced under the AGPL-3.0 License.
+**Copyright ©2022-2026 HZKnight**. Produced under the [AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.html)
 
+**Guide and all related documentation - Copyright ©2022-2026 HZKnight**. Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-
-
-
------
-
-[![eXperience-CORE](https://github.com/HZKnight/eXperience-CORE/workflows/PHP%20Composer/badge.svg)](https://github.com/HZKnight/eXperience-CORE/actions)
-
-
-![Issue](https://img.shields.io/github/issues/HZKnight/eXperience-CORE.svg)
-[![Code Climate](https://codeclimate.com/github/HZKnight/Experience-CORE/badges/gpa.svg)](https://codeclimate.com/github/HZKnight/Experience-CORE)
-
-
-Licences
--------------------------
-
-- **eXperience CORE code** ©2022-2026 by HZKnight is licensed under [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.html)
-- **eXperience CORE User Guide and all related documentation** ©2022-2026 by HZKnight is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-Descriprion
--------------------------
-
-This is a simple PHP framework that I have developed to help me to develop my PHP applications.
-
-Documentation
--------------------------
-
-[Technical Documentation](https://hzknight.github.io/eXperience-CORE/)
+---
