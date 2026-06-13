@@ -1234,13 +1234,3 @@ is too big a fix and needs to be done in a new design iteration.
 .float-left {
     float: left;
 }
-
-/* Custom Logo Injection */
-.phpdocumentor-sidebar .phpdocumentor-title {
-    padding-top: 90px !important; /* Spazio per fare posto al logo */
-    background-image: url('images/logodoc.png') !important;
-    background-repeat: no-repeat !important;
-    background-position: center top !important;
-    background-size: contain !important;
-    max-height: 80px;
-}
