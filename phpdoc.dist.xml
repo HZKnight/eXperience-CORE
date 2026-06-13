@@ -18,5 +18,11 @@
                 <path>tests/**/*</path>
             </ignore>
         </api>
-    </version>
+
+        <template name="clean">
+            <parameter key="title" value="eXperience Core | Documentation" />
+            <parameter key="logo" value="assets/logodoc.png" />
+        </template>
+        
+    </version> 
 </phpdocumentor>
