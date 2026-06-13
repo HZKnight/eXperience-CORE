@@ -39,7 +39,7 @@ jobs:
             -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }} \
             --template="default" \
             --title="eXperience Core" \
-            --setting="theme.logo=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logo.png"
+            --setting="theme.logo=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
 
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
