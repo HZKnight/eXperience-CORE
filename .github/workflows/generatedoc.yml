@@ -44,7 +44,7 @@ jobs:
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
 
-      # Step 4: Inietta il logo e nasconde il titolo testuale nativo
+      # Step 4: Inietta il logo e nasconde il titolo testuale (versione blindata)
       - name: Inject Logo into Generated Documentation
         run: |
           TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
@@ -53,13 +53,13 @@ jobs:
           LOGO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
           echo "Injecting Logo script pointing to: $LOGO_URL"
           
-          # JavaScript lineare che nasconde il titolo testuale e posiziona il logo in cima
-          JS_SINGLE_LINE="<script>document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('.phpdocumentor-sidebar')||document.querySelector('aside');var t=document.querySelector('.phpdocumentor-title');if(t){t.style.display='none';}if(s){var d=document.createElement('div');d.style.textAlign='center';d.style.padding='15px 10px 20px 10px';var i=document.createElement('img');i.src='$LOGO_URL';i.style.maxWidth='100%';i.style.maxHeight='110px';i.style.height='auto';i.style.objectFit='contain';d.appendChild(i);s.insertBefore(d,s.firstChild);}});</script></body>"
+          # JavaScript aggressivo: cerca il primo elemento di testo in cima alla sidebar e lo nasconde
+          JS_SINGLE_LINE="<script>document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('.phpdocumentor-sidebar')||document.querySelector('aside');if(s){var t=s.querySelector('h1')||s.querySelector('h2')||s.querySelector('.phpdocumentor-title')||s.firstElementChild;if(t&&t.tagName!=='DIV'){t.style.display='none';}var d=document.createElement('div');d.style.textAlign='center';d.style.padding='10px 10px 20px 10px';d.style.width='100%';var i=document.createElement('img');i.src='$LOGO_URL';i.style.maxWidth='100%';i.style.maxHeight='110px';i.style.height='auto';i.style.objectFit='contain';d.appendChild(i);s.insertBefore(d,s.firstChild);}});</script></body>"
           
           # Usiamo l'underscore '_' come separatore sicuro per sed
           find $TARGET_PATH -name "*.html" -exec sed -i "s_</body>_${JS_SINGLE_LINE}_g" {} +
 
-          echo "Logo injection and title hiding completed successfully."
+          echo "Logo injection and robust title hiding completed."
 
       # Step 5: Crea l'indice HTML statico Bilingue con il logo principale dell'hub
       - name: Create Main Index Redirect
