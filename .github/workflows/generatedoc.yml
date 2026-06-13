@@ -44,21 +44,38 @@ jobs:
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
 
-      # Step 4: Inietta il logo sovrascrivendo gli asset del tema di phpDoc
+      # Step 4: Inietta il logo nell'HTML/CSS generato da phpDoc
       - name: Inject Logo into Generated Documentation
         run: |
           TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
           
-          # Creiamo le cartelle degli asset del tema (se non esistono) e copiamo 'logodoc.png'
-          mkdir -p $TARGET_PATH/images
-          cp assets/logodoc.png $TARGET_PATH/images/logo.png
-          
+          # 1. Copiamo fisicamente il file logodoc.png dentro la cartella css/images della build
           mkdir -p $TARGET_PATH/css/images
-          cp assets/logodoc.png $TARGET_PATH/css/images/logo.png
+          cp assets/logodoc.png $TARGET_PATH/css/images/logodoc.png
           
-          # Se il tema usa un file vettoriale SVG di default, lo sovrascriviamo col PNG
-          if [ -f $TARGET_PATH/images/logo.svg ]; then
-            cp assets/logodoc.png $TARGET_PATH/images/logo.svg
+          # 2. Appendiamo il CSS personalizzato in fondo al file base.css del tema.
+          # Questo CSS intercetta il titolo del progetto nella sidebar (.phpdocumentor-title)
+          # e ci piazza sopra il logo centrato con un po' di padding.
+          if [ -f $TARGET_PATH/css/base.css ]; then
+            cat <<EOF >> $TARGET_PATH/css/base.css
+
+          /* Custom Logo Injection */
+          .phpdocumentor-sidebar .phpdocumentor-title {
+              padding-top: 90px !important; /* Spazio per fare posto al logo */
+              background-image: url('images/logodoc.png') !important;
+              background-repeat: no-repeat !important;
+              background-position: center top !important;
+              background-size: contain !important;
+              max-height: 80px;
+          }
+          EOF
+            echo "CSS Logo injected successfully."
+          else
+            echo "::warning::base.css not found, trying fallback injection..."
+            
+            # Fallback: Se il CSS principale ha un altro nome, iniettiamo il tag <img> 
+            # direttamente nell'HTML subito dopo l'apertura del tag <aside> della sidebar
+            find $TARGET_PATH -name "*.html" -exec sed -i 's|<aside class="phpdocumentor-column -three phpdocumentor-sidebar">|<aside class="phpdocumentor-column -three phpdocumentor-sidebar"><div style="text-align:center; padding-top:15px;"><img src="css/images/logodoc.png" style="max-width:120px; height:auto;"></div>|g' {} +
           fi
 
       # Step 5: Crea l'indice HTML statico Bilingue con il logo principale dell'hub
