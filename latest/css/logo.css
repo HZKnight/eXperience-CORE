@@ -1,0 +1,21 @@
+/* Nasconde il testo originale del link verde */
+.phpdocumentor-title__link {
+    font-size: 0 !important;
+    line-height: 0 !important;
+    color: transparent !important;
+    display: block !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+/* Inietta il logo al posto del testo */
+.phpdocumentor-title__link::after {
+    content: "" !important;
+    display: block !important;
+    width: 100% !important;
+    height: 90px !important;
+    background-image: url('https://raw.githubusercontent.com/HZKnight/eXperience-CORE/ade40519e7a0be273066b8d249218020e57b0ef9/assets/logodoc.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: contain !important;
+}
