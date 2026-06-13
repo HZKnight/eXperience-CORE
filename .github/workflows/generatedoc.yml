@@ -29,18 +29,17 @@ jobs:
           
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
-      # Step 2: Genera la documentazione nella cartella corretta
-    # Step 2: Genera la documentazione forzando il tema moderno e i parametri grafici
+      # Step 2: Genera la documentazione usando l'opzione --setting corretta
       - name: Run phpDocumentor
         run: |
           mkdir -p docs-build/${{ steps.set-dir.outputs.target_dir }}
           
-          # Eseguiamo phpdoc iniettando i parametri via CLI per evitare i blocchi dell'XML
+          # Usiamo --title e --setting per configurare il tema 'default'
           docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
             -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }} \
             --template="default" \
-            --parameter="title=eXperience Core" \
-            --parameter="logo=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
+            --title="eXperience Core" \
+            --setting="theme.logo=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logo.png"
 
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
