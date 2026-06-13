@@ -29,17 +29,43 @@ jobs:
           
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
-      # Step 2: Genera la documentazione usando l'opzione --setting corretta
+      # Step 2: Genera la documentazione con il tema moderno
       - name: Run phpDocumentor
         run: |
-          mkdir -p docs-build/${{ steps.set-dir.outputs.target_dir }}
+          TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
+          mkdir -p $TARGET_PATH
           
-          # Usiamo --title e --setting per configurare il tema 'default'
+          # Eseguiamo la build pulita col tema 'default' e il titolo corretto
           docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
-            -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }} \
+            -t /data/$TARGET_PATH \
             --template="default" \
-            --title="eXperience Core" \
-            --setting="theme.logo=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
+            --title="eXperience Core"
+
+      # Step 2b: Forza l'inserimento del logo sovrascrivendo l'asset del tema
+      - name: Inject Logo into Generated Documentation
+        run: |
+          TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
+          
+          # Il tema 'default' (responsive-twig) posiziona le immagini in 'images/' o 'css/images/'
+          # Controlliamo dove phpDoc ha creato la cartella delle immagini nella build appena fatta
+          echo "Verifica cartelle generate:"
+          ls -R $TARGET_PATH | grep -E "images|img" || true
+          
+          # Copiamo il tuo logo sovrascrivendo l'icona/logo di default del template.
+          # Nota: Il tema moderno spesso cerca un file chiamato 'logo.png' o svariati asset grafici.
+          # Per sicurezza creiamo la cartella images se non esistesse e ci piazziamo il logo.
+          mkdir -p $TARGET_PATH/images
+          cp assets/logo.png $TARGET_PATH/images/logo.png
+          
+          # Molti temi usano la cartella css/images per i loghi della sidebar
+          mkdir -p $TARGET_PATH/css/images
+          cp assets/logo.png $TARGET_PATH/css/images/logo.png
+          
+          # Se il tema usa un logo specifico di phpDocumentor (es. logo.svg o phpdoc-logo.png),
+          # lo rimpiazziamo con il tuo (convertito al volo o mantenendo l'estensione se il browser lo tollera)
+          if [ -f $TARGET_PATH/images/phpdoc-logo.png ]; then
+            cp assets/logo.png $TARGET_PATH/images/phpdoc-logo.png
+          fi
 
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
