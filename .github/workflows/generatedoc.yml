@@ -30,10 +30,17 @@ jobs:
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
       # Step 2: Genera la documentazione nella cartella corretta
+    # Step 2: Genera la documentazione forzando il tema moderno e i parametri grafici
       - name: Run phpDocumentor
         run: |
           mkdir -p docs-build/${{ steps.set-dir.outputs.target_dir }}
-          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }}
+          
+          # Eseguiamo phpdoc iniettando i parametri via CLI per evitare i blocchi dell'XML
+          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
+            -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }} \
+            --template="default" \
+            --parameter="title=eXperience Core" \
+            --parameter="logo=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
 
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
@@ -65,7 +72,7 @@ jobs:
               .container { background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
               .header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid #eaecef; padding-bottom: 20px; }
               /* Stili per il Logo */
-              .logo { max-width: 150px; height: auto; margin-bottom: 15px; } 
+              .logo { max-width: 376px; height: auto; margin-bottom: 15px; } 
               h1 { font-size: 1.8em; margin: 0; color: #333; }
               .grid { display: flex; gap: 40px; margin-top: 30px; }
               .col { flex: 1; min-width: 280px; }

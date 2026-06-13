@@ -19,11 +19,4 @@
             </ignore>
         </api>
     </version>
-
-    <templates>
-        <template name="clean">
-            <parameter name="title" value="eXperience Core" />
-            <parameter name="logo" value="assets/logodoc.png" />
-        </template>
-    </templates>
 </phpdocumentor>
