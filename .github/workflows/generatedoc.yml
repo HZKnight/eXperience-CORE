@@ -29,37 +29,64 @@ jobs:
           
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
-      # Step 2: Genera la documentazione col tema moderno 'default'
+      # Step 2: Genera la documentazione passando il CSS personalizzato
       - name: Run phpDocumentor
         run: |
           TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
           mkdir -p $TARGET_PATH
           
+          # Passiamo il file custom_assets/logo.css tramite l'opzione nativa di phpDoc 3
           docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
             -t /data/$TARGET_PATH \
             --template="default" \
-            --title="eXperience Core"
+            --title="eXperience Core" \
+            --setting="theme.custom_css=custom_assets/logo.css"
 
       # Step 3: Sblocca i permessi della cartella generata da Docker (root -> runner)
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
 
-     # Step 4: Inietta il logo usando un MutationObserver per intercettare il rendering asincrono
-      - name: Inject Logo into Generated Documentation
+      # Step 4: Genera un CSS personalizzato e lo inietta nativamente in phpDocumentor
+      - name: Inject Custom CSS Logo into phpDocumentor
         run: |
           TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
           
-          # URL assoluto del logo su GitHub
+          # 1. Creiamo una cartella per il nostro CSS personalizzato fuori dalla build
+          mkdir -p custom_assets
+          
+          # URL assoluto del tuo logo
           LOGO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
-          echo "Injecting Asynchronous Logo script pointing to: $LOGO_URL"
           
-          # JavaScript con MutationObserver: monitora la pagina finché non appare il link del titolo
-          JS_SINGLE_LINE="<script>(function(){function inject(){var link=document.querySelector('.phpdocumentor-title__link');if(link){link.innerHTML='';var i=document.createElement('img');i.src='$LOGO_URL';i.style.maxWidth='100%';i.style.maxHeight='90px';i.style.height='auto';i.style.objectFit='contain';i.style.display='block';i.style.margin='0 auto';link.appendChild(i);var p=link.parentElement;if(p){p.style.padding='15px 10px';p.style.textAlign='center';}return true;}return false;}if(!inject()){var obs=new MutationObserver(function(mutations,observer){if(inject()){observer.disconnect();}});obs.observe(document.body,{childList:true,subtree:true});}})();</script></body>"
-          
-          # Usiamo l'underscore '_' come separatore sicuro per sed
-          find $TARGET_PATH -name "*.html" -exec sed -i "s_</body>_${JS_SINGLE_LINE}_g" {} +
+          # 2. Scriviamo le regole CSS nel file
+          cat <<EOF > custom_assets/logo.css
+          /* Nasconde il testo originale del link verde */
+          .phpdocumentor-title__link {
+              font-size: 0 !important;
+              line-height: 0 !important;
+              color: transparent !important;
+              display: block !important;
+              text-align: center !important;
+              margin: 0 auto !important;
+          }
 
-          echo "Asynchronous Logo injection script successfully applied."
+          /* Inietta il logo al posto del testo */
+          .phpdocumentor-title__link::after {
+              content: "" !important;
+              display: block !important;
+              width: 100% !important;
+              height: 90px !important;
+              background-image: url('$LOGO_URL') !important;
+              background-repeat: no-repeat !important;
+              background-position: center center !important;
+              background-size: contain !important;
+          }
+          EOF
+
+          # Copiamo il file CSS anche dentro la build per sicurezza se phpDoc lo richiede relativo
+          mkdir -p $TARGET_PATH/css
+          cp custom_assets/logo.css $TARGET_PATH/css/logo.css
+          
+          echo "Custom CSS asset created."
 
       # Step 5: Crea l'indice HTML statico Bilingue con il logo principale dell'hub
       - name: Create Main Index Redirect
