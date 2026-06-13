@@ -103,12 +103,25 @@ $db = new EDbManager($config);
 ```php
 // Safe cross-platform tabular data subset slicing (MySQL / SQLite friendly)
 $results = $db->getRowSubSet("hz_test_table", 5, 10, "id", "DESC");
-```
+...
 
-## 📚 Documentation / Documentazione
-*   🚀 [Versione Stabile (Master)](https://hzknight.github.io/eXperience-CORE/master/)
-*   🛠️ [Versione di Sviluppo (Develop)](https://hzknight.github.io/eXperience-CORE/develop/)
-*   🧪 [Ultimi Cambiamenti (Iniziativa/Feature)](https://hzknight.github.io/eXperience-CORE/latest/)
+---
+
+## 📚 Technical Documentation / Documentazione Tecnica
+
+The source code documentation is automatically generated on each push via phpDocumentor and is centrally accessible here:
+La documentazione del codice sorgente viene generata automaticamente ad ogni push tramite phpDocumentor ed è accessibile centralmente qui:
+
+🔗 **[Access the Documentation Hub / Accedi all'Hub della Documentazione](https://<tuo-utente>.github.io/<tuo-repo>/)**
+
+### Branches Structure / Struttura dei Branch
+
+| Branch | English Description | Descrizione Italiano |
+| :--- | :--- | :--- |
+| 🚀 **Master** | Stable documentation currently in production. | Documentazione stabile attualmente in produzione. |
+| ⏳ **Release** | *Release Candidate* status under testing and validation. | Stato della *Release Candidate* in fase di test e validazione. |
+| 🛠️ **Develop** | Work-in-progress on the main development branch. | Avanzamento dei lavori sul ramo di sviluppo principale. |
+| 🧪 **Latest** | Temporary preview from the most recent feature/fix branch. | Anteprima temporanea dell'ultimo branch di feature o fix lavorato. |
 
 ---
 

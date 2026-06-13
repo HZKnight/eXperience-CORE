@@ -13,46 +13,117 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 1: Calcola il nome della cartella in base al branch attuale
+      # Step 1: Calcola il nome della cartella (Logica semplificata)
       - name: Determine documentation target directory
         id: set-dir
         run: |
-          # Estraiamo solo il nome del branch (es. 'feature/login' diventa 'feature/login')
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           
-          # Applichiamo la logica di controllo
-          if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "develop" ] || [[ "$BRANCH_NAME" == release/* ]]; then
-            # Se è master, develop o inizia con release/, la cartella avrà il nome del branch
-            # Nota: se il branch contiene "/", creerà delle sottocartelle (es. docs/release/v1.0)
+          if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "develop" ] || [ "$BRANCH_NAME" = "release" ]; then
+            # Se è uno dei tre branch principali, usa il suo nome come cartella
             TARGET_DIR="$BRANCH_NAME"
           else
-            # Per tutti gli altri branch, usiamo 'latest'
+            # Tutti gli altri branch finiscono in latest
             TARGET_DIR="latest"
           fi
           
-          echo "Target directory determined: $TARGET_DIR"
-          # Salviamo la variabile nell'output dello step per usarla successivamente
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
       # Step 2: Genera la documentazione nella cartella corretta
       - name: Run phpDocumentor
         run: |
-          # Creiamo la struttura delle cartelle finale per evitare conflitti di permessi di Docker
           mkdir -p docs-build/${{ steps.set-dir.outputs.target_dir }}
-          
-          # Eseguiamo phpdoc mappando l'output direttamente nella sottocartella specifica
           docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }}
 
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
 
-      # Step 3: Deploy su GitHub Pages mantenendo i file esistenti
+  # Step 3: Crea l'indice HTML statico Bilingue (IT / EN)
+      - name: Create Main Index Redirect
+        run: |
+          cat <<EOF > docs-build/index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Documentation Hub</title>
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px 20px; line-height: 1.6; max-width: 800px; margin: 0 auto; color: #24292e; }
+              h1 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; margin-bottom: 30px; text-align: center; }
+              .grid { display: flex; gap: 40px; }
+              .col { flex: 1; min-width: 280px; }
+              @media (max-width: 600px) { .grid { flex-direction: column; gap: 20px; } }
+              h2 { font-size: 1.3em; color: #586069; border-bottom: 1px dashed #eaecef; padding-bottom: 5px; }
+              ul { padding-left: 0; list-style-type: none; margin-top: 15px; }
+              li { margin-bottom: 18px; display: flex; flex-direction: column; }
+              .link-container { display: flex; align-items: center; }
+              a { color: #0366d6; text-decoration: none; font-weight: 600; font-size: 1.1em; }
+              a:hover { text-decoration: underline; }
+              .desc { color: #6a737d; font-size: 0.9em; margin-top: 2px; }
+              .badge { background-color: #e1f5fe; color: #0288d1; padding: 2px 6px; border-radius: 4px; font-size: 0.75em; margin-left: 10px; font-weight: 600; text-transform: uppercase; }
+              .badge-stable { background-color: #e8f5e9; color: #2e7d32; }
+              .badge-rc { background-color: #fff3e0; color: #ef6c00; }
+              .badge-preview { background-color: #eceff1; color: #37474f; }
+            </style>
+          </head>
+          <body>
+            <h1>📚 Documentation Hub / Archivio Documentazione</h1>
+            
+            <div class="grid">
+              <div class="col">
+                <h2>English</h2>
+                <p>Select the version of the technical documentation you wish to consult:</p>
+                <ul>
+                  <li>
+                    <div class="link-container"><a href="./master/">Master Branch</a><span class="badge badge-stable">Stable</span></div>
+                    <span class="desc">Production-ready documentation.</span>
+                  </li>
+                  <li>
+                    <div class="link-container"><a href="./release/">Release Branch</a><span class="badge badge-rc">RC</span></div>
+                    <span class="desc">Release Candidate currently under testing.</span>
+                  </li>
+                  <li>
+                    <div class="link-container"><a href="./develop/">Develop Branch</a><span class="badge">Dev</span></div>
+                    <span class="desc">Current state of active development.</span>
+                  </li>
+                  <li>
+                    <div class="link-container"><a href="./latest/">Latest Preview</a><span class="badge badge-preview">Preview</span></div>
+                    <span class="desc">Documentation from the most recent feature/bugfix branch.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col">
+                <h2>Italiano</h2>
+                <p>Seleziona la versione della documentazione tecnica da consultare:</p>
+                <ul>
+                  <li>
+                    <div class="link-container"><a href="./master/">Branch Master</a><span class="badge badge-stable">Stabile</span></div>
+                    <span class="desc">Documentazione della versione in produzione.</span>
+                  </li>
+                  <li>
+                    <div class="link-container"><a href="./release/">Branch Release</a><span class="badge badge-rc">RC</span></div>
+                    <span class="desc">Release Candidate in fase di test e validazione.</span>
+                  </li>
+                  <li>
+                    <div class="link-container"><a href="./develop/">Branch Develop</a><span class="badge">Sviluppo</span></div>
+                    <span class="desc">Stato dell'arte dello sviluppo corrente.</span>
+                  </li>
+                  <li>
+                    <div class="link-container"><a href="./latest/">Ultima Anteprima</a><span class="badge badge-preview">Anteprima</span></div>
+                    <span class="desc">Documentazione temporanea dell'ultimo branch di feature/fix.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </body>
+          </html>
+          EOF
+      # Step 4: Deploy mantenendo lo storico degli altri branch
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs-build
-          # FONDAMENTALE: mantiene i file degli altri branch già presenti su gh-pages
-          keep_files: true 
-          # Opzionale: puoi inserire il nome del branch nel messaggio di commit
-          commit_message: "Deploy docs for ${{ github.ref_name }} [skip ci]"
+          keep_files: true
