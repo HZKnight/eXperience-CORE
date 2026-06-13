@@ -105,7 +105,10 @@ $db = new EDbManager($config);
 $results = $db->getRowSubSet("hz_test_table", 5, 10, "id", "DESC");
 ```
 
-[Technical Documentation](https://hzknight.github.io/eXperience-CORE/)
+## 📚 Documentation / Documentazione
+*   🚀 [Versione Stabile (Master)](https://hzknight.github.io/eXperience-CORE/master/)
+*   🛠️ [Versione di Sviluppo (Develop)](https://hzknight.github.io/eXperience-CORE/develop/)
+*   🧪 [Ultimi Cambiamenti (Iniziativa/Feature)](https://hzknight.github.io/eXperience-CORE/latest/)
 
 ---
 

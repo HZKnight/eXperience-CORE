@@ -11,21 +11,48 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Run phpDocumentor
-        # Usiamo il file phpdoc.dist.xml che abbiamo creato prima
+      # Step 1: Calcola il nome della cartella in base al branch attuale
+      - name: Determine documentation target directory
+        id: set-dir
         run: |
-          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run
+          # Estraiamo solo il nome del branch (es. 'feature/login' diventa 'feature/login')
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          
+          # Applichiamo la logica di controllo
+          if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "develop" ] || [[ "$BRANCH_NAME" == release/* ]]; then
+            # Se è master, develop o inizia con release/, la cartella avrà il nome del branch
+            # Nota: se il branch contiene "/", creerà delle sottocartelle (es. docs/release/v1.0)
+            TARGET_DIR="$BRANCH_NAME"
+          else
+            # Per tutti gli altri branch, usiamo 'latest'
+            TARGET_DIR="latest"
+          fi
+          
+          echo "Target directory determined: $TARGET_DIR"
+          # Salviamo la variabile nell'output dello step per usarla successivamente
+          echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
+
+      # Step 2: Genera la documentazione nella cartella corretta
+      - name: Run phpDocumentor
+        run: |
+          # Creiamo la struttura delle cartelle finale per evitare conflitti di permessi di Docker
+          mkdir -p docs-build/${{ steps.set-dir.outputs.target_dir }}
+          
+          # Eseguiamo phpdoc mappando l'output direttamente nella sottocartella specifica
+          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run -t /data/docs-build/${{ steps.set-dir.outputs.target_dir }}
 
       - name: Fix permissions
-        run: sudo chown -R $USER:$USER docs/
+        run: sudo chown -R $USER:$USER docs-build/
 
+      # Step 3: Deploy su GitHub Pages mantenendo i file esistenti
       - name: Deploy to GitHub Pages
-        # Questa action ufficiale prende il contenuto di una cartella 
-        # e lo sposta in un branch separato (gh-pages) in modo automatico
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          force_orphan: true # Mantiene il branch gh-pages leggero
+          publish_dir: ./docs-build
+          # FONDAMENTALE: mantiene i file degli altri branch già presenti su gh-pages
+          keep_files: true 
+          # Opzionale: puoi inserire il nome del branch nel messaggio di commit
+          commit_message: "Deploy docs for ${{ github.ref_name }} [skip ci]"
