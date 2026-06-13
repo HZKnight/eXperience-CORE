@@ -55,16 +55,16 @@ jobs:
           # Nota: Il tema moderno spesso cerca un file chiamato 'logo.png' o svariati asset grafici.
           # Per sicurezza creiamo la cartella images se non esistesse e ci piazziamo il logo.
           mkdir -p $TARGET_PATH/images
-          cp assets/logo.png $TARGET_PATH/images/logo.png
+          cp assets/logodoc.png $TARGET_PATH/images/logo.png
           
           # Molti temi usano la cartella css/images per i loghi della sidebar
           mkdir -p $TARGET_PATH/css/images
-          cp assets/logo.png $TARGET_PATH/css/images/logo.png
+          cp assets/logodoc.png $TARGET_PATH/css/images/logo.png
           
           # Se il tema usa un logo specifico di phpDocumentor (es. logo.svg o phpdoc-logo.png),
           # lo rimpiazziamo con il tuo (convertito al volo o mantenendo l'estensione se il browser lo tollera)
           if [ -f $TARGET_PATH/images/phpdoc-logo.png ]; then
-            cp assets/logo.png $TARGET_PATH/images/phpdoc-logo.png
+            cp assets/logodoc.png $TARGET_PATH/images/phpdoc-logo.png
           fi
 
       - name: Fix permissions
