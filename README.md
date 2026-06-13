@@ -103,7 +103,7 @@ $db = new EDbManager($config);
 ```php
 // Safe cross-platform tabular data subset slicing (MySQL / SQLite friendly)
 $results = $db->getRowSubSet("hz_test_table", 5, 10, "id", "DESC");
-...
+```
 
 ---
 
@@ -112,7 +112,7 @@ $results = $db->getRowSubSet("hz_test_table", 5, 10, "id", "DESC");
 The source code documentation is automatically generated on each push via phpDocumentor and is centrally accessible here:
 La documentazione del codice sorgente viene generata automaticamente ad ogni push tramite phpDocumentor ed è accessibile centralmente qui:
 
-🔗 **[Access the Documentation Hub / Accedi all'Hub della Documentazione](https://<tuo-utente>.github.io/<tuo-repo>/)**
+🔗 **[Access the Documentation Hub / Accedi all'Hub della Documentazione](https://hzknight.github.io/eXperience-CORE/)**
 
 ### Branches Structure / Struttura dei Branch
 
