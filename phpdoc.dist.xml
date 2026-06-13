@@ -22,8 +22,8 @@
 
     <templates>
         <template name="clean">
-            <parameter key="title" value="eXperience Core" />
-            <parameter key="logo" value="assets/logodoc.png" />
+            <parameter name="title" value="eXperience Core" />
+            <parameter name="logo" value="assets/logodoc.png" />
         </template>
     </templates>
 </phpdocumentor>
