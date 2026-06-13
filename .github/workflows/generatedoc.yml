@@ -44,7 +44,7 @@ jobs:
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
 
-      # Step 4: Inietta il logo tramite uno script JS universale per evitare i cambi di classi HTML del tema
+      # Step 4: Inietta il logo tramite script JS su riga singola (evita errori di sed)
       - name: Inject Logo into Generated Documentation
         run: |
           TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
@@ -53,42 +53,13 @@ jobs:
           LOGO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
           echo "Injecting Logo script pointing to: $LOGO_URL"
           
-          # Creiamo il blocco di codice JS da iniettare prima di </body>
-          # Questo script cerca la sidebar o il titolo del progetto e inserisce il tag IMG in cima
-          read -r -d '' JS_INJECTION << EOM || true
-          <script>
-            document.addEventListener("DOMContentLoaded", function() {
-              // Cerchiamo la sidebar del tema default (di solito ha la classe .phpdocumentor-sidebar o tag <aside>)
-              var sidebar = document.querySelector('.phpdocumentor-sidebar') || document.querySelector('aside');
-              
-              if (sidebar) {
-                // Creiamo il contenitore del logo
-                var logoDiv = document.createElement('div');
-                logoDiv.style.textAlign = 'center';
-                logoDiv.style.padding = '20px 10px 10px 10px';
-                
-                var logoImg = document.createElement('img');
-                logoImg.src = '$LOGO_URL';
-                logoImg.style.maxWidth = '100%';
-                logoImg.style.maxHeight = '90px';
-                logoImg.style.height = 'auto';
-                logoImg.style.objectFit = 'contain';
-                
-                logoDiv.appendChild(logoImg);
-                
-                // Inseriamo il logo come primissimo elemento all'inizio della sidebar
-                sidebar.insertBefore(logoDiv, sidebar.firstChild);
-              }
-            });
-          </script>
-          </body>
-          EOM
+          # Scriviamo lo script JS tutto su una riga per non rompere il comando sed
+          JS_SINGLE_LINE="<script>document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('.phpdocumentor-sidebar')||document.querySelector('aside');if(s){var d=document.createElement('div');d.style.textAlign='center';d.style.padding='20px 10px 10px 10px';var i=document.createElement('img');i.src='$LOGO_URL';i.style.maxWidth='100%';i.style.maxHeight='90px';i.style.height='auto';i.style.objectFit='contain';d.appendChild(i);s.insertBefore(d,s.firstChild);}});</script></body>"
+          
+          # Usiamo il carattere '#' come separatore sicuro per sed
+          find $TARGET_PATH -name "*.html" -exec sed -i "s|</body>|$JS_SINGLE_LINE|g" {} +
 
-          # Usiamo l'utility 'sed' per cercare '</body>' in tutti i file HTML e sostituirlo con il nostro JS + </body>
-          # Usiamo un delimitatore alternativo (il carattere #) per evitare conflitti con i / dei tag HTML
-          find $TARGET_PATH -name "*.html" -exec sed -i "s|</body>|$JS_INJECTION|g" {} +
-
-          echo "Universal JS Logo injection completed."
+          echo "Universal JS Logo injection completed successfully."
 
       # Step 5: Crea l'indice HTML statico Bilingue con il logo principale dell'hub
       - name: Create Main Index Redirect
