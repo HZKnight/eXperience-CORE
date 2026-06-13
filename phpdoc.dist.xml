@@ -17,12 +17,11 @@
                 <path>src/Experience/vendor/**/*</path>
                 <path>tests/**/*</path>
             </ignore>
-        </api>
 
-        <template name="clean">
-            <parameter key="title" value="eXperience Core | Documentation" />
-            <parameter key="logo" value="assets/logodoc.png" />
-        </template>
-        
-    </version> 
+            <settings>
+                <setting name="setting.title" value="eXperience Core" />
+                <setting name="theme.logo" value="assets/logodoc.png" />
+            </settings>
+        </api>
+    </version>
 </phpdocumentor>
