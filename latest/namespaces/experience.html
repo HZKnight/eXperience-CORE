@@ -1,186 +1,518 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-            <title>Documentation</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="../">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
-    <link rel="icon" href="images/favicon.ico"/>
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/base.css">
-            <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/template.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism-okaidia.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
-                <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
-        <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
-        <script src="js/template.js"></script>
-        <script src="js/search.js"></script>
-        <script defer src="js/searchIndex.js"></script>
-    </head>
-<body id="top">
-    <header class="phpdocumentor-header phpdocumentor-section">
-    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">Documentation</a></h1>
-    <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
-    <label class="phpdocumentor-header__menu-icon" for="menu-button">
-        <i class="fas fa-bars"></i>
-    </label>
-    <section data-search-form class="phpdocumentor-search">
-    <label>
-        <span class="visually-hidden">Search for</span>
-        <svg class="phpdocumentor-search__icon" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="2"/>
-            <line x1="12.4892" y1="12.2727" x2="19.1559" y2="18.9393" stroke="currentColor" stroke-width="3"/>
-        </svg>
-        <input type="search" class="phpdocumentor-field phpdocumentor-search__field" placeholder="Loading .." disabled />
-    </label>
-</section>
+<html lang="en" id="top-of-site">
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta charset="utf-8"/>
+		<title>
+							Documentation
+					</title>
+		<meta name="author" content=""/>
+		<meta name="description" content=""/>
+		<base href="../">
 
-    <nav class="phpdocumentor-topnav">
-    <ul class="phpdocumentor-topnav__menu">
-        </ul>
-</nav>
-</header>
+		<link href="resources/css/bootstrap.min.css" rel="stylesheet" media="all"/>
+		<link href="resources/css/bootstrap-responsive.min.css" rel="stylesheet" media="all"/>
+		<link href="resources/css/style.css" rel="stylesheet" media="all"/>
+		<link href="resources/css/prism.min.css" rel="stylesheet" media="all"/>
+		<link href="resources/font/css/all.min.css" rel="stylesheet" media="all"/>
+		
+		<link rel="shortcut icon" href="resources/images/favicon.ico"/>
+		<link rel="apple-touch-icon" href="resources/images/apple-touch-icon.png"/>
+		<link rel="apple-touch-icon" sizes="72x72" href="resources/images/apple-touch-icon-72x72.png"/>
+		<link rel="apple-touch-icon" sizes="114x114" href="resources/images/apple-touch-icon-114x114.png"/>
+	</head>
+	<body>
 
-    <main class="phpdocumentor">
-        <div class="phpdocumentor-section">
-            <input class="phpdocumentor-sidebar__menu-button" type="checkbox" id="sidebar-button" name="sidebar-button" />
-<label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
-    Menu
-</label>
-<aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -namespaces">
-            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
-                                    <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="namespaces/experience.html" class="-active">Experience</a>
-</h4>
-    <ul class="phpdocumentor-list">
-                    <li>
-                <a href="namespaces/experience-core.html" class="">Core</a>
-                
-            </li>
-            </ul>
+		<nav class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<i class="fa-solid fa-bars"></i>
+					</a>
+					<a class="brand" href="index.html">Documentation</a>
 
-                        </section>
-                <section class="phpdocumentor-sidebar__category -packages">
-            <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
-                                    <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="packages/Application.html" class="">Application</a>
-</h4>
+					<div class="nav-collapse navbar-responsive-collapse collapse">
+						<ul class="nav pull-right">
+															<li class="dropdown" id="api-menu">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-labelledby="api-menu">
+										API Documentation
+										<b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="api-menu">
+																					<li><a href="namespaces/experience.html"><abbr title="\Experience">Experience</abbr></a></li>
+																			</ul>
+								</li>
+																					<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Reports
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+									<li>
+										<a href="reports/errors.html">
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									<i class="fa-solid fa-bug"></i>&#160;Errors
+											<span class="label label-important pull-right">0</span>
+										</a>
+									</li>
+									<li>
+										<a href="reports/markers.html">
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									<i class="fa-solid fa-location-dot"></i>&#160;&#160;Markers
+											<span class="label label-warning pull-right">1</span>
+										</a>
+									</li>
+									<li>
+										<a href="reports/deprecated.html">
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							<i class="fa-solid fa-file-circle-xmark"></i>&#160;Deprecated
+											<span class="label label-info pull-right">0</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="go_to_top">
+				<a href="#top-of-site" style="color: inherit">Back To Top&#160;&#160;<i class="fa-solid fa-chevron-up"></i></a>
+			</div>
+		</nav>
 
-                                    <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="packages/eXperience.html" class="">eXperience</a>
-</h4>
-    <ul class="phpdocumentor-list">
-                    <li>
-                <a href="packages/eXperience-Core.html" class="">Core</a>
-                
-            </li>
-            </ul>
+		<div id="___" class="container-fluid"> 	<section class="row-fluid">
+		<div class="span2 sidebar">
+								<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-141096912"></a>
+								<a href="namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+			</div>
+			<div id="namespace-141096912" class="accordion-body collapse in">
+				<div class="accordion-inner">
 
-                        </section>
-            
-    <section class="phpdocumentor-sidebar__category -reports">
-        <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
-                <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
-        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
-        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
-    </section>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1439985105"></a>
+								<a href="namespaces/experience.html" style="margin-left: 30px; padding-left: 0">Experience</a>
+			</div>
+			<div id="namespace-1439985105" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-    <section class="phpdocumentor-sidebar__category -indices">
-        <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
-        <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
-    </section>
-</aside>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-505010024"></a>
+								<a href="namespaces/experience-core.html" style="margin-left: 30px; padding-left: 0">Core</a>
+			</div>
+			<div id="namespace-505010024" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-            <div class="phpdocumentor-column -nine phpdocumentor-content">
-                                <section>
-                                        <ul class="phpdocumentor-breadcrumbs">
-    </ul>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-210459371"></a>
+								<a href="namespaces/experience-core-exceptions.html" style="margin-left: 30px; padding-left: 0">Exceptions</a>
+			</div>
+			<div id="namespace-210459371" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-    <article class="phpdocumentor-element -namespace">
-        <h2 class="phpdocumentor-content__title">Experience</h2>
+					
+					<ul>
+													<li class="interface"><a href="classes/Experience-Core-Exceptions-IException.html"><abbr title="\Experience\Core\Exceptions\IException">IException</abbr></a></li>
+																									<li class="class"><a href="classes/Experience-Core-Exceptions-EException.html"><abbr title="\Experience\Core\Exceptions\EException">EException</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Exceptions-EExceptionManager.html"><abbr title="\Experience\Core\Exceptions\EExceptionManager">EExceptionManager</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-        
-<h3 id="toc">
-    Table of Contents
-    <a href="namespaces/experience.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-30735578"></a>
+								<a href="namespaces/experience-core-io.html" style="margin-left: 30px; padding-left: 0">Io</a>
+			</div>
+			<div id="namespace-30735578" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-</h3>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-104859121"></a>
+								<a href="namespaces/experience-core-io-dbal.html" style="margin-left: 30px; padding-left: 0">Dbal</a>
+			</div>
+			<div id="namespace-104859121" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-374018372"></a>
+								<a href="namespaces/experience-core-io-dbal-driver.html" style="margin-left: 30px; padding-left: 0">Driver</a>
+			</div>
+			<div id="namespace-374018372" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-<h4 id="namespaces">
-    Namespaces
-    <a href="namespaces/experience.html#namespaces" class="headerlink"><i class="fas fa-link"></i></a>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-857525800"></a>
+								<a href="namespaces/experience-core-io-dbal-driver-interface.html" style="margin-left: 30px; padding-left: 0">Interface</a>
+			</div>
+			<div id="namespace-857525800" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/experience-core.html"><abbr title="\Experience\Core">Core</abbr></a></dt>
-    </dl>
+					
+					<ul>
+													<li class="interface"><a href="classes/Experience-Core-Io-Dbal-Driver-Interface-DatabaseAdapterInterface.html"><abbr title="\Experience\Core\Io\Dbal\Driver\Interface\DatabaseAdapterInterface">DatabaseAdapterInterface</abbr></a></li>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Io-Dbal-Driver-BaseAdapter.html"><abbr title="\Experience\Core\Io\Dbal\Driver\BaseAdapter">BaseAdapter</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Io-Dbal-Driver-MySqliAdapter.html"><abbr title="\Experience\Core\Io\Dbal\Driver\MySqliAdapter">MySqliAdapter</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Io-Dbal-Driver-PdoAdapter.html"><abbr title="\Experience\Core\Io\Dbal\Driver\PdoAdapter">PdoAdapter</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Io-Dbal-Driver-SqliteAdapter.html"><abbr title="\Experience\Core\Io\Dbal\Driver\SqliteAdapter">SqliteAdapter</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Io-Dbal-EDbManager.html"><abbr title="\Experience\Core\Io\Dbal\EDbManager">EDbManager</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-62500783"></a>
+								<a href="namespaces/experience-core-io-net.html" style="margin-left: 30px; padding-left: 0">Net</a>
+			</div>
+			<div id="namespace-62500783" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-732395480"></a>
+								<a href="namespaces/experience-core-io-net-http.html" style="margin-left: 30px; padding-left: 0">Http</a>
+			</div>
+			<div id="namespace-732395480" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Io-Net-Http-HttpRequest.html"><abbr title="\Experience\Core\Io\Net\Http\HttpRequest">HttpRequest</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-185123498"></a>
+								<a href="namespaces/experience-core-io-net-mailer.html" style="margin-left: 30px; padding-left: 0">Mailer</a>
+			</div>
+			<div id="namespace-185123498" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Io-Net-Mailer-EMailer.html"><abbr title="\Experience\Core\Io\Net\Mailer\EMailer">EMailer</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Io-Net-Mailer-EMessage.html"><abbr title="\Experience\Core\Io\Net\Mailer\EMessage">EMessage</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
+					
+					<ul>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2081796339"></a>
+								<a href="namespaces/experience-core-io-storage.html" style="margin-left: 30px; padding-left: 0">Storage</a>
+			</div>
+			<div id="namespace-2081796339" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-        
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2115749987"></a>
+								<a href="namespaces/experience-core-io-storage-driver.html" style="margin-left: 30px; padding-left: 0">Driver</a>
+			</div>
+			<div id="namespace-2115749987" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-        
-        
-    </article>
-                                </section>
-                <section class="phpdocumentor-on-this-page__sidebar">
-                            
-    <section class="phpdocumentor-on-this-page__content">
-        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-333374645"></a>
+								<a href="namespaces/experience-core-io-storage-driver-interface.html" style="margin-left: 30px; padding-left: 0">Interface</a>
+			</div>
+			<div id="namespace-333374645" class="accordion-body collapse ">
+				<div class="accordion-inner">
 
-        <ul class="phpdocumentor-list -clean">
-            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
-            <li>
-                <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                </ul>
-            </li>
+					
+					<ul>
+													<li class="interface"><a href="classes/Experience-Core-Io-Storage-Driver-Interface-StorageDriverInterface.html"><abbr title="\Experience\Core\Io\Storage\Driver\Interface\StorageDriverInterface">StorageDriverInterface</abbr></a></li>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-            
-                    </ul>
-    </section>
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Io-Storage-Driver-LocalStorageDriver.html"><abbr title="\Experience\Core\Io\Storage\Driver\LocalStorageDriver">LocalStorageDriver</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Io-Storage-Driver-StorageDriver.html"><abbr title="\Experience\Core\Io\Storage\Driver\StorageDriver">StorageDriver</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                </section>
-                            </div>
-            <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
-    <section class="phpdocumentor-search-results__dialog">
-        <header class="phpdocumentor-search-results__header">
-            <h2 class="phpdocumentor-search-results__title">Search results</h2>
-            <button class="phpdocumentor-search-results__close"><i class="fas fa-times"></i></button>
-        </header>
-        <section class="phpdocumentor-search-results__body">
-            <ul class="phpdocumentor-search-results__entries"></ul>
-        </section>
-    </section>
-</section>
-        </div>
-        <a href="namespaces/experience.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Io-Storage-EStorage.html"><abbr title="\Experience\Core\Io\Storage\EStorage">EStorage</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    </main>
+					
+					<ul>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <script>
-        cssVars({});
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
-</body>
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-965239203"></a>
+								<a href="namespaces/experience-core-tools.html" style="margin-left: 30px; padding-left: 0">Tools</a>
+			</div>
+			<div id="namespace-965239203" class="accordion-body collapse ">
+				<div class="accordion-inner">
+
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1170987049"></a>
+								<a href="namespaces/experience-core-tools-config.html" style="margin-left: 30px; padding-left: 0">Config</a>
+			</div>
+			<div id="namespace-1170987049" class="accordion-body collapse ">
+				<div class="accordion-inner">
+
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Tools-Config-EConfigManager.html"><abbr title="\Experience\Core\Tools\Config\EConfigManager">EConfigManager</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-630747710"></a>
+								<a href="namespaces/experience-core-tools-logger.html" style="margin-left: 30px; padding-left: 0">Logger</a>
+			</div>
+			<div id="namespace-630747710" class="accordion-body collapse ">
+				<div class="accordion-inner">
+
+													<div class="accordion" style="margin-bottom: 0">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1212439506"></a>
+								<a href="namespaces/experience-core-tools-logger-appenders.html" style="margin-left: 30px; padding-left: 0">Appenders</a>
+			</div>
+			<div id="namespace-1212439506" class="accordion-body collapse ">
+				<div class="accordion-inner">
+
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Tools-Logger-Appenders-Appender.html"><abbr title="\Experience\Core\Tools\Logger\Appenders\Appender">Appender</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html"><abbr title="\Experience\Core\Tools\Logger\Appenders\AppenderDb">AppenderDb</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderEmail.html"><abbr title="\Experience\Core\Tools\Logger\Appenders\AppenderEmail">AppenderEmail</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderFile.html"><abbr title="\Experience\Core\Tools\Logger\Appenders\AppenderFile">AppenderFile</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+					
+					<ul>
+																									<li class="class"><a href="classes/Experience-Core-Tools-Logger-ELogger.html"><abbr title="\Experience\Core\Tools\Logger\ELogger">ELogger</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Tools-Logger-ELogLevel.html"><abbr title="\Experience\Core\Tools\Logger\ELogLevel">ELogLevel</abbr></a></li>
+													<li class="class"><a href="classes/Experience-Core-Tools-Logger-ELogRow.html"><abbr title="\Experience\Core\Tools\Logger\ELogRow">ELogRow</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+					
+					<ul>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+					
+					<ul>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+					
+					<ul>
+																							</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+					
+					<ul>
+																									<li class="class"><a href="classes/AutoloaderException.html"><abbr title="\AutoloaderException">AutoloaderException</abbr></a></li>
+													<li class="class"><a href="classes/EAutoloader.html"><abbr title="\EAutoloader">EAutoloader</abbr></a></li>
+											</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		</div>
+	</section>
+	<section class="row-fluid">
+		<div class="span10 offset2">
+			<div class="row-fluid">
+				<div class="span8 content namespace">
+					<nav>
+												<a href="namespaces/default.html"><abbr title="\"></abbr></a>
+											</nav>
+					<h1>
+						<small>\</small>
+						Experience</h1>
+
+											<h2>Namespaces</h2>
+						<table class="table table-hover">
+															<tr>
+									<td><a href="namespaces/experience-core.html"><abbr title="\Experience\Core">Core</abbr></a></td>
+								</tr>
+													</table>
+					
+					
+					
+									</div>
+
+				<aside class="span4 detailsbar">
+					<dl>
+						<dt>Namespace hierarchy</dt>
+						<dd class="hierarchy">
+																																																																
+									<div class="namespace-wrapper"><a href="namespaces/default.html"><abbr title="\"></abbr></a></div>
+																						<div class="namespace-wrapper">\Experience</div>
+						</dd>
+					</dl>
+				</aside>
+			</div>
+
+			
+			
+		</div>
+	</section>
+
+			<footer class="row-fluid">
+				<section class="span10 offset2">
+					<section class="row-fluid">
+						<section class="span10 offset1">
+							<section class="row-fluid footer-sections">
+								<section
+									class="span4">
+																		<h1>
+										<i class="fa-solid fa-code"></i>
+									</h1>
+									<div>
+										<ul>
+																							<li><a href="namespaces/experience.html"><abbr title="\Experience">Experience</abbr></a></li>
+																					</ul>
+									</div>
+								</section>
+								<section
+									class="span4">
+																		<h1>
+										<i class="fa-solid fa-project-diagram"></i>
+									</h1>
+									<div>
+										<ul>
+											<li><a href="graphs/class.html">Class Hierarchy Diagram</a></li>
+										</ul>
+									</div>
+								</section>
+								<section
+									class="span4">
+																		<h1>
+										<i class="fa-solid fa-thumbtack"></i>
+									</h1>
+									<div>
+										<ul>
+											<li><a href="reports/errors.html">Errors</a></li>
+											<li><a href="reports/markers.html">Markers</a></li>
+										</ul>
+									</div>
+								</section>
+							</section>
+						</section>
+					</section>
+					<section class="row-fluid">
+						<section class="span10 offset1">
+							<hr/>
+							Documentation is powered by
+							<a href="https://www.phpdoc.org/">phpDocumentor
+							</a>
+							and authored
+							                    on
+							June 13th, 2026 at 06:43.
+						</section>
+					</section>
+				</section>
+			</footer>
+		</div>
+		<script src="resources/js/jquery-1.11.0.min.js"></script>
+		<script src="resources/js/ui/1.10.4/jquery-ui.min.js"></script>
+		<script src="resources/js/jquery.smooth-scroll.js"></script>
+		<script src="resources/js/prism.min.js"></script>
+		<script src="resources/js/bootstrap.js"></script>
+		<script src="resources/js/custom.js"></script>
+			</body>
 </html>
