@@ -44,20 +44,21 @@ jobs:
       - name: Fix permissions
         run: sudo chown -R $USER:$USER docs-build/
 
-      # Step 4: Genera un CSS personalizzato e lo inietta nativamente in phpDocumentor
-      - name: Inject Custom CSS Logo into phpDocumentor
+      # Step 4: Forza l'iniezione del logo direttamente dentro i file CSS generati
+      - name: Inject Logo via Generated CSS Append
         run: |
           TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
           
-          # 1. Creiamo una cartella per il nostro CSS personalizzato fuori dalla build
-          mkdir -p custom_assets
-          
           # URL assoluto del tuo logo
           LOGO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
+          echo "Targeting CSS files in: $TARGET_PATH"
           
-          # 2. Scriviamo le regole CSS nel file
-          cat <<EOF > custom_assets/logo.css
-          /* Nasconde il testo originale del link verde */
+          # Creiamo il blocco CSS da appendere
+          # 1. Svuota il testo verde rendendolo trasparente e a dimensione zero
+          # 2. Inietta il logo come sfondo del link stesso, centrato e ridimensionato
+          cat <<EOF > patch.css
+
+          /* --- Custom Logo Patch --- */
           .phpdocumentor-title__link {
               font-size: 0 !important;
               line-height: 0 !important;
@@ -65,12 +66,6 @@ jobs:
               display: block !important;
               text-align: center !important;
               margin: 0 auto !important;
-          }
-
-          /* Inietta il logo al posto del testo */
-          .phpdocumentor-title__link::after {
-              content: "" !important;
-              display: block !important;
               width: 100% !important;
               height: 90px !important;
               background-image: url('$LOGO_URL') !important;
@@ -80,11 +75,11 @@ jobs:
           }
           EOF
 
-          # Copiamo il file CSS anche dentro la build per sicurezza se phpDoc lo richiede relativo
-          mkdir -p $TARGET_PATH/css
-          cp custom_assets/logo.css $TARGET_PATH/css/logo.css
-          
-          echo "Custom CSS asset created."
+          # Trova tutti i file .css generati nella build (es. base.css, template.css)
+          # e appendi il contenuto di patch.css in fondo a ciascuno di essi.
+          find $TARGET_PATH -name "*.css" -exec sh -c 'cat patch.css >> "$1"' _ {} \;
+
+          echo "CSS Patch injected successfully into all generated stylesheets."
 
       # Step 5: Crea l'indice HTML statico Bilingue con il logo principale dell'hub
       - name: Create Main Index Redirect
