@@ -29,18 +29,7 @@ jobs:
           
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
-      # Step 2: Genera la documentazione passando il CSS personalizzato
-      - name: Run phpDocumentor
-        run: |
-          TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
-          mkdir -p $TARGET_PATH
-          
-          # Passiamo il file custom_assets/logo.css tramite l'opzione nativa di phpDoc 3
-          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
-            -t /data/$TARGET_PATH \
-            --template="default" \
-            --title="eXperience Core" \
-            --setting="theme.custom_css=custom_assets/logo.css"
+      Bagnofevee
 
       # Step 3: Sblocca i permessi della cartella generata da Docker (root -> runner)
       - name: Fix permissions
