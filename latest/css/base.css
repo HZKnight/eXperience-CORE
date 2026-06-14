@@ -1234,3 +1234,19 @@ is too big a fix and needs to be done in a new design iteration.
 .float-left {
     float: left;
 }
+
+/* --- Custom Logo Patch --- */
+.phpdocumentor-title__link {
+    font-size: 0 !important;
+    line-height: 0 !important;
+    color: transparent !important;
+    display: block !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    height: 90px !important;
+    background-image: url('https://raw.githubusercontent.com/HZKnight/eXperience-CORE/632c2e520abd312f14ca52c79db1017840344ab5/assets/logodoc.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: contain !important;
+}
