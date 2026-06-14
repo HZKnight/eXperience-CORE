@@ -29,7 +29,16 @@ jobs:
           
           echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
-      Bagnofevee
+      # Step 2: Genera la documentazione col tema moderno 'default'
+      - name: Run phpDocumentor
+        run: |
+          TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
+          mkdir -p $TARGET_PATH
+          
+          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
+            -t /data/$TARGET_PATH \
+            --template="default" \
+            --title="eXperience Core"
 
       # Step 3: Sblocca i permessi della cartella generata da Docker (root -> runner)
       - name: Fix permissions
