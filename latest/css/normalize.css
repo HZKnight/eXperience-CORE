@@ -436,8 +436,21 @@ th {
     margin: 0 auto !important;
     width: 100% !important;
     height: 90px !important;
-    background-image: url('https://raw.githubusercontent.com/HZKnight/eXperience-CORE/b77598d6116776d511ed36e290b39e31ef9b8acf/assets/logodoc.png') !important;
+    background-image: url('https://raw.githubusercontent.com/HZKnight/eXperience-CORE/bf042d06af01690568b129873073cda1906c584b/assets/logodoc.png') !important;
     background-repeat: no-repeat !important;
     background-position: center center !important;
     background-size: contain !important;
+}
+
+/* --- Custom Copyright Patch --- */
+/* Intercettiamo la sidebar (o il tag aside) e appendiamo il testo in fondo */
+.phpdocumentor-sidebar::after, aside::after {
+    content: "© 2026 H0Model.Org - All rights reserved" !important;
+    display: block !important;
+    text-align: center !important;
+    font-size: 0.75rem !important;
+    color: #6a737d !important; /* Grigio elegante, stile GitHub */
+    padding: 30px 10px 10px 10px !important;
+    margin-top: auto !important; /* Lo spinge in fondo se la sidebar usa flexbox */
+    border-top: 1px dashed #eaecef !important; /* Linea di separazione sottile */
 }
