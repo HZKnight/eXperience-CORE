@@ -95,111 +95,25 @@ jobs:
 
           echo "CSS Patch for Logo and Copyright injected successfully."
 
-      # Step 5: Crea l'indice HTML statico Bilingue con il logo e il copyright
+      # Step 5: Prepara l'indice e gli asset copiando il file HTML esterno
       - name: Create Main Index Redirect
         run: |
-          # [ ... manteniamo la copia del logo come prima ... ]
+          # 1. Crea la cartella globale degli asset e copia il logo per l'hub
           mkdir -p docs-build/assets
           if [ -f assets/logodoc.png ]; then
             cp assets/logodoc.png docs-build/assets/logodoc.png
+          else
+            echo "::warning::Logo file not found at assets/logodoc.png, skipping copy."
           fi
 
-          # Generiamo l'HTML dell'interfaccia dell'hub bilingue con il footer
-          cat <<EOF > docs-build/index.html
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Documentation Hub</title>
-            <style>
-              body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; line-height: 1.6; max-width: 800px; margin: 0 auto; color: #24292e; background-color: #f6f8fa; display: flex; flex-direction: column; min-height: 92vh; }
-              .container { background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1; }
-              .header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid #eaecef; padding-bottom: 20px; }
-              .logo { max-width: 407px; height: auto; margin-bottom: 15px; } 
-              h1 { font-size: 1.8em; margin: 0; color: #333; }
-              .grid { display: flex; gap: 40px; margin-top: 30px; }
-              .col { flex: 1; min-width: 280px; }
-              @media (max-width: 600px) { .grid { flex-direction: column; gap: 20px; } padding: 10px; .container { padding: 20px; } }
-              h2 { font-size: 1.3em; color: #586069; border-bottom: 1px dashed #eaecef; padding-bottom: 5px; margin-top: 0; }
-              ul { padding-left: 0; list-style-type: none; margin-top: 15px; }
-              li { margin-bottom: 18px; display: flex; flex-direction: column; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; transition: box-shadow 0.2s; }
-              li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-              .link-container { display: flex; align-items: center; justify-content: space-between; }
-              a { color: #0366d6; text-decoration: none; font-weight: 600; font-size: 1.1em; }
-              a:hover { text-decoration: underline; }
-              .desc { color: #6a737d; font-size: 0.9em; margin-top: 5px; display: block; }
-              .badge { background-color: #e1f5fe; color: #0288d1; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-              .badge-stable { background-color: #e8f5e9; color: #2e7d32; }
-              .badge-rc { background-color: #fff3e0; color: #ef6c00; }
-              .badge-preview { background-color: #eceff1; color: #37474f; }
-              
-              /* Stile del Footer */
-              footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eaecef; color: #6a737d; font-size: 0.85em; }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <div class="header">
-                <img src="./assets/logodoc.png" alt="Project Logo" class="logo">
-                <h1>Documentation Hub / Archivio Documentazione</h1>
-              </div>
-
-              <div class="grid">
-                <div class="col">
-                  <h2>English</h2>
-                  <p>Select the version of the technical documentation you wish to consult:</p>
-                  <ul>
-                    <li>
-                      <div class="link-container"><a href="./master/">Master Branch</a><span class="badge badge-stable">Stable</span></div>
-                      <span class="desc">Production-ready documentation.</span>
-                    </li>
-                    <li>
-                      <div class="link-container"><a href="./release/">Release Branch</a><span class="badge badge-rc">RC</span></div>
-                      <span class="desc">Release Candidate currently under testing.</span>
-                    </li>
-                    <li>
-                      <div class="link-container"><a href="./develop/">Develop Branch</a><span class="badge">Dev</span></div>
-                      <span class="desc">Current state of active development.</span>
-                    </li>
-                    <li>
-                      <div class="link-container"><a href="./latest/">Latest Preview</a><span class="badge badge-preview">Preview</span></div>
-                      <span class="desc">Documentation from the most recent feature/bugfix branch.</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="col">
-                  <h2>Italiano</h2>
-                  <p>Seleziona la versione della documentazione tecnica da consultare:</p>
-                  <ul>
-                    <li>
-                      <div class="link-container"><a href="./master/">Branch Master</a><span class="badge badge-stable">Stabile</span></div>
-                      <span class="desc">Documentazione della versione in produzione.</span>
-                    </li>
-                    <li>
-                      <div class="link-container"><a href="./release/">Branch Release</a><span class="badge badge-rc">RC</span></div>
-                      <span class="desc">Release Candidate in fase di test e validazione.</span>
-                    </li>
-                    <li>
-                      <div class="link-container"><a href="./develop/">Branch Develop</a><span class="badge">Sviluppo</span></div>
-                      <span class="desc">Stato dell'arte dello sviluppo corrente.</span>
-                    </li>
-                    <li>
-                      <div class="link-container"><a href="./latest/">Ultima Anteprima</a><span class="badge badge-preview">Anteprima</span></div>
-                      <span class="desc">Documentazione temporanea dell'ultimo branch di feature/fix.</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              
-              <footer>
-                &copy;2026 H0Model.Org - All rights reserved
-              </footer>
-            </div>
-          </body>
-          </html>
-          EOF
+          # 2. Copia il file HTML esterno direttamente nella cartella di pubblicazione rinominandolo in index.html
+          if [ -f assets/hub-template.html ]; then
+            cp assets/hub-template.html docs-build/index.html
+            echo "External HTML template copied successfully."
+          else
+            echo "::error::Template file assets/hub-template.html not found!"
+            exit 1
+          fi
 
       # Step 6: Esegui il Deploy incrementale su GitHub Pages
       - name: Deploy to GitHub Pages
