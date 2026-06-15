@@ -53,7 +53,7 @@ jobs:
           LOGO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
           
           # Testo del Copyright (puoi personalizzarlo come vuoi)
-          COPYRIGHT_TEXT="© 2026 H0Model.Org - All rights reserved"
+          COPYRIGHT_TEXT="©2026 H0Model.Org - All rights reserved"
           
           echo "Targeting CSS files in: $TARGET_PATH to add Logo and Copyright"
           
@@ -194,7 +194,7 @@ jobs:
               </div>
               
               <footer>
-                &copy; 2026 H0Model.Org - All rights reserved
+                &copy;2026 H0Model.Org - All rights reserved
               </footer>
             </div>
           </body>
