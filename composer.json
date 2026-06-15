@@ -3,12 +3,11 @@
 	"type" : "application",
 	"description" : "This is a simple PHP framework that I have developed to help me to develop my PHP applications",
 	"keywords" : [
-		"hit counter",
+		"logger",
 		"php",
-		"statistic",
-		"counter",
-		"visitors counter",
-		"cross plattafor"
+		"storage manager",
+		"database manager",
+		"cross platform"
 	],
 	"homepage" : "https://www.hzknight.org",
 	"license" : "AGPL-3.0-or-later",
@@ -20,7 +19,7 @@
 		}
 	],
 	"require" : {
-		"php" : ">=7.1.0"
+		"php" : ">=8.1.0"
 	},
 	"autoload" : {
 		"psr-0" : {
@@ -30,8 +29,8 @@
 	"minimum-stability" : "alpha",
 	"support" : {
 		"email" : "lucliscio@h0model.org",
-		"issues" : "https://github.com/HZKnight/eXperience-GuestBook/issues",
-		"wiki" : "https://github.com/HZKnight/eXperience-GuestBook/wiki",
-		"source" : "https://github.com/HZKnight/eXperience-GuestBook"
+		"issues" : "https://github.com/HZKnight/eXperience-code/issues",
+		"wiki" : "https://github.com/HZKnight/eXperience-code/wiki",
+		"source" : "https://github.com/HZKnight/eXperience-code"
 	}
 }

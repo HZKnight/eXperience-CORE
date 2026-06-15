@@ -1,0 +1,45 @@
+name: Open Pull Request Workflow
+on:
+  pull_request_target:
+    types: [opened, ready_for_review]
+
+jobs:
+       
+  # 1. TEST E QUALITÀ CON SONAR
+  unit_test_and_quality:
+    if: github.event.pull_request.merged == true 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+    
+      # Utilizzo di php-actions/phpunit per i test e la coverage
+    - name: Run PHPUnit Tests
+      uses: php-actions/phpunit@v4
+      with:
+        version: '10' # O la versione che preferisci
+        php_version: '8.2'
+        php_extensions: dom curl libxml mbstring pdo_sqlite xdebug
+        bootstrap: vendor/autoload.php
+        configuration: test/phpunit.xml
+        args: --coverage-clover coverage.xml
+      env:
+        XDEBUG_MODE: coverage
+
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+          -Dsonar.organization=${{ secrets.SONAR_ORG }}
+          -Dsonar.php.tests.reportPath=coverage.xml

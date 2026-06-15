@@ -11,21 +11,114 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Run phpDocumentor
-        # Usiamo il file phpdoc.dist.xml che abbiamo creato prima
+      # Step 1: Calcola il nome della cartella (Logica semplificata)
+      - name: Determine documentation target directory
+        id: set-dir
         run: |
-          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          
+          if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "develop" ] || [ "$BRANCH_NAME" = "release" ]; then
+            # Se è uno dei tre branch principali, usa il suo nome come cartella
+            TARGET_DIR="$BRANCH_NAME"
+          else
+            # Tutti gli altri branch finiscono in latest
+            TARGET_DIR="latest"
+          fi
+          
+          echo "target_dir=$TARGET_DIR" >> $GITHUB_OUTPUT
 
+      # Step 2: Genera la documentazione col tema moderno 'default'
+      - name: Run phpDocumentor
+        run: |
+          TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
+          mkdir -p $TARGET_PATH
+          
+          docker run --rm -v $(pwd):/data phpdoc/phpdoc:3 run \
+            -t /data/$TARGET_PATH \
+            --template="default" \
+            --title="eXperience Core"
+
+      # Step 3: Sblocca i permessi della cartella generata da Docker (root -> runner)
       - name: Fix permissions
-        run: sudo chown -R $USER:$USER docs/
+        run: sudo chown -R $USER:$USER docs-build/
 
+      # Step 4: Inietta il logo e il copyright direttamente in fondo ai file CSS generati
+      - name: Inject Logo and Copyright via Generated CSS Append
+        run: |
+          TARGET_PATH="docs-build/${{ steps.set-dir.outputs.target_dir }}"
+          
+          # URL assoluto del tuo logo
+          LOGO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/assets/logodoc.png"
+          
+          # Testo del Copyright (puoi personalizzarlo come vuoi)
+          COPYRIGHT_TEXT="©2026 H0Model.Org - All rights reserved"
+          
+          echo "Targeting CSS files in: $TARGET_PATH to add Logo and Copyright"
+          
+          # Creiamo il blocco CSS completo
+          cat <<EOF > patch.css
+
+          /* --- Custom Logo Patch --- */
+          .phpdocumentor-title__link {
+              font-size: 0 !important;
+              line-height: 0 !important;
+              color: transparent !important;
+              display: block !important;
+              text-align: center !important;
+              margin: 0 auto !important;
+              width: 100% !important;
+              height: 90px !important;
+              background-image: url('$LOGO_URL') !important;
+              background-repeat: no-repeat !important;
+              background-position: center center !important;
+              background-size: contain !important;
+          }
+
+          /* --- Custom Copyright Patch --- */
+          /* Intercettiamo la sidebar (o il tag aside) e appendiamo il testo in fondo */
+          .phpdocumentor-sidebar::after, aside::after {
+              content: "$COPYRIGHT_TEXT" !important;
+              display: block !important;
+              text-align: center !important;
+              font-size: 0.75rem !important;
+              color: #6a737d !important; /* Grigio elegante, stile GitHub */
+              padding: 30px 10px 10px 10px !important;
+              margin-top: auto !important; /* Lo spinge in fondo se la sidebar usa flexbox */
+              border-top: 1px dashed #eaecef !important; /* Linea di separazione sottile */
+          }
+          EOF
+
+          # Trova tutti i file .css generati nella build e appendi la patch
+          find $TARGET_PATH -name "*.css" -exec sh -c 'cat patch.css >> "$1"' _ {} \;
+
+          echo "CSS Patch for Logo and Copyright injected successfully."
+
+      # Step 5: Prepara l'indice e gli asset copiando il file HTML esterno
+      - name: Create Main Index Redirect
+        run: |
+          # 1. Crea la cartella globale degli asset e copia il logo per l'hub
+          mkdir -p docs-build/assets
+          if [ -f assets/logodoc.png ]; then
+            cp assets/logodoc.png docs-build/assets/logodoc.png
+          else
+            echo "::warning::Logo file not found at assets/logodoc.png, skipping copy."
+          fi
+
+          # 2. Copia il file HTML esterno direttamente nella cartella di pubblicazione rinominandolo in index.html
+          if [ -f assets/hub-template.html ]; then
+            cp assets/hub-template.html docs-build/index.html
+            echo "External HTML template copied successfully."
+          else
+            echo "::error::Template file assets/hub-template.html not found!"
+            exit 1
+          fi
+
+      # Step 6: Esegui il Deploy incrementale su GitHub Pages
       - name: Deploy to GitHub Pages
-        # Questa action ufficiale prende il contenuto di una cartella 
-        # e lo sposta in un branch separato (gh-pages) in modo automatico
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          force_orphan: true # Mantiene il branch gh-pages leggero
+          publish_dir: ./docs-build
+          keep_files: true

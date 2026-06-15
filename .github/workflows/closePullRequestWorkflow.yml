@@ -1,0 +1,252 @@
+name: Close Pull Request Workflow
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+      - release
+    types: closed
+
+jobs:
+  # 1. PROTEZIONE: Controlla che la PR abbia le label corrette
+  check_labels:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify PR Labels
+        run: |
+          LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          echo "Labels trovate: $LABELS"
+          
+          # Regex per le tue label specifiche
+          ALLOWED_PATTERN="feat|fix|chore|docs|style|refactor|perf|test|breaking"
+          
+          if [[ -z "$LABELS" ]]; then
+            echo "❌ ERRORE: Nessuna etichetta trovata! Aggiungi una label (es. feat, fix) alla PR."
+            exit 1
+          fi
+          
+          if [[ ! "$LABELS" =~ $ALLOWED_PATTERN ]]; then
+            echo "❌ ERRORE: Label non valida. Usa una di queste: $ALLOWED_PATTERN"
+            exit 1
+          fi
+          echo "✅ Label valida riscontrata."
+
+  # 2. TEST E QUALITÀ (Eseguito solo se le label sono OK)
+  unit_test_and_quality:
+    if: github.event.pull_request.merged == true 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+
+    # Utilizzo di php-actions/phpunit per i test e la coverage     name: Run PHPUnit Tests
+    - uses: php-actions/phpunit@v4
+      with:
+        version: '10' # O la versione che preferisci
+        php_version: '8.2'
+        php_extensions: dom curl libxml mbstring pdo_sqlite xdebug
+        bootstrap: vendor/autoload.php
+        configuration: test/phpunit.xml
+        args: --coverage-clover coverage.xml
+      env:
+        XDEBUG_MODE: coverage
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+          -Dsonar.organization=${{ secrets.SONAR_ORG }}
+          -Dsonar.php.tests.reportPath=coverage.xml
+ 
+  # 3. VERSIONAMENTO
+  upgrade_version:
+    needs: [check_labels, unit_test_and_quality]
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    # --- QUESTO È IL PONTE PER IL JOB NOTIFY ---
+    outputs:
+        new_tag: ${{ steps.tag_version.outputs.new_tag }}
+    # --------------------------------------------
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          # MODIFICA 1: Forziamo il checkout sul branch di destinazione (es. develop)
+          ref: ${{ github.base_ref }}
+
+      # MODIFICA 2: Inserisci questo qui per vedere cosa legge GitHub nei log
+      - name: Check branch name
+        run: |
+          echo "Il branch di destinazione (base_ref) è: ${{ github.base_ref }}"
+          echo "Il branch corrente nel container è: $(git branch --show-current)"    
+      
+      - name: Calculate and Push Tag
+        id: tag_version
+        run: |
+          git fetch --tags --force
+          LATEST_STABLE=$(git tag -l "v[0-9]*.[0-9]*.[0-9]*" --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          if [ -z "$LATEST_STABLE" ]; then LATEST_STABLE="v1.0.0"; fi
+          
+          VERSION=${LATEST_STABLE#v}
+          IFS='.' read -ra ADDR <<< "$VERSION"
+          MAJOR=${ADDR[0]}; MINOR=${ADDR[1]}; PATCH=${ADDR[2]}
+
+          LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          
+          # LOGICA SEMANTICA
+          if [[ "$LABELS" == *"breaking"* ]]; then
+            NEW_BASE="$((MAJOR + 1)).0.0"
+          elif [[ "$LABELS" == *"feat"* ]]; then
+            NEW_BASE="$MAJOR.$((MINOR + 1)).0"
+          else
+            NEW_BASE="$MAJOR.$MINOR.$((PATCH + 1))"
+          fi
+
+          # GESTIONE BRANCH E SUFFISSI
+          RAW_BRANCH="${{ github.base_ref }}"
+          BRANCH=$(echo "$RAW_BRANCH" | sed 's|refs/heads/||' | tr '[:upper:]' '[:lower:]' | xargs)
+          
+          if [[ "$BRANCH" == "develop" ]]; then
+            NEW_TAG="v$NEW_BASE-dev.${{ github.run_number }}"
+          elif [[ "$BRANCH" == "release" ]]; then
+            NEW_TAG="v$NEW_BASE-rc.${{ github.run_number }}"
+          else
+            NEW_TAG="v$NEW_BASE"
+          fi
+
+          # PUSH DEL TAG
+          if ! git ls-remote --tags origin | grep -q "refs/tags/$NEW_TAG"; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git tag $NEW_TAG
+            git push origin $NEW_TAG
+          fi
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Update version file
+        run: |
+          echo "${{ steps.tag_version.outputs.new_tag }}" > src/version
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/version
+          git commit -m "chore: update version to ${{ steps.tag_version.outputs.new_tag }} [skip ci]" || echo "No changes"
+          git push origin HEAD:${{ github.base_ref }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          # Usa il tag appena creato dallo script precedente
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          # Titolo della Release (es. Release v1.0.5-dev.12)
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          # Automatizza il changelog basandosi sui commit
+          generate_release_notes: true
+          # Se il tag contiene '-dev' o '-rc', GitHub la marcherà come "Pre-release" (etichetta arancione)
+          prerelease: ${{ contains(steps.tag_version.outputs.new_tag, '-dev') || contains(steps.tag_version.outputs.new_tag, '-rc') }}
+          # Mantiene la release come bozza se vuoi revisionarla (imposta a false per pubblicarla subito)
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  # 4. DEPLOY
+  web-deploy:
+    needs: [upgrade_version]
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ needs.upgrade_version.outputs.new_tag }} # Rilancio l'output al Job 4
+    steps:
+      - uses: actions/checkout@v6
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTPHOST }}
+          username: ${{ secrets.FTPUSER }}
+          password: ${{ secrets.FTPPASSWORD }}
+          local-dir: ./src/ 
+          exclude: |
+            **/.git*
+            **/.github/**
+
+  # 5. DOCKER BUILD
+  docker-build:
+    
+    needs: [web-deploy]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          build-args: PHP_VERSION=${{ matrix.php-version }}
+          # NOTA: Qui usiamo needs.web-deploy.outputs.new_tag
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ matrix.php-version }}-${{ needs.web-deploy.outputs.new_tag }}
+            ${{ matrix.php-version == '8.5' && format('{0}/{1}:latest', secrets.DOCKERHUB_USERNAME, secrets.DOCKER_IMAGE_NAME) || '' }}
+
+
+  # 6. NOTIFICA FINALE (SUCCESSO O ERRORE)
+  notify:
+    needs: [check_labels, unit_test_and_quality, upgrade_version, docker-build, web-deploy]
+    runs-on: ubuntu-latest
+    if: always() 
+    steps:
+      # NOTIFICA SUCCESSO
+      - name: Telegram Notify Success
+        # Verifichiamo che tutti i job necessari siano 'success'
+        if: ${{ needs.unit_test_and_quality.result == 'success' && needs.upgrade_version.result == 'success' && needs.docker-build.result == 'success' && needs.web-deploy.result == 'success' }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown # Opzionale: rende il messaggio più leggibile
+          message: |
+            ✅ *DEPLOY COMPLETATO* - ${{ github.repository }}
+            
+            🏷️ *Versione:* `${{ needs.upgrade_version.outputs.new_tag || 'Tag non generato' }}`
+            🌿 *Branch:* `${{ github.base_ref || github.ref_name }}`
+            
+            📁 FTP aggiornato (cartella /src/)
+            🐳 Docker Image: `${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}`
+            ⚙️ Versioni PHP: 8.1 - 8.5 (Latest: 8.5)
+
+      # NOTIFICA ERRORE
+      - name: Telegram Notify Failure
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ❌ *PIPELINE FALLITA* - ${{ github.repository }}
+            🌿 Branch: ${{ github.ref_name }}
+            
+            ⚠️ Uno dei job è fallito o è stato annullato.
+            🔍 Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
