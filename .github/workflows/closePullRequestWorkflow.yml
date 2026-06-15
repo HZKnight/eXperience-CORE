@@ -162,66 +162,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-  # 4. DEPLOY
-  web-deploy:
-    needs: [upgrade_version]
-    runs-on: ubuntu-latest
-    outputs:
-      new_tag: ${{ needs.upgrade_version.outputs.new_tag }} # Rilancio l'output al Job 4
-    steps:
-      - uses: actions/checkout@v6
-      - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-        with:
-          server: ${{ secrets.FTPHOST }}
-          username: ${{ secrets.FTPUSER }}
-          password: ${{ secrets.FTPPASSWORD }}
-          local-dir: ./src/ 
-          exclude: |
-            **/.git*
-            **/.github/**
 
-  # 5. DOCKER BUILD
-  docker-build:
-    
-    needs: [web-deploy]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
-    steps:
-
-      - name: Checkout Code
-        uses: actions/checkout@v6
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          push: true
-          build-args: PHP_VERSION=${{ matrix.php-version }}
-          # NOTA: Qui usiamo needs.web-deploy.outputs.new_tag
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ matrix.php-version }}-${{ needs.web-deploy.outputs.new_tag }}
-            ${{ matrix.php-version == '8.5' && format('{0}/{1}:latest', secrets.DOCKERHUB_USERNAME, secrets.DOCKER_IMAGE_NAME) || '' }}
-
-
-  # 6. NOTIFICA FINALE (SUCCESSO O ERRORE)
+  # 5. NOTIFICA FINALE (SUCCESSO O ERRORE)
   notify:
-    needs: [check_labels, unit_test_and_quality, upgrade_version, docker-build, web-deploy]
+    needs: [check_labels, unit_test_and_quality, upgrade_version]
     runs-on: ubuntu-latest
     if: always() 
     steps:
       # NOTIFICA SUCCESSO
       - name: Telegram Notify Success
         # Verifichiamo che tutti i job necessari siano 'success'
-        if: ${{ needs.unit_test_and_quality.result == 'success' && needs.upgrade_version.result == 'success' && needs.docker-build.result == 'success' && needs.web-deploy.result == 'success' }}
+        if: ${{ needs.unit_test_and_quality.result == 'success' && needs.upgrade_version.result == 'success' }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
