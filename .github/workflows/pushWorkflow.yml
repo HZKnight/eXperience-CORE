@@ -26,14 +26,15 @@ jobs:
         extensions: dom, curl, libxml, mbstring, pdo_sqlite, gettext # Inclusa gettext per dgettext()
         coverage: xdebug
 
-    # Installa le dipendenze direttamente nell'ambiente configurato
+   # Installa le dipendenze (incluso PHPUnit)
     - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress
+      run: |
+        composer require --dev phpunit/phpunit:"^11.3" --no-progress --prefer-dist
+        composer install --prefer-dist --no-progress
 
-    # Lancia PHPUnit nativo usando la tua configurazione in test/phpunit.xml
-    # Nota: Rimuoviamo l'argomento bootstrap da qui perché ci pensa già il tuo xml (bootstrap="bootstrap.php")
+    # Esegui i test chiamando direttamente phpunit tramite composer (più sicuro sui percorsi)
     - name: Run PHPUnit Tests
-      run: vendor/bin/phpunit --configuration test/phpunit.xml --coverage-clover test/coverage.xml
+      run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml
 
     # Avvia lo scan di SonarCloud leggendo la coverage generata
     - name: SonarCloud Scan
