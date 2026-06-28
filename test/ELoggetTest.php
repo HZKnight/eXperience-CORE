@@ -1,9 +1,8 @@
 <?php
 
+namespace Experience\Tests\Core\Tools\Logger;
 
 require_once "../src/eautoloader.class.php";
-
-namespace Experience\Tests\Core\Tools\Logger;
 
 use PHPUnit\Framework\TestCase;
 use Experience\Core\Tools\Logger\ELogger;
