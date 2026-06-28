@@ -23,7 +23,7 @@ jobs:
     - name: Run PHPUnit Tests
       uses: php-actions/phpunit@v4
       with:
-        version: '10' # O la versione che preferisci
+        version: '11' # O la versione che preferisci
         php_version: '8.2'
         php_extensions: dom curl libxml mbstring pdo_sqlite xdebug
         bootstrap: vendor/autoload.php
