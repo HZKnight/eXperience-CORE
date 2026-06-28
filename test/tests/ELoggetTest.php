@@ -2,8 +2,6 @@
 
 namespace Experience\Tests\Core\Tools\Logger;
 
-require_once "../src/eautoloader.class.php";
-
 use PHPUnit\Framework\TestCase;
 use Experience\Core\Tools\Logger\ELogger;
 use Experience\Core\Tools\Config\EConfigManager;
