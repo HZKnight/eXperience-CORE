@@ -10,7 +10,6 @@ jobs:
        
   # 1. TEST E QUALITÀ CON SONAR
   unit_test_and_quality:
-    if: github.event.pull_request.merged == true 
     runs-on: ubuntu-latest
 
     steps:
