@@ -65,8 +65,8 @@
 
     class EDbManager {
 
-        public const string VERSION = '4.0.0';
-        public const string DATE_APPROVED = '2026-04-21';
+        public const VERSION = '4.0.0';
+        public const DATE_APPROVED = '2026-04-21';
 
         
         private BaseAdapter $adapter;
