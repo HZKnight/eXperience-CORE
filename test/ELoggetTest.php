@@ -1,5 +1,8 @@
 <?php
 
+
+require_once "../src/eautoloader.class.php";
+
 namespace Experience\Tests\Core\Tools\Logger;
 
 use PHPUnit\Framework\TestCase;
