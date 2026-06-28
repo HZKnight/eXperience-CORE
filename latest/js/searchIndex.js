@@ -1421,10 +1421,35 @@ Search.appendIndex(
             "summary": "Get\u0020log\u0020rows",
             "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_getLog"
         },                {
+            "fqsen": "\\Experience\\Core\\Tools\\Logger\\Appenders\\AppenderDb\u003A\u003AinsertLogRow\u0028\u0029",
+            "name": "insertLogRow",
+            "summary": "",
+            "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_insertLogRow"
+        },                {
+            "fqsen": "\\Experience\\Core\\Tools\\Logger\\Appenders\\AppenderDb\u003A\u003AgetLoggerId\u0028\u0029",
+            "name": "getLoggerId",
+            "summary": "",
+            "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_getLoggerId"
+        },                {
+            "fqsen": "\\Experience\\Core\\Tools\\Logger\\Appenders\\AppenderDb\u003A\u003AcreateLogger\u0028\u0029",
+            "name": "createLogger",
+            "summary": "",
+            "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_createLogger"
+        },                {
             "fqsen": "\\Experience\\Core\\Tools\\Logger\\Appenders\\AppenderDb\u003A\u003A\u0024logname",
             "name": "logname",
             "summary": "",
             "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_logname"
+        },                {
+            "fqsen": "\\Experience\\Core\\Tools\\Logger\\Appenders\\AppenderDb\u003A\u003A\u0024error",
+            "name": "error",
+            "summary": "",
+            "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_error"
+        },                {
+            "fqsen": "\\Experience\\Core\\Tools\\Logger\\Appenders\\AppenderDb\u003A\u003A\u0024db",
+            "name": "db",
+            "summary": "",
+            "url": "classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_db"
         },                {
             "fqsen": "\\MESSAGE",
             "name": "MESSAGE",
