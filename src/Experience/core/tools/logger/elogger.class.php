@@ -304,7 +304,7 @@
          */
         public function log($level, $message, array $context = [])
         {
-            settype($elevel,"integer");
+            settype($level,"integer");
            
             //PSR-3 Log Levels Mapping
             switch($level){
