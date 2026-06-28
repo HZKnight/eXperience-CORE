@@ -306,31 +306,42 @@
         {
             settype($level,"integer");
            
-            //PSR-3 Log Levels Mapping
+            // Assicurati che gestisca le stringhe minuscole di PSR-3 mappandole sulle tue costanti intere ELogLevel
             switch($level){
+                case 'emergency':
                 case LogLevel::EMERGENCY:
                     $elevel = ELogLevel::EMERGENCY;
                     break;
+                case 'alert':
                 case LogLevel::ALERT:
                     $elevel = ELogLevel::ALERT;
                     break;
+                case 'critical':
                 case LogLevel::CRITICAL:
                     $elevel = ELogLevel::CRITICAL;
                     break;
+                case 'error':
                 case LogLevel::ERROR:
                     $elevel = ELogLevel::ERROR;
                     break;
+                case 'warning':
                 case LogLevel::WARNING:
                     $elevel = ELogLevel::WARNING;
                     break;
+                case 'notice':
                 case LogLevel::NOTICE:
                     $elevel = ELogLevel::NOTICE;
                     break;
+                case 'info':
+                case LogLevel::INFO: // <-- Questo deve mappare su ELogLevel::INFO
+                    $elevel = ELogLevel::INFO;
+                    break;
+                case 'debug':
                 case LogLevel::DEBUG:
                     $elevel = ELogLevel::DEBUG;
                     break;
                 default:
-                    $elevel = $level;
+                    $elevel = (int)$level;
                     break;
             }
 

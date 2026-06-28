@@ -27,18 +27,21 @@ class ELoggerTest extends TestCase
 
     protected function tearDown(): void
     {
-        // 1. Svuota il Multiton di ELogger (nota il typo 'instace')
+        // 1. Pulizia del Multiton di ELogger (nota il typo 'instace')
         $loggerReflection = new ReflectionClass(ELogger::class);
         $loggerInstance = $loggerReflection->getProperty('instace');
         $loggerInstance->setAccessible(true);
         $loggerInstance->setValue([]);
 
-        // 2. Svuota lo stato statico di EDbManager se esiste (es. l'istanza singleton)
-        // Sostituisci 'instance' o 'instace' con il nome della proprietà reale di EDbManager se ne usa una
+        // 2. Pulizia dello stato statico di EDbManager
         if (class_exists(\Experience\Core\Io\Dbal\EDbManager::class)) {
             $dbReflection = new ReflectionClass(\Experience\Core\Io\Dbal\EDbManager::class);
-            if ($dbReflection->hasProperty('instance')) {
-                $dbProp = $dbReflection->getProperty('instance');
+            
+            // Cerca la proprietà statica che mantiene l'istanza (es: 'instance' o 'instace')
+            $instancePropName = $dbReflection->hasProperty('instance') ? 'instance' : ($dbReflection->hasProperty('instace') ? 'instace' : null);
+            
+            if ($instancePropName) {
+                $dbProp = $dbReflection->getProperty($instancePropName);
                 $dbProp->setAccessible(true);
                 $dbProp->setValue(null);
             }
