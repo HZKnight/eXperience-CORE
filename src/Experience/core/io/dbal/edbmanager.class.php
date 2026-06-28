@@ -70,7 +70,7 @@
 
         
         private BaseAdapter $adapter;
-        private string $dbtype;
+        private ?string $dbtype;
         private string $tbprefix;
         private array $connData;
         private string $error;
