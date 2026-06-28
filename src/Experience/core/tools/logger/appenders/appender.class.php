@@ -76,7 +76,7 @@
             $this->cfg = $config;
         }
 
-        abstract public function add(ELogRow $log_row);
+        abstract public function add(ELogRow $log_row): bool;
         abstract public function getLog(int $start, int $stop): array;
 
         /**

@@ -99,7 +99,7 @@
          *
          * @param ELogRow $log_row
          */
-        public function add(ELogRow $log_row){
+        public function add(ELogRow $log_row): bool{
             
             $this->createLogDir();
             if($log_row->type >= $this->loglevel){
@@ -111,6 +111,7 @@
                     $this->storage->fileCreate($name,$content);
                 }
             }
+            return true;
         }
 
         /**

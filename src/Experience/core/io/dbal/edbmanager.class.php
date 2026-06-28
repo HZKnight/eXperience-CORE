@@ -137,6 +137,7 @@
         public function doQuery(string $sql, ?array $params = []): ?array {
             //Send a sql query that returns a result
             $sql = str_replace('$_', $this->tbprefix, $sql);
+            $this->error = '';
 
             if (!$this->connect()) {
                 $this->error = "Connection failed";
@@ -161,6 +162,8 @@
          */
         public function doUpdate(string $sql, ?array $params = []): ?array {
             $sql = str_replace('$_', $this->tbprefix, $sql);
+            $this->error = '';
+
             $result = [
                 "sql" => $sql,
                 "nbrows" => null
@@ -203,6 +206,8 @@
          */
         public function getTableNumRows(string $table): ?int {
             $table = str_replace('$_', $this->tbprefix, $table);
+            $this->error = '';
+
             $sql = "SELECT COUNT(*) FROM $table";
             return $this->adapter->fetchColumn($sql, [],  0);
         }
@@ -220,6 +225,8 @@
          */
         public function getRowSubSet(string $table, int $start, int $numrow, string $order = "", string $otype = ""): ?array {
             $table = str_replace('$_', $this->tbprefix, $table);
+            $this->error = '';
+
             $sql = "SELECT * FROM $table";
             
             // Tipo di ordinamento delle righe

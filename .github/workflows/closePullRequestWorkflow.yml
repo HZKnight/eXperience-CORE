@@ -182,11 +182,7 @@ jobs:
             ✅ *DEPLOY COMPLETATO* - ${{ github.repository }}
             
             🏷️ *Versione:* `${{ needs.upgrade_version.outputs.new_tag || 'Tag non generato' }}`
-            🌿 *Branch:* `${{ github.base_ref || github.ref_name }}`
-            
-            📁 FTP aggiornato (cartella /src/)
-            🐳 Docker Image: `${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}`
-            ⚙️ Versioni PHP: 8.1 - 8.5 (Latest: 8.5)
+            🌿 *Branch:* `${{ github.base_ref || github.ref_name }}
 
       # NOTIFICA ERRORE
       - name: Telegram Notify Failure
