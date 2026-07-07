@@ -296,7 +296,7 @@
         /**
          * Generic log.
          *
-         * @param int $level: this param can aasume only values in ELogLevel
+         * @param mixed $level: this param can aasume only values in ELogLevel
          * @param string $message
          * @param array  $context
          *
@@ -304,8 +304,9 @@
          */
         public function log($level, $message, array $context = [])
         {
-            settype($level,"integer");
-           
+            settype($elevel,"integer");
+
+            echo "Logging message: $message with level: $level\n"; // Debug output
             // Assicurati che gestisca le stringhe minuscole di PSR-3 mappandole sulle tue costanti intere ELogLevel
             switch($level){
                 case 'emergency':
@@ -333,7 +334,7 @@
                     $elevel = ELogLevel::NOTICE;
                     break;
                 case 'info':
-                case LogLevel::INFO: // <-- Questo deve mappare su ELogLevel::INFO
+                case LogLevel::INFO:
                     $elevel = ELogLevel::INFO;
                     break;
                 case 'debug':
