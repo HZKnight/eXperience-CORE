@@ -306,7 +306,6 @@
         {
             settype($elevel,"integer");
 
-            echo "Logging message: $message with level: $level\n"; // Debug output
             // Assicurati che gestisca le stringhe minuscole di PSR-3 mappandole sulle tue costanti intere ELogLevel
             switch($level){
                 case 'emergency':

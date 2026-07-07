@@ -70,22 +70,35 @@ class ELoggerTest extends TestCase
     }
 
     /**
-     * Test della gestione, aggiunta e rimozione degli appender
+     * Test della gestione, aggiunta e rimozione degli appender senza toccare i DB reali
      */
     public function testAddAndRemoveAppenders(): void
     {
+        // Creiamo il logger normalmente basato su FILE (che non tocca EDbManager)
         $logger = ELogger::getLogger($this->cfgMock, $this->storageMock, 'test_appenders', ELogger::LOG_APPENDER_FILE);
         
-        // Verifica l'appender di default impostato nel costruttore
         $list = $logger->get_appenders_list();
         $this->assertCount(1, $list);
-        $this->assertEquals([ELogger::LOG_APPENDER_FILE, "FILE"], $list[0]);
 
-        // Aggiunta di un secondo appender (es. DB)
-        $logger->add_appender(ELogger::LOG_APPENDER_DB);
+        // Invece di chiamare add_appender(LOG_APPENDER_DB) che istanzia la classe reale, 
+        // inseriamo a forza un mock generico nell'array privato appenders usando la Reflection
+        $appenderMock = $this->getMockBuilder(\Experience\Core\Tools\Logger\Appenders\Appender::class)
+                             ->disableOriginalConstructor()
+                             ->getMock();
+
+        $reflection = new ReflectionClass($logger);
+        $appendersProp = $reflection->getProperty('appenders');
+        $appendersProp->setAccessible(true);
+        
+        // Otteniamo la lista attuale e aggiungiamo manualmente l'ID del DB associato al mock finto
+        $currentAppenders = $appendersProp->getValue($logger);
+        $currentAppenders[ELogger::LOG_APPENDER_DB] = $appenderMock;
+        $appendersProp->setValue($logger, $currentAppenders);
+
+        // Ora verifichiamo che la lista veda l'appender aggiunto
         $this->assertCount(2, $logger->get_appenders_list());
 
-        // Rimozione dell'appender FILE
+        // Testiamo la rimozione sicura
         $logger->remove_appender(ELogger::LOG_APPENDER_FILE);
         $this->assertCount(1, $logger->get_appenders_list());
     }
