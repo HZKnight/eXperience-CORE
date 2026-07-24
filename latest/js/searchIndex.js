@@ -716,6 +716,11 @@ Search.appendIndex(
             "summary": "Restituisce\u0020un\u0020sottoinsieme\u0020delle\u0020righe\u0020di\u0020una\u0020tabella",
             "url": "classes/Experience-Core-Io-Dbal-EDbManager.html#method_getRowSubSet"
         },                {
+            "fqsen": "\\Experience\\Core\\Io\\Dbal\\EDbManager\u003A\u003AcovertToSqlDate\u0028\u0029",
+            "name": "covertToSqlDate",
+            "summary": "Converte\u0020una\u0020data\u0020in\u0020formato\u0020SQL",
+            "url": "classes/Experience-Core-Io-Dbal-EDbManager.html#method_covertToSqlDate"
+        },                {
             "fqsen": "\\Experience\\Core\\Io\\Dbal\\EDbManager\u003A\u003AsqlFormat\u0028\u0029",
             "name": "sqlFormat",
             "summary": "Formater\u0020for\u0020\\\u0027\u0020items",
