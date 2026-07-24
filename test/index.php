@@ -76,6 +76,8 @@
 
         $view = new RainTPL();
 
+        $db_error = null;
+
         $view->assign("version", getenv("ECORE"));
         $view->draw("header");
 
@@ -124,6 +126,9 @@
             //Add email appender
             $log->add_appender(ELogger::LOG_APPENDER_EMAIL);
 
+            //add db appender
+            $log->add_appender(ELogger::LOG_APPENDER_DB);
+
             //Simulate error message
             $log->emergency("Emergensy Test message");
             $log->alert("Alert Test message");
@@ -138,8 +143,7 @@
             $view->assign('logger_color', 'green');
             $view->assign('mailer_test', 'check');
             $view->assign('mailer_color', 'green');
-        }
-        else {
+        } else {
             $view->assign('logger_test', 'warning');
             $view->assign('logger_color', 'orange');
             $view->assign('mailer_test', 'warning');
@@ -148,7 +152,7 @@
 
         $db = new EDbManager($cfg);
         if($db->getError()) {
-            $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
+            $db_error .= ($db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE)."<br/>";
             $view->assign('db_test', 'warning');
             $view->assign('db_color', 'orange');
         } else {
@@ -209,30 +213,30 @@
                             } else {
 
                                 $view->assign('db_subset_rows', 'N/A');
-                                $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
+                                $db_error .= ($db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE)."<br/>";
 
                             }
 
                         } else {
 
                             $view->assign('db_num_rows', 'N/A');
-                            $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
+                            $db_error .= ($db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE)."<br/>";
 
                         }
 
                     } else {
 
-                        $view->assign('db_error', $db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE);
+                        $db_error .= ($db->getError() ? $db->getError() : \BASE_ERROR_MESSAGE)."<br/>";
 
                     }
                 } else {
 
-                    $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
+                    $db_error .= ($result ? $result["error"] : \BASE_ERROR_MESSAGE)."<br/>";
 
                 }
             } else {
 
-                $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
+                $db_error .= ($result ? $result["error"] : \BASE_ERROR_MESSAGE)."<br/>";
 
             }
         }
@@ -245,7 +249,7 @@
 
         $db_sqlite = new EDbManager($sqliteDbConfig);
         if($db_sqlite->getError()) {
-            $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+            $db_error .= ($db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE)."<br/>";
             $view->assign('db_sqlite_test', 'warning');
             $view->assign('db_sqlite_color', 'orange');
         } else {
@@ -273,7 +277,7 @@
                 $view->assign('db_sqlite_conn_color', 'green');
                 
                 $result = $db_sqlite->doUpdate('INSERT INTO $_test_table (name) VALUES (?)', [0 => 'Test Name']);
-                
+
                 if($result && !key_exists("error", $result)) {
 
                     $view->assign('db_sqlite_iquery_id', $db_sqlite->sqlInsertId());
@@ -306,30 +310,30 @@
                             } else {
 
                                 $view->assign('db_sqlite_subset_rows', 'N/A');
-                                $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+                                $db_error .= ($db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE)."<br/>";
 
                             }
 
                         } else {
 
                             $view->assign('db_sqlite_num_rows', 'N/A');
-                            $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+                            $db_error .= ($db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE)."<br/>";
 
                         }
 
                     } else {
 
-                        $view->assign('db_error', $db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE);
+                        $db_error .= ($db_sqlite->getError() ? $db_sqlite->getError() : \BASE_ERROR_MESSAGE)."<br/>";
 
                     }
                 } else {
 
-                    $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
+                    $db_error .= ($result ? $result["error"] : \BASE_ERROR_MESSAGE)."<br/>";
 
                 }
             } else {
 
-                $view->assign('db_error', $result ? $result["error"] : \BASE_ERROR_MESSAGE);
+                $db_error .= ($result ? $result["error"] : \BASE_ERROR_MESSAGE)."<br/>";
 
             }
         }
@@ -349,7 +353,7 @@
         $db_pdo = new EDbManager($pdoDbConfig);
 
         if($db_pdo->getError()) {
-            $view->assign('db_error', $db_pdo->getError() ? $db_pdo->getError() : \BASE_ERROR_MESSAGE);
+            $db_error .= ($db_pdo->getError() ? $db_pdo->getError() : \BASE_ERROR_MESSAGE)."<br/>";
             $view->assign('db_pdo_test', 'warning');
             $view->assign('db_pdo_color', 'orange');
         } else {
@@ -440,10 +444,11 @@
             }
 
 
-            $view->assign('db_error', $error);
+            $db_error .= $error;
 
         }
 
+        $view->assign('db_error', $db_error);
         $view->draw("body");
 
         $view->draw("footer");

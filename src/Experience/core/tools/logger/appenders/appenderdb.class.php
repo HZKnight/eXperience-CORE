@@ -87,7 +87,7 @@
           public function add(ELogRow $log_row): bool{
                $this->error = '';
 
-               if($this->createLogger()) {
+               if(!$this->createLogger()) {
                     $this->error = $this->db->getError();
                     return false;
                }
@@ -110,28 +110,29 @@
           public function getLog(int $start, int $stop): array{
                $this->error = '';
 
-               return $this->db->getRowSubSet($this->cfg->getParam("db_prefix")."logger", $start, $stop, "created_at", "DESC");
+               return $this->db->getRowSubSet($this->cfg->getParam("db.tb_prefix")."logger", $start, $stop, "created_at", "DESC");
           }
 
 
           private function insertLogRow(ELogRow $log_row): bool{
                $logger_id = $this->getLoggerId();
+
                if($logger_id === null) {
                     return false;
                }
 
-               $sql = "INSERT INTO `".$this->cfg->getParam("db_prefix")."logger` (`logger_id`, `level`, `type`, `message`, `context`, `created_at`) VALUES (?, ?, ?, ?, ?, ?)";
+               $sql = "INSERT INTO `".$this->cfg->getParam("db.tb_prefix")."logger_rows` (`logger_id`, `level`, `message`, `context`, `created_at`) VALUES (?, ?, ?, ?, ?)";
                $params = [
                     1 => $logger_id,
                     2 => $log_row->type,
-                    3 => $log_row->type,
-                    4 => $log_row->message,
-                    5 => '',
-                    6 => $log_row->date
+                    3 => $log_row->message,
+                    4 => '',
+                    5 => $this->db->covertToSqlDate($log_row->date)
                ];
                $res = $this->db->doUpdate($sql, $params);
-               if(!$res) {
-                    $this->error = $this->db->getError();
+
+               if(!$res || key_exists('error', $res)) {
+                    $this->error = $res['error'];
                     return false;
                }
 
@@ -140,7 +141,7 @@
 
 
           private function getLoggerId(): ?int{
-               $sql = "SELECT * FROM `".$this->cfg->getParam("db_prefix")."logger` WHERE `name` = ?";
+               $sql = "SELECT * FROM `".$this->cfg->getParam("db.tb_prefix")."logger` WHERE `name` = ?";
                $result = $this->db->doQuery($sql, [1 => $this->logname]);
                if(!$result || $this->db->getError() != "") {
                     $this->error = $this->db->getError();
@@ -148,7 +149,6 @@
                }
 
                if(empty($result)) {
-                    $this->error = "Logger not found and cannot be created";
                     return null;
                }
 
@@ -159,12 +159,12 @@
 
           private function createLogger(): bool{
                $this->error = '';
-               $sql = "SELECT * FROM `".$this->cfg->getParam("db_prefix")."logger` WHERE `name` = ?";
+               $sql = "SELECT * FROM `".$this->cfg->getParam("db.tb_prefix")."logger` WHERE `name` = ?";
                $result = $this->db->doQuery($sql, [1 => $this->logname]);
 
-               if($result && $this->db->getError()=="") {
+               if($this->db->getError()=="") {
                     if(empty($result)) {
-                         $sql = "INSERT INTO `".$this->cfg->getParam("db_prefix")."logger` (`name`) VALUES (?)";
+                         $sql = "INSERT INTO `".$this->cfg->getParam("db.tb_prefix")."logger` (`name`) VALUES (?)";
                          $res = $this->db->doUpdate($sql, [1 => $this->logname]);
                          if($res && $this->db->getError()=="") {
                               return true;

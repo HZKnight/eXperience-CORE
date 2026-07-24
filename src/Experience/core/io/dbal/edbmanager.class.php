@@ -239,6 +239,20 @@
             return $this->doQuery($sql);
         }
 
+        /**
+         * Converte una data in formato SQL
+         *
+         * @param string $date
+         * @return string
+         */
+        public function covertToSqlDate(string $date): string {
+            $timestamp = strtotime($date);
+            if ($timestamp === false) {
+                return '';
+            }
+            return date('Y-m-d H:i:s', $timestamp);
+        }
+
 
         /**
          * Formater for \' items
