@@ -35,16 +35,19 @@
 
      namespace Experience\Core\Tools\Logger\Appenders;
 
+
      use Experience\Core\Tools\Logger\Appenders\Appender;
      use Experience\Core\Tools\Logger\ELogRow;
      use Experience\Core\Tools\Config\EConfigManager;
+
+     use Experience\Core\Io\Dbal\EDbManager;
 
 
     /**
      * DB appender per ELogger
      *
      * @author  lucliscio <lucliscio@h0model.org>
-     * @version 0.0.2
+     * @version 1.0.0
      * @copyright &copy;2026 HZKnight
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
@@ -57,6 +60,9 @@
      class AppenderDb extends Appender {
 
           private string $logname;
+          private string $error;
+
+          private EDbManager $db;
 
           /**
            * Construntor method
@@ -66,20 +72,33 @@
            */
           public function __construct(string $logname, EConfigManager $cfg){
                $this->logname = $logname;
+               $this->error = '';
+               $this->db = new EDbManager($cfg);
                parent::__construct($cfg);
           }
+
 
           /**
            * Add log row
            *
            * @param ELogRow $log_row log row to add
-           * @return int
+           * @return bool
            */
-          public function add(ELogRow $log_row){
-               if($log_row->type >= $this->loglevel) {
-                    //TODO: implement add log row to database
+          public function add(ELogRow $log_row): bool{
+               $this->error = '';
+
+               if(!$this->createLogger()) {
+                    $this->error = $this->db->getError();
+                    return false;
                }
+
+               if($log_row->type < $this->loglevel) {
+                    return true;
+               }
+
+               return $this->insertLogRow($log_row);
           }
+
 
           /**
            * Get log rows
@@ -89,12 +108,77 @@
            * @return array
            */
           public function getLog(int $start, int $stop): array{
-               if(!$stop){
-                    if(!$start){
-                    $start = 0;
-               }$stop = 0;
+               $this->error = '';
+
+               return $this->db->getRowSubSet($this->cfg->getParam("db.tb_prefix")."logger", $start, $stop, "created_at", "DESC");
+          }
+
+
+          private function insertLogRow(ELogRow $log_row): bool{
+               $logger_id = $this->getLoggerId();
+
+               if($logger_id === null) {
+                    return false;
                }
-               return [];
+
+               $sql = "INSERT INTO `".$this->cfg->getParam("db.tb_prefix")."logger_rows` (`logger_id`, `level`, `message`, `context`, `created_at`) VALUES (?, ?, ?, ?, ?)";
+               $params = [
+                    1 => $logger_id,
+                    2 => $log_row->type,
+                    3 => $log_row->message,
+                    4 => '',
+                    5 => $this->db->covertToSqlDate($log_row->date)
+               ];
+               $res = $this->db->doUpdate($sql, $params);
+
+               if(!$res || key_exists('error', $res)) {
+                    $this->error = $res['error'];
+                    return false;
+               }
+
+               return true;
+          }
+
+
+          private function getLoggerId(): ?int{
+               $sql = "SELECT * FROM `".$this->cfg->getParam("db.tb_prefix")."logger` WHERE `name` = ?";
+               $result = $this->db->doQuery($sql, [1 => $this->logname]);
+               if(!$result || $this->db->getError() != "") {
+                    $this->error = $this->db->getError();
+                    return null;
+               }
+
+               if(empty($result)) {
+                    return null;
+               }
+
+               return (int) $result[0]['id'];
+          }
+
+
+
+          private function createLogger(): bool{
+               $this->error = '';
+               $sql = "SELECT * FROM `".$this->cfg->getParam("db.tb_prefix")."logger` WHERE `name` = ?";
+               $result = $this->db->doQuery($sql, [1 => $this->logname]);
+
+               if($this->db->getError()=="") {
+                    if(empty($result)) {
+                         $sql = "INSERT INTO `".$this->cfg->getParam("db.tb_prefix")."logger` (`name`) VALUES (?)";
+                         $res = $this->db->doUpdate($sql, [1 => $this->logname]);
+                         if($res && $this->db->getError()=="") {
+                              return true;
+                         } else {
+                              $this->error = $this->db->getError();
+                         }
+                    } else {
+                         return true;
+                    }
+               } else {
+                    $this->error = $this->db->getError();
+               }
+
+               return false;
           }
 
      }

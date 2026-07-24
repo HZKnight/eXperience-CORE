@@ -93,17 +93,18 @@
             // Creiamo un alias della nostra classe base con il nuovo nome
             if (!class_exists($name)) {
                 class_alias(EException::class, $name);
-
-                $hash = sprintf("%u", crc32($code));
-                $ncode = str_pad($hash % 1000000, 6, '0', STR_PAD_LEFT);
-            
-                self::$registry[$name] = array(
-                    "name" => $name,
-                    "message" => $message,
-                    "code" => $ncode,
-                    "internalCode" => $code
-                );
             }
+
+            // Registriamo SEMPRE nel registry, anche se l'alias di classe esiste già
+            $hash = sprintf("%u", crc32($code));
+            $ncode = str_pad($hash % 1000000, 6, '0', STR_PAD_LEFT);
+            
+            self::$registry[$name] = array(
+                "name" => $name,
+                "message" => $message,
+                "code" => $ncode,
+                "internalCode" => $code
+            );
 
         }
 

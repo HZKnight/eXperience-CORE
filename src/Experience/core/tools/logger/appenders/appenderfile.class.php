@@ -57,7 +57,7 @@
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
-     * @subpackage Core\Logger\Appenders
+     * @subpackage Core\Tools\Logger\Appenders
      *
      * @filesource
      */
@@ -99,7 +99,7 @@
          *
          * @param ELogRow $log_row
          */
-        public function add(ELogRow $log_row){
+        public function add(ELogRow $log_row): bool{
             
             $this->createLogDir();
             if($log_row->type >= $this->loglevel){
@@ -111,6 +111,7 @@
                     $this->storage->fileCreate($name,$content);
                 }
             }
+            return true;
         }
 
         /**

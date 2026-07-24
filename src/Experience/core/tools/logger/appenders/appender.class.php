@@ -48,7 +48,7 @@
      * @license http://www.gnu.org/licenses/agpl-3.0.html GNU/AGPL3
      *
      * @package eXperience
-     * @subpackage Core\Logger\Appenders
+     * @subpackage Core\Tools\Logger\Appenders
      * @abstract
      *
      * @filesource
@@ -76,7 +76,7 @@
             $this->cfg = $config;
         }
 
-        abstract public function add(ELogRow $log_row);
+        abstract public function add(ELogRow $log_row): bool;
         abstract public function getLog(int $start, int $stop): array;
 
         /**

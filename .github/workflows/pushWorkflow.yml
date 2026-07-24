@@ -7,33 +7,36 @@ on:
       - release
 
 jobs:
-          
-# 1. TEST E QUALITÀ CON SONAR
+       
+  # 1. TEST E QUALITÀ CON SONAR
   unit_test_and_quality:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v6
+      uses: actions/checkout@v4 # Aggiornato alla v4 stabile ufficiale
       with:
         fetch-depth: 0
 
-    - name: Install dependencies
-      uses: php-actions/composer@v6
-
-    # Utilizzo di php-actions/phpunit per i test e la coverage
-    - name: Run PHPUnit Tests
-      uses: php-actions/phpunit@v4
+    # Configura l'ambiente PHP unico e nativo sulla macchina Linux
+    - name: Setup PHP Environment
+      uses: shivammathur/setup-php@v2
       with:
-        version: '10' # O la versione che preferisci
-        php_version: '8.2'
-        php_extensions: dom curl libxml mbstring pdo_sqlite xdebug
-        bootstrap: vendor/autoload.php
-        configuration: test/phpunit.xml
-        args: --coverage-clover coverage.xml
-      env:
-        XDEBUG_MODE: coverage
+        php-version: '8.2'
+        extensions: dom, curl, libxml, mbstring, pdo_sqlite, gettext # Inclusa gettext per dgettext()
+        coverage: xdebug
 
+   # Installa le dipendenze (incluso PHPUnit)
+    - name: Install Dependencies
+      run: |
+        composer require --dev phpunit/phpunit:"^11.3" --no-progress --prefer-dist
+        composer install --prefer-dist --no-progress
+
+    # Esegui i test chiamando direttamente phpunit tramite composer (più sicuro sui percorsi)
+    - name: Run PHPUnit Tests
+      run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml
+
+    # Avvia lo scan di SonarCloud leggendo la coverage generata
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -43,5 +46,4 @@ jobs:
         args: >
           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
           -Dsonar.organization=${{ secrets.SONAR_ORG }}
-          -Dsonar.php.tests.reportPath=coverage.xml
-
+          -Dsonar.php.coverage.reportPaths=test/coverage.xml

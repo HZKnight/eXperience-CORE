@@ -65,13 +65,13 @@
 
     class EDbManager {
 
-        public const string VERSION = '4.0.0';
-        public const string DATE_APPROVED = '2026-04-21';
+        public const VERSION = '4.0.0';
+        public const DATE_APPROVED = '2026-04-21';
 
         
         private BaseAdapter $adapter;
-        private string $dbtype;
-        private string $tbprefix;
+        private ?string $dbtype;
+        private ?string $tbprefix;
         private array $connData;
         private string $error;
 
@@ -137,6 +137,7 @@
         public function doQuery(string $sql, ?array $params = []): ?array {
             //Send a sql query that returns a result
             $sql = str_replace('$_', $this->tbprefix, $sql);
+            $this->error = '';
 
             if (!$this->connect()) {
                 $this->error = "Connection failed";
@@ -161,6 +162,8 @@
          */
         public function doUpdate(string $sql, ?array $params = []): ?array {
             $sql = str_replace('$_', $this->tbprefix, $sql);
+            $this->error = '';
+
             $result = [
                 "sql" => $sql,
                 "nbrows" => null
@@ -203,6 +206,8 @@
          */
         public function getTableNumRows(string $table): ?int {
             $table = str_replace('$_', $this->tbprefix, $table);
+            $this->error = '';
+
             $sql = "SELECT COUNT(*) FROM $table";
             return $this->adapter->fetchColumn($sql, [],  0);
         }
@@ -220,6 +225,8 @@
          */
         public function getRowSubSet(string $table, int $start, int $numrow, string $order = "", string $otype = ""): ?array {
             $table = str_replace('$_', $this->tbprefix, $table);
+            $this->error = '';
+
             $sql = "SELECT * FROM $table";
             
             // Tipo di ordinamento delle righe
@@ -230,6 +237,20 @@
             $sql .= " LIMIT {$start}, {$numrow}";
 
             return $this->doQuery($sql);
+        }
+
+        /**
+         * Converte una data in formato SQL
+         *
+         * @param string $date
+         * @return string
+         */
+        public function covertToSqlDate(string $date): string {
+            $timestamp = strtotime($date);
+            if ($timestamp === false) {
+                return '';
+            }
+            return date('Y-m-d H:i:s', $timestamp);
         }
 
 
@@ -265,7 +286,9 @@
          * Chiude la connesione con il db
          */
         public function close(){
-            $this->adapter->disconnect();
+            if (isset($this->adapter)) {
+                $this->adapter->disconnect();
+            }
         }
 
     }

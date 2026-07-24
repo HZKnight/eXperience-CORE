@@ -1,0 +1,183 @@
+<?php
+
+namespace Experience\Tests\Core\Tools\Logger;
+
+use PHPUnit\Framework\TestCase;
+use Experience\Core\Tools\Logger\ELogger;
+use Experience\Core\Tools\Config\EConfigManager;
+use Experience\Core\Io\Storage\EStorage;
+use Experience\Core\Tools\Logger\ELogLevel;
+use Experience\Core\Tools\Logger\ELogRow;
+use Psr\Log\LogLevel;
+use ReflectionClass;
+
+class ELoggerTest extends TestCase
+{
+    private $cfgMock;
+    private $storageMock;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Creiamo i mock per le dipendenze obbligatorie del costruttore
+        $this->cfgMock = $this->createMock(EConfigManager::class);
+        $this->storageMock = $this->createMock(EStorage::class);
+    }
+
+    protected function tearDown(): void
+    {
+        // 1. Pulizia del Multiton di ELogger (nota il typo 'instace')
+        $loggerReflection = new ReflectionClass(ELogger::class);
+        $loggerInstance = $loggerReflection->getProperty('instace');
+        $loggerInstance->setAccessible(true);
+        $loggerInstance->setValue([]);
+
+        // 2. Pulizia dello stato statico di EDbManager
+        if (class_exists(\Experience\Core\Io\Dbal\EDbManager::class)) {
+            $dbReflection = new ReflectionClass(\Experience\Core\Io\Dbal\EDbManager::class);
+            
+            // Cerca la proprietà statica che mantiene l'istanza (es: 'instance' o 'instace')
+            $instancePropName = $dbReflection->hasProperty('instance') ? 'instance' : ($dbReflection->hasProperty('instace') ? 'instace' : null);
+            
+            if ($instancePropName) {
+                $dbProp = $dbReflection->getProperty($instancePropName);
+                $dbProp->setAccessible(true);
+                $dbProp->setValue(null);
+            }
+        }
+        
+        parent::tearDown();
+    }
+
+    /**
+     * Test della creazione dell'istanza e del pattern Multiton
+     */
+    public function testGetLoggerCreatesAndReturnsCorrectInstance(): void
+    {
+        $loggerName = 'test_channel';
+        $logger = ELogger::getLogger($this->cfgMock, $this->storageMock, $loggerName);
+
+        $this->assertInstanceOf(ELogger::class, $logger);
+        
+        // Verifica che richiamando lo stesso nome venga restituita la stessa istanza
+        $sameLogger = ELogger::getLogger($this->cfgMock, $this->storageMock, $loggerName);
+        $this->assertSame($logger, $sameLogger);
+
+        // Verifica che l'istanza sia presente nella lista globale
+        $instances = ELogger::getIstances();
+        $this->assertArrayHasKey($loggerName, $instances);
+    }
+
+    /**
+     * Test della gestione, aggiunta e rimozione degli appender senza toccare i DB reali
+     */
+    public function testAddAndRemoveAppenders(): void
+    {
+        // Creiamo il logger normalmente basato su FILE (che non tocca EDbManager)
+        $logger = ELogger::getLogger($this->cfgMock, $this->storageMock, 'test_appenders', ELogger::LOG_APPENDER_FILE);
+        
+        $list = $logger->get_appenders_list();
+        $this->assertCount(1, $list);
+
+        // Invece di chiamare add_appender(LOG_APPENDER_DB) che istanzia la classe reale, 
+        // inseriamo a forza un mock generico nell'array privato appenders usando la Reflection
+        $appenderMock = $this->getMockBuilder(\Experience\Core\Tools\Logger\Appenders\Appender::class)
+                             ->disableOriginalConstructor()
+                             ->getMock();
+
+        $reflection = new ReflectionClass($logger);
+        $appendersProp = $reflection->getProperty('appenders');
+        $appendersProp->setAccessible(true);
+        
+        // Otteniamo la lista attuale e aggiungiamo manualmente l'ID del DB associato al mock finto
+        $currentAppenders = $appendersProp->getValue($logger);
+        $currentAppenders[ELogger::LOG_APPENDER_DB] = $appenderMock;
+        $appendersProp->setValue($logger, $currentAppenders);
+
+        // Ora verifichiamo che la lista veda l'appender aggiunto
+        $this->assertCount(2, $logger->get_appenders_list());
+
+        // Testiamo la rimozione sicura
+        $logger->remove_appender(ELogger::LOG_APPENDER_FILE);
+        $this->assertCount(1, $logger->get_appenders_list());
+    }
+
+    /**
+     * Test che verifica il lancio dell'eccezione se l'appender non esiste
+     */
+    public function testGetAppenderThrowsExceptionIfNotFound(): void
+    {
+        $logger = ELogger::getLogger($this->cfgMock, $this->storageMock, 'test_exception');
+        
+        // EExceptionManager deve essere configurato o mockato se lancia reali eccezioni nativamente.
+        // Assumiamo che lanci una EException (o una classe derivata) tramite EExceptionManager::throwException
+        $this->expectException(\Exception::class); 
+        
+        // Cerchiamo di recuperare un appender mai aggiunto
+        $logger->get_appender(ELogger::LOG_APPENDER_EMAIL);
+    }
+
+    /**
+     * Test dell'interpolazione dei messaggi nel contesto e del passaggio all'appender
+     */
+    public function testLogInterpolatesContextAndAppendsToAppenders(): void
+    {
+        $logger = ELogger::getLogger($this->cfgMock, $this->storageMock, 'test_log', ELogger::LOG_APPENDER_FILE);
+        
+        // Otteniamo l'appender generato internamente per farne il mock parziale o iniettarlo.
+        // Poiché gli appender reali vengono istanziati internamente via 'new AppenderFile',
+        // un approccio pulito senza refactoring è testare l'effetto di log().
+        
+        $message = "Utente {username} ha effettuato l'accesso.";
+        $context = ['username' => 'Luca'];
+        $expectedMessage = "Utente Luca ha effettuato l'accesso.";
+
+        // Usiamo la reflection per intercettare l'Appender interno o semplicemente verifichiamo che il metodo log vada a buon fine.
+        // Se vuoi verificare esattamente l'oggetto ELogRow passato all'appender, dovresti esporre un mock sull'appender:
+        
+        $appenderMock = $this->getMockBuilder(\Experience\Core\Tools\Logger\Appenders\AppenderFile::class)
+                             ->disableOriginalConstructor()
+                             ->getMock();
+                             
+        $appenderMock->expects($this->once())
+                     ->method('add')
+                     ->with($this->callback(function (ELogRow $logrow) use ($expectedMessage) {
+                         return $logrow->message === $expectedMessage && $logrow->type === ELogLevel::INFO;
+                     }));
+
+        // Sostituiamo l'appender interno con il nostro mock tramite Reflection
+        $reflection = new ReflectionClass($logger);
+        $appendersProp = $reflection->getProperty('appenders');
+        $appendersProp->setAccessible(true);
+        $appendersProp->setValue($logger, [ELogger::LOG_APPENDER_FILE => $appenderMock]);
+
+        // Eseguiamo la chiamata tramite il mapping PSR-3 standard
+        $logger->log(LogLevel::INFO, $message, $context);
+    }
+
+    /**
+     * Test dei metodi scorciatoia PSR-3 (info, debug, error, etc.)
+     */
+    public function testPsr3ShortcutMethods(): void
+    {
+        $logger = ELogger::getLogger($this->cfgMock, $this->storageMock, 'test_psr3', ELogger::LOG_APPENDER_FILE);
+        
+        $appenderMock = $this->getMockBuilder(\Experience\Core\Tools\Logger\Appenders\AppenderFile::class)
+                             ->disableOriginalConstructor()
+                             ->getMock();
+
+        // Ci aspettiamo 2 chiamate: una da alert() e una da debug()
+        $appenderMock->expects($this->exactly(2))
+                     ->method('add');
+
+        $reflection = new ReflectionClass($logger);
+        $appendersProp = $reflection->getProperty('appenders');
+        $appendersProp->setAccessible(true);
+        $appendersProp->setValue($logger, [ELogger::LOG_APPENDER_FILE => $appenderMock]);
+
+        // Chiamata ai metodi di shortcut
+        $logger->alert("System Alert!");
+        $logger->debug("Debug info");
+    }
+}

@@ -81,7 +81,7 @@
            *
            * @param ELogRow $log_row
            */
-          public function add(ELogRow $log_row){
+          public function add(ELogRow $log_row): bool{
 
                if($log_row->type >= $this->loglevel){
                     $message = new EMessage();
@@ -113,7 +113,7 @@
                     }
 
                }
-
+               return true;
           }
 
           /**

@@ -5,7 +5,7 @@
                 <div class="uk-width-1-2@m">
                     <div class="uk-card uk-card-default uk-card-small uk-card-body">
                         <h2 class="uk-card-title">
-                            <div class="uk-grid-small" uk-grid>
+                            <div class="uk-grid-small" uk-grid style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin:-10px;">
                                 <div class="uk-width-expand">
                                     System information
                                 </div>
@@ -73,7 +73,7 @@
                 <div class="uk-width-1-2@m">
                     <div class="uk-card uk-card-default uk-card-small uk-card-body"> 
                         <h2 class="uk-card-title">
-                            <div class="uk-grid-small" uk-grid>
+                            <div class="uk-grid-small" uk-grid style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin:-10px;">
                                 <div class="uk-width-expand">
                                     eXperience CORE information
                                 </div>
@@ -146,7 +146,7 @@
                 <div class="uk-width-1-2@m">
                     <div class="uk-card uk-card-default uk-card-small uk-card-body"> 
                         <h2 class="uk-card-title">
-                            <div class="uk-grid-small" uk-grid>
+                            <div class="uk-grid-small" uk-grid style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin:-10px;">
                                 <div class="uk-width-expand">
                                     App configuration
                                 </div>
@@ -215,7 +215,7 @@
                 <div class="uk-width-1-2@m">
                     <div class="uk-card uk-card-default uk-card-small uk-card-body">
                         <h2 class="uk-card-title">
-                            <div class="uk-grid-small" uk-grid>
+                            <div class="uk-grid-small" uk-grid style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin:-10px;">
                                 <div class="uk-width-expand">
                                     Test results
                                 </div>
@@ -471,39 +471,43 @@
                         </div>
                     </div>
 
-                    <div class="uk-card uk-card-default uk-card-small uk-card-body" style="margin-top: 40px;">
-                        <h2 class="uk-card-title">
-                            <div class="uk-grid-small" uk-grid>
-                                <div class="uk-width-expand">
-                                    Errors
+                    <?php if( (($db_error != '') || (isset($logger_error)) || (isset($mailer_error)) ) ){ ?>
+
+                        <div class="uk-card uk-card-default uk-card-small uk-card-body" style="margin-top: 40px;">
+                            <h2 class="uk-card-title">
+                                <div class="uk-grid-small" uk-grid style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin:-10px;">
+                                    <div class="uk-width-expand">
+                                        Errors
+                                    </div>
+                                    <div>
+                                        <span uk-icon="icon: warning; ratio: 2" class="icon_title"></span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span uk-icon="icon: warning; ratio: 2" class="icon_title"></span>
+                            </h2>
+                            <?php if( ($db_error != '') ){ ?>
+
+                                <div class="uk-alert-danger" uk-alert>
+                                    <p><b>Database error:</b> <?php echo $db_error;?></p>
                                 </div>
-                            </div>
-                        </h2>
-                        <?php if( isset($db_error) ){ ?>
+                            <?php } ?>
 
-                            <div class="uk-alert-danger" uk-alert>
-                                <p><b>Database error:</b> <?php echo $db_error;?></p>
-                            </div>
-                        <?php } ?>
+                            <?php if( isset($logger_error) ){ ?>
 
-                        <?php if( isset($logger_error) ){ ?>
+                                <div class="uk-alert-danger" uk-alert>
+                                    <p><b>Logger error:</b> <?php echo $logger_error;?></p> 
+                                </div>
+                            <?php } ?>
 
-                            <div class="uk-alert-danger" uk-alert>
-                                <p><b>Logger error:</b> <?php echo $logger_error;?></p> 
-                            </div>
-                        <?php } ?>
+                            <?php if( isset($mailer_error) ){ ?>
 
-                        <?php if( isset($mailer_error) ){ ?>
+                                <div class="uk-alert-danger" uk-alert>
+                                    <p><b>Mailer error:</b> <?php echo $mailer_error;?></p> 
+                                </div>
+                            <?php } ?>
 
-                            <div class="uk-alert-danger" uk-alert>
-                                <p><b>Mailer error:</b> <?php echo $mailer_error;?></p> 
-                            </div>
-                        <?php } ?>
+                        </div>
+                    <?php } ?>
 
-                    </div>
                 </div>
 
             </div>
