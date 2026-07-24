@@ -286,7 +286,9 @@
          * Chiude la connesione con il db
          */
         public function close(){
-            $this->adapter->disconnect();
+            if (isset($this->adapter)) {
+                $this->adapter->disconnect();
+            }
         }
 
     }
