@@ -141,7 +141,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 
     </aside>
 
@@ -168,7 +168,7 @@
                 <span class="phpdocumentor-tag__name">version</span>
             </dt>
                             <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">0.0.2</span>
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
                                                                                                         
                                     </dd>
                                 <dt class="phpdocumentor-tag-list__entry">
@@ -244,6 +244,18 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_db">$db</a>
+    <span>
+                        &nbsp;: <a href="classes/Experience-Core-Io-Dbal-EDbManager.html"><abbr title="\Experience\Core\Io\Dbal\EDbManager">EDbManager</abbr></a>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_error">$error</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_logname">$logname</a>
     <span>
                         &nbsp;: string            </span>
@@ -267,7 +279,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_add">add()</a>
     <span>
-                                &nbsp;: int    </span>
+                                &nbsp;: bool    </span>
 </dt>
 <dd>Add log row</dd>
 
@@ -284,6 +296,24 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Summary of setLogLevel</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_createLogger">createLogger()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_getLoggerId">getLoggerId()</a>
+    <span>
+                                &nbsp;: int|null    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_insertLogRow">insertLogRow()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
 
     </dl>
 
@@ -416,6 +446,80 @@
             -private
                                                                     "
 >
+    <h4 class="phpdocumentor-element__name" id="property_db">
+        $db
+        <a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_db" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">65</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Experience-Core-Io-Dbal-EDbManager.html"><abbr title="\Experience\Core\Io\Dbal\EDbManager">EDbManager</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$db</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_error">
+        $error
+        <a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_error" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">63</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$error</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
     <h4 class="phpdocumentor-element__name" id="property_logname">
         $logname
         <a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_logname" class="headerlink"><i class="fas fa-link"></i></a>
@@ -426,7 +530,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">62</span>
 
     </aside>
 
@@ -468,7 +572,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
@@ -524,7 +628,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">87</span>
 
     </aside>
 
@@ -532,7 +636,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">add</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Experience-Core-Tools-Logger-ELogRow.html"><abbr title="\Experience\Core\Tools\Logger\ELogRow">ELogRow</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_row</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">add</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Experience-Core-Tools-Logger-ELogRow.html"><abbr title="\Experience\Core\Tools\Logger\ELogRow">ELogRow</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_row</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -557,7 +661,7 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">int</span>
+        <span class="phpdocumentor-signature__response_type">bool</span>
             </section>
 
 </article>
@@ -575,7 +679,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">110</span>
 
     </aside>
 
@@ -666,6 +770,130 @@
     
     
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_createLogger">
+        createLogger()
+        <a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_createLogger" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">160</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">createLogger</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getLoggerId">
+        getLoggerId()
+        <a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_getLoggerId" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">143</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getLoggerId</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_insertLogRow">
+        insertLogRow()
+        <a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_insertLogRow" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Experience/core/tools/logger/appenders/appenderdb.class.php"><a href="files/src-experience-core-tools-logger-appenders-appenderdb-class.html"><abbr title="src/Experience/core/tools/logger/appenders/appenderdb.class.php">appenderdb.class.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">117</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">insertLogRow</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Experience-Core-Tools-Logger-ELogRow.html"><abbr title="\Experience\Core\Tools\Logger\ELogRow">ELogRow</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_row</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$log_row</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Experience-Core-Tools-Logger-ELogRow.html"><abbr title="\Experience\Core\Tools\Logger\ELogRow">ELogRow</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -691,6 +919,8 @@
                                                     <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-Appender.html#property_cfg">$cfg</a></li>
                                                     <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-Appender.html#property_errorIdentifier">$errorIdentifier</a></li>
                                                     <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-Appender.html#property_loglevel">$loglevel</a></li>
+                                                    <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_db">$db</a></li>
+                                                    <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_error">$error</a></li>
                                                     <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#property_logname">$logname</a></li>
                                             </ul>
                 </li>
@@ -702,6 +932,9 @@
                                             <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_add">add()</a></li>
                                             <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_getLog">getLog()</a></li>
                                             <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-Appender.html#method_setLogLevel">setLogLevel()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_createLogger">createLogger()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_getLoggerId">getLoggerId()</a></li>
+                                            <li class=""><a href="classes/Experience-Core-Tools-Logger-Appenders-AppenderDb.html#method_insertLogRow">insertLogRow()</a></li>
                                     </ul>
             </li>
                     </ul>
