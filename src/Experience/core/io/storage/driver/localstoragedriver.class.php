@@ -86,14 +86,20 @@
          * @return bool
          */
         public function connectToStorage(mixed $path): bool{
-            if(!$this->fileExists($path)){
+            if (!$this->fileExists($path)) {
                 EExceptionManager::throwException("StorageConnectionException");
                 return false;
             }
-            $this->webRoot = getcwd().$path;
+            // Normalizza garantendo lo slash finale
+            $this->webRoot = rtrim(getcwd() . $path, '/\\') . '/';
             return true;
         }
 
+
+        /**
+         * Summary of getWebRoot
+         * @return string
+         */
         public function getWebRoot(): string{
             return $this->webRoot;
         }

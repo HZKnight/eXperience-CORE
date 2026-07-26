@@ -16,16 +16,17 @@ class LocalStorageDriverTest extends TestCase
     {
         parent::setUp();
 
-        // Inizializzazione del gestore eccezioni
+        // Inizializzazione delle eccezioni fittizie per il test
         EExceptionManager::getExceptionManager();
         EExceptionManager::addException("StorageConnectionException", "Impossibile connettersi.", "ST001");
         EExceptionManager::addException("StorageDirectoryNotCreatedException", "Directory [DIR] con mode [MODE] non creata.", "ST002");
         EExceptionManager::addException("StorageDirectoryAlreadyExistException", "Directory [DIR] già esistente.", "ST003");
         EExceptionManager::addException("StorageFileNotFoundException", "File [FILE] non trovato.", "ST004");
-        EExceptionManager::addException("StorageFileListingException", "Errore ls [SOURCE] [PATTERN].", "ST005");
+        EExceptionManager::addException("StorageFileNotWritableException", "File [FILE] non scrivibile.", "ST005");
+        EExceptionManager::addException("StorageFileListingException", "Errore ls [SOURCE] [PATTERN].", "ST006");
 
-        // Creiamo una cartella temporanea all'interno del progetto locale
-        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'exp_test_' . uniqid();
+        // Creazione cartella temporanea di test
+        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'exp_test_' . uniqid() . DIRECTORY_SEPARATOR;
         mkdir($this->tempDir, 0777, true);
 
         $this->driver = new LocalStorageDriver();
@@ -52,25 +53,30 @@ class LocalStorageDriverTest extends TestCase
     }
 
     /**
-     * Helper per connettere il driver direttamente alla nostra directory di test
+     * Connette il driver assicurando che il percorso termini SEMPRE con '/'
      */
     private function connectDriverToTempDir(): void
     {
-        // Se passiamo un percorso assoluto come '.', calcoliamo il relativo rispetto a getcwd()
-        $cwd = getcwd();
-        if (strpos($this->tempDir, $cwd) === 0) {
-            $relativePath = substr($this->tempDir, strlen($cwd));
+        // Normalizziamo i separatori sostituendo i backslash con slash
+        $cwd = str_replace('\\', '/', getcwd());
+        $realTemp = str_replace('\\', '/', realpath($this->tempDir) ?: $this->tempDir);
+
+        if (strpos($realTemp, $cwd) === 0) {
+            $relativePath = substr($realTemp, strlen($cwd));
         } else {
-            $relativePath = $this->tempDir;
+            $relativePath = $realTemp;
         }
 
+        $relativePath = rtrim($relativePath, '/') . '/';
         $this->driver->connectToStorage($relativePath);
     }
 
     public function testConnectToStorageSuccess(): void
     {
         $cwd = getcwd();
-        $relativePath = stristr($this->tempDir, $cwd) ? substr($this->tempDir, strlen($cwd)) : $this->tempDir;
+        $realTemp = realpath($this->tempDir) ?: $this->tempDir;
+        $relativePath = stristr($realTemp, $cwd) ? substr($realTemp, strlen($cwd)) : $realTemp;
+        $relativePath = rtrim($relativePath, '/\\') . '/';
 
         $this->assertTrue($this->driver->connectToStorage($relativePath));
         $this->assertEquals($cwd . $relativePath, $this->driver->getWebRoot());
@@ -79,18 +85,18 @@ class LocalStorageDriverTest extends TestCase
     public function testConnectToStorageThrowsExceptionOnInvalidPath(): void
     {
         $this->expectException(EException::class);
-        $this->driver->connectToStorage('/non_existing_dir_' . uniqid());
+        $this->driver->connectToStorage('/non_existing_dir_' . uniqid() . '/');
     }
 
     public function testMkdirSuccessAndAlreadyExistsException(): void
     {
         $this->connectDriverToTempDir();
 
-        // 1. Creazione riuscita (usando sintassi permessi compatibile con octdec/mkdir)
+        // Creazione cartella (senza slash iniziale per concatenare pulito)
         $this->assertTrue($this->driver->mkdir('new_folder', '0777'));
         $this->assertTrue($this->driver->isDir('new_folder'));
 
-        // 2. Errore se la cartella esiste già
+        // Eccezione se già esistente
         $this->expectException(EException::class);
         $this->driver->mkdir('new_folder', '0777');
     }
@@ -161,7 +167,8 @@ class LocalStorageDriverTest extends TestCase
         $this->driver->fileWrite('beta.log', 'B', 'wb');
         $this->driver->fileWrite('gamma.txt', 'G', 'wb');
 
-        $list = $this->driver->ls('./', '*.txt');
+        // Passando '' (stringa vuota) scansiona direttamente webRoot senza aggiungere './'
+        $list = $this->driver->ls('', '*.txt');
 
         $this->assertCount(2, $list);
         $this->assertContains('alpha.txt', $list);
