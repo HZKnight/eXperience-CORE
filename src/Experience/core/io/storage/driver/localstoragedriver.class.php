@@ -161,7 +161,7 @@
 
             clearstatcache();
 
-            $source = $this->webRoot.$name;
+            $source = $this->getFullPath($name);
 
             if(!$this->fileExists($source)){
                 $vars = array(
@@ -213,10 +213,15 @@
           
             clearstatcache();
 
-            $src = $this->webRoot.$source;
-            $dest = $this->webRoot.$target;
+            $src = $this->getFullPath($source);
+            $dest = $this->getFullPath($target);
           
             if(!$this->fileExists($src)){
+                $vars = array(
+                    SOURCE => $src,
+                    TARGET => $dest
+                );
+                EExceptionManager::throwException("StorageCopyException", $vars);
                 return false;
             }elseif(copy($src, $dest)){
                 clearstatcache();
@@ -248,7 +253,7 @@
             settype($dir,"string");
             settype($pattern,"string");
 
-            $source = "{$this->webRoot}{$dir}";
+            $source = $this->getFullPath($dir);
 
             clearstatcache();
 
@@ -305,7 +310,7 @@
          */
         public function fileExists(string $src): bool{
             settype($src,"string");
-            $source = $this->webRoot.$src;
+            $source = $this->getFullPath($src);
             return file_exists($source);
         }
 
@@ -374,8 +379,18 @@
          */
         public function isDir(string $name): bool{
             settype($name,"string");
-            $source = "{$this->webRoot}{$name}";
+            $source = $this->getFullPath($name);
             return is_dir($source);
+        }
+
+
+        private function getFullPath(string $path): string {
+            // Se il path è vuoto o '.', restituisce direttamente la root
+            $trimmed = trim($path, '/\\');
+            if ($trimmed === '' || $trimmed === '.') {
+                return $this->webRoot;
+            }
+            return $this->webRoot . $trimmed;
         }
 
     }
