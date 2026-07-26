@@ -86,12 +86,17 @@
          * @return bool
          */
         public function connectToStorage(mixed $path): bool{
-            if (!$this->fileExists($path)) {
+            // Rimuove eventuali slash iniziali/finali dal path e ne aggiunge esattamente uno all'inizio e uno alla fine
+            $normalizedPath = '/' . trim((string)$path, '/\\') . '/';
+            
+            $fullPath = rtrim(getcwd(), '/\\') . $normalizedPath;
+
+            if (!is_dir($fullPath)) {
                 EExceptionManager::throwException("StorageConnectionException");
                 return false;
             }
-            // Normalizza garantendo lo slash finale
-            $this->webRoot = rtrim(getcwd() . $path, '/\\') . '/';
+
+            $this->webRoot = $fullPath;
             return true;
         }
 

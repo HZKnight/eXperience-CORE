@@ -26,10 +26,14 @@ class LocalStorageDriverTest extends TestCase
         EExceptionManager::addException("StorageFileNotWritableException", "File [FILE] non scrivibile.", "ST005");
         EExceptionManager::addException("StorageFileListingException", "Errore ls [SOURCE] [PATTERN].", "ST006");
 
-        // Creiamo la cartella temporanea DENTRO la radice del progetto per garantire un percorso relativo valido
         $uniqueId = uniqid('storage_test_');
-        $this->relativeTempDir = 'tmp/' . $uniqueId . '/';
-        $this->absoluteTempDir = getcwd() . '/' . $this->relativeTempDir;
+        
+        // Risolviamo il problema del path: aggiungiamo lo slash iniziale per staccare da getcwd()
+        $this->relativeTempDir = '/tmp/' . $uniqueId . '/';
+        
+        // Normalizziamo i separatori in slash per compatibilità Linux/Windows
+        $cwd = str_replace('\\', '/', getcwd());
+        $this->absoluteTempDir = rtrim($cwd, '/') . $this->relativeTempDir;
 
         if (!is_dir($this->absoluteTempDir)) {
             mkdir($this->absoluteTempDir, 0777, true);
@@ -71,7 +75,7 @@ class LocalStorageDriverTest extends TestCase
     public function testConnectToStorageThrowsExceptionOnInvalidPath(): void
     {
         $this->expectException(EException::class);
-        $this->driver->connectToStorage('tmp/non_existing_directory_' . uniqid() . '/');
+        $this->driver->connectToStorage('/tmp/non_existing_directory_' . uniqid() . '/');
     }
 
     public function testMkdirSuccessAndAlreadyExistsException(): void
@@ -150,7 +154,6 @@ class LocalStorageDriverTest extends TestCase
         $this->driver->fileWrite('beta.log', 'B', 'wb');
         $this->driver->fileWrite('gamma.txt', 'G', 'wb');
 
-        // Passiamo '' per scansionare la root configurata in connectToStorage
         $list = $this->driver->ls('', '*.txt');
 
         $this->assertCount(2, $list);
