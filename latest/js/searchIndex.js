@@ -1078,7 +1078,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\LocalStorageDriver\u003A\u003AgetWebRoot\u0028\u0029",
             "name": "getWebRoot",
-            "summary": "",
+            "summary": "Summary\u0020of\u0020getWebRoot",
             "url": "classes/Experience-Core-Io-Storage-Driver-LocalStorageDriver.html#method_getWebRoot"
         },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\LocalStorageDriver\u003A\u003Amkdir\u0028\u0029",
