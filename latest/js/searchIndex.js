@@ -1126,6 +1126,11 @@ Search.appendIndex(
             "summary": "Verify\u0020if\u0020is\u0020a\u0020directory",
             "url": "classes/Experience-Core-Io-Storage-Driver-LocalStorageDriver.html#method_isDir"
         },                {
+            "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\LocalStorageDriver\u003A\u003AgetFullPath\u0028\u0029",
+            "name": "getFullPath",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Storage-Driver-LocalStorageDriver.html#method_getFullPath"
+        },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\LocalStorageDriver\u003A\u003A\u0024webRoot",
             "name": "webRoot",
             "summary": "",
