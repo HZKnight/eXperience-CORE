@@ -115,7 +115,10 @@
             clearstatcache();
 
             if(!$this->fileExists($source)){
-                if (!mkdir($source,$mode)){
+                // Conversione esplicita da stringa ottale ad int ottale
+                $octalMode = octdec($mode);
+
+                if (!mkdir($source, $octalMode, true)) { // Usa $octalMode
                     $vars = array(
                         DIR => $source,
                         MODE => $mode

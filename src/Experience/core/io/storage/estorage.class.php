@@ -42,7 +42,10 @@
     use function array_key_exists;
     use function settype;
 
-    define("FILE", "[FILE]");
+    // Definizione della costante se non ancora caricata dal bootstrap del CORE
+    if (!defined('FILE')) {
+        define('FILE', '[FILE]');
+    }
 
     /**
      * Storage interface class

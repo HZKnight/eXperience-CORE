@@ -16,11 +16,16 @@ class LocalStorageDriverTest extends TestCase
     {
         parent::setUp();
 
-        // Inizializzazione gestore eccezioni del CORE
+        // Inizializzazione del gestore eccezioni
         EExceptionManager::getExceptionManager();
+        EExceptionManager::addException("StorageConnectionException", "Impossibile connettersi.", "ST001");
+        EExceptionManager::addException("StorageDirectoryNotCreatedException", "Directory [DIR] con mode [MODE] non creata.", "ST002");
+        EExceptionManager::addException("StorageDirectoryAlreadyExistException", "Directory [DIR] già esistente.", "ST003");
+        EExceptionManager::addException("StorageFileNotFoundException", "File [FILE] non trovato.", "ST004");
+        EExceptionManager::addException("StorageFileListingException", "Errore ls [SOURCE] [PATTERN].", "ST005");
 
-        // Creazione di un ambiente filesystem isolato per ciascun test
-        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'experience_storage_test_' . uniqid();
+        // Creiamo una cartella temporanea all'interno del progetto locale
+        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'exp_test_' . uniqid();
         mkdir($this->tempDir, 0777, true);
 
         $this->driver = new LocalStorageDriver();
@@ -28,14 +33,10 @@ class LocalStorageDriverTest extends TestCase
 
     protected function tearDown(): void
     {
-        // Pulizia completa della directory temporanea dopo il test
         $this->removeDirectoryRecursive($this->tempDir);
         parent::tearDown();
     }
 
-    /**
-     * Helper per la pulizia ricorsiva della cartella temporanea del test.
-     */
     private function removeDirectoryRecursive(string $dir): void
     {
         if (!is_dir($dir)) {
@@ -45,137 +46,122 @@ class LocalStorageDriverTest extends TestCase
         $files = array_diff(scandir($dir), ['.', '..']);
         foreach ($files as $file) {
             $path = $dir . DIRECTORY_SEPARATOR . $file;
-            is_dir($path) ? $this->removeDirectoryRecursive($path) : unlink($path);
+            is_dir($path) ? $this->removeDirectoryRecursive($path) : @unlink($path);
         }
-        rmdir($dir);
+        @rmdir($dir);
     }
 
     /**
-     * Test della connessione allo storage con un percorso esistente.
+     * Helper per connettere il driver direttamente alla nostra directory di test
      */
+    private function connectDriverToTempDir(): void
+    {
+        // Se passiamo un percorso assoluto come '.', calcoliamo il relativo rispetto a getcwd()
+        $cwd = getcwd();
+        if (strpos($this->tempDir, $cwd) === 0) {
+            $relativePath = substr($this->tempDir, strlen($cwd));
+        } else {
+            $relativePath = $this->tempDir;
+        }
+
+        $this->driver->connectToStorage($relativePath);
+    }
+
     public function testConnectToStorageSuccess(): void
     {
-        // $path relativo a getcwd()
-        $relativePath = str_replace(getcwd(), '', $this->tempDir);
+        $cwd = getcwd();
+        $relativePath = stristr($this->tempDir, $cwd) ? substr($this->tempDir, strlen($cwd)) : $this->tempDir;
 
         $this->assertTrue($this->driver->connectToStorage($relativePath));
-        $this->assertEquals(getcwd() . $relativePath, $this->driver->getWebRoot());
+        $this->assertEquals($cwd . $relativePath, $this->driver->getWebRoot());
     }
 
-    /**
-     * Test fallimento connessione su percorso inesistente.
-     */
     public function testConnectToStorageThrowsExceptionOnInvalidPath(): void
     {
         $this->expectException(EException::class);
-        $this->driver->connectToStorage('/non_existing_directory_' . uniqid());
+        $this->driver->connectToStorage('/non_existing_dir_' . uniqid());
     }
 
-    /**
-     * Test creazione directory (mkdir) ed eccezione se già esistente.
-     */
     public function testMkdirSuccessAndAlreadyExistsException(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
-        // 1. Creazione riuscita
-        $this->assertTrue($this->driver->mkdir('/new_folder', '0777'));
-        $this->assertTrue(is_dir($this->tempDir . '/new_folder'));
+        // 1. Creazione riuscita (usando sintassi permessi compatibile con octdec/mkdir)
+        $this->assertTrue($this->driver->mkdir('new_folder', '0777'));
+        $this->assertTrue($this->driver->isDir('new_folder'));
 
-        // 2. Errore se esiste già
+        // 2. Errore se la cartella esiste già
         $this->expectException(EException::class);
-        $this->driver->mkdir('/new_folder', '0777');
+        $this->driver->mkdir('new_folder', '0777');
     }
 
-    /**
-     * Test scrittura e lettura file.
-     */
     public function testFileWriteAndFileRead(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
-        $fileName = '/sample.txt';
+        $fileName = 'sample.txt';
         $content = 'Framework eXperience Core';
 
-        // Write in mode wb
         $this->assertTrue($this->driver->fileWrite($fileName, $content, 'wb'));
         $this->assertTrue($this->driver->fileExists($fileName));
-
-        // Read
         $this->assertEquals($content, $this->driver->fileRead($fileName));
     }
 
-    /**
-     * Test lettura di un file inesistente (lancia StorageFileNotFoundException).
-     */
     public function testFileReadThrowsExceptionWhenFileNotFound(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
         $this->expectException(EException::class);
-        $this->driver->fileRead('/missing.txt');
+        $this->driver->fileRead('missing.txt');
     }
 
-    /**
-     * Test della comparazione md5 tra due file (fileCompare).
-     */
     public function testFileCompareReturnsTrueForIdenticalFiles(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
-        $this->driver->fileWrite('/file1.txt', 'SameContent', 'wb');
-        $this->driver->fileWrite('/file2.txt', 'SameContent', 'wb');
-        $this->driver->fileWrite('/file3.txt', 'DifferentContent', 'wb');
+        $this->driver->fileWrite('file1.txt', 'SameContent', 'wb');
+        $this->driver->fileWrite('file2.txt', 'SameContent', 'wb');
+        $this->driver->fileWrite('file3.txt', 'DifferentContent', 'wb');
 
-        $this->assertTrue($this->driver->fileCompare('/file1.txt', '/file2.txt'));
-        $this->assertFalse($this->driver->fileCompare('/file1.txt', '/file3.txt'));
+        $this->assertTrue($this->driver->fileCompare('file1.txt', 'file2.txt'));
+        $this->assertFalse($this->driver->fileCompare('file1.txt', 'file3.txt'));
     }
 
-    /**
-     * Test copia file (fcopy).
-     */
     public function testFcopySuccess(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
-        $this->driver->fileWrite('/source.txt', 'Copy payload', 'wb');
-        $this->assertTrue($this->driver->fcopy('/source.txt', '/destination.txt'));
+        $this->driver->fileWrite('source.txt', 'Copy payload', 'wb');
+        $this->assertTrue($this->driver->fcopy('source.txt', 'destination.txt'));
 
-        $this->assertTrue($this->driver->fileExists('/destination.txt'));
-        $this->assertEquals('Copy payload', $this->driver->fileRead('/destination.txt'));
+        $this->assertTrue($this->driver->fileExists('destination.txt'));
+        $this->assertEquals('Copy payload', $this->driver->fileRead('destination.txt'));
     }
 
-    /**
-     * Test eliminazione ricorsiva file e directory (rm).
-     */
     public function testRmDeletesFilesAndNestedDirectories(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
-        // Struttura: /folder/subfolder/file.txt
-        $this->driver->mkdir('/folder');
-        $this->driver->mkdir('/folder/subfolder');
-        $this->driver->fileWrite('/folder/subfolder/file.txt', 'Deep file', 'wb');
+        $this->driver->mkdir('folder', '0777');
+        $this->driver->mkdir('folder/subfolder', '0777');
+        $this->driver->fileWrite('folder/subfolder/file.txt', 'Deep file', 'wb');
 
-        $this->assertTrue($this->driver->isDir('/folder'));
+        $this->assertTrue($this->driver->isDir('folder'));
 
         // Cancellazione ricorsiva
-        $this->assertTrue($this->driver->rm('/folder'));
-        $this->assertFalse($this->driver->fileExists('/folder'));
+        $this->assertTrue($this->driver->rm('folder'));
+        $this->assertFalse($this->driver->fileExists('folder'));
     }
 
-    /**
-     * Test elenco contenuti directory (ls) con pattern.
-     */
     public function testLsListsMatchingFiles(): void
     {
-        $this->driver->connectToStorage(str_replace(getcwd(), '', $this->tempDir));
+        $this->connectDriverToTempDir();
 
-        $this->driver->fileWrite('/alpha.txt', 'A', 'wb');
-        $this->driver->fileWrite('/beta.log', 'B', 'wb');
-        $this->driver->fileWrite('/gamma.txt', 'G', 'wb');
+        $this->driver->fileWrite('alpha.txt', 'A', 'wb');
+        $this->driver->fileWrite('beta.log', 'B', 'wb');
+        $this->driver->fileWrite('gamma.txt', 'G', 'wb');
 
-        $list = $this->driver->ls('/', '*.txt');
+        $list = $this->driver->ls('./', '*.txt');
 
         $this->assertCount(2, $list);
         $this->assertContains('alpha.txt', $list);
