@@ -42,6 +42,8 @@
     use function array_key_exists;
     use function settype;
 
+    define("FILE", "[FILE]");
+
     /**
      * Storage interface class
      *
