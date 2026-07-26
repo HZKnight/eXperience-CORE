@@ -185,7 +185,8 @@ class AppenderDbTest extends TestCase
     {
         $appender = $this->createAppenderDbWithMockedDb();
 
-        $this->dbMock->method('doQuery')->willReturn(false);
+        // doQuery restituisce null anziché false per rispecchiare la firma ?array di EDbManager
+        $this->dbMock->method('doQuery')->willReturn(null);
         $this->dbMock->method('getError')->willReturn('Database connection lost');
 
         $logRowMock = $this->createMock(ELogRow::class);
@@ -213,6 +214,8 @@ class AppenderDbTest extends TestCase
 
         $logRowMock = $this->createMock(ELogRow::class);
         $logRowMock->type = 100;
+        $logRowMock->message = 'Test message';
+        $logRowMock->date = '2026-07-26 12:00:00'; // Impostato per evitare TypeError in covertToSqlDate
 
         $this->assertFalse($appender->add($logRowMock));
     }
