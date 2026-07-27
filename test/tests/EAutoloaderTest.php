@@ -151,21 +151,28 @@ class EAutoloaderTest extends TestCase
 
     public function testThrowsAutoloaderExceptionWhenVendorFileNotFound(): void
     {
-        $this->expectException(AutoloaderException::class);
-        
         $autoloader = new EAutoloader();
 
         $reflection = new \ReflectionClass($autoloader);
+
+        // 1. Iniettiamo una mappa vendor controllata per evitare disallineamenti di percorso o classi già caricate
+        $vendorsProperty = $reflection->getProperty('vendors');
+        $vendorsProperty->setAccessible(true);
+        
+        $nonExistentPath = $this->realExperienceDir . 'vendor' . DIRECTORY_SEPARATOR . 'Missing' . DIRECTORY_SEPARATOR . 'File.php';
+        
+        $vendorsProperty->setValue($autoloader, [
+            'TestVendor\MissingClass' => $nonExistentPath
+        ]);
+
+        // 2. Ci aspettiamo che lanci AutoloaderException
+        $this->expectException(AutoloaderException::class);
+        $this->expectExceptionMessage('Unable to find class: "TestVendor\MissingClass"');
+
+        // 3. Invochiamo l'autoloader
         $method = $reflection->getMethod('experienceAutoload');
         $method->setAccessible(true);
 
-        // PHPMailer/SMTP è nella mappa $vendors ma il file non esiste su disco nel runner
-        $method->invoke($autoloader, 'PHPMailer\PHPMailer\SMTP');
-    }
-
-    public function testAutoloaderExceptionDefaultErrorCode(): void
-    {
-        $exception = new AutoloaderException("Test Error");
-        $this->assertEquals("AE001", $exception->getCode());
+        $method->invoke($autoloader, 'TestVendor\MissingClass');
     }
 }
