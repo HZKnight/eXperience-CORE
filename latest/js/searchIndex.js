@@ -1131,6 +1131,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Experience-Core-Io-Storage-Driver-LocalStorageDriver.html#method_getFullPath"
         },                {
+            "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\LocalStorageDriver\u003A\u003AdeleteDirectoryRecursive\u0028\u0029",
+            "name": "deleteDirectoryRecursive",
+            "summary": "",
+            "url": "classes/Experience-Core-Io-Storage-Driver-LocalStorageDriver.html#method_deleteDirectoryRecursive"
+        },                {
             "fqsen": "\\Experience\\Core\\Io\\Storage\\Driver\\LocalStorageDriver\u003A\u003A\u0024webRoot",
             "name": "webRoot",
             "summary": "",
