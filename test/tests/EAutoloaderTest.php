@@ -153,22 +153,22 @@ class EAutoloaderTest extends TestCase
 
     public function testThrowsAutoloaderExceptionWhenVendorFileNotFound(): void
     {
-        // Rimuoviamo il file vendor creato in setUp per forzare il fallimento
-        $vendorFile = $this->tempDir . '/Experience/vendor/Psr/Log/LoggerInterface.php';
-        if (file_exists($vendorFile)) {
-            unlink($vendorFile);
-        }
+        // 1. Istanziamo l'autoloader
+        $autoloader = new EAutoloader();
+
+        // 2. Usiamo una classe della mappa vendor che NON è stata mai caricata negli altri test
+        // ad esempio PHPMailer (il cui file non esiste nella nostra directory temporanea)
+        $vendorClassToTest = 'PHPMailer\PHPMailer\PHPMailer';
 
         $this->expectException(AutoloaderException::class);
-        $this->expectExceptionMessage('Unable to find class: "Psr\Log\LoggerInterface"');
-
-        $autoloader = new EAutoloader();
+        $this->expectExceptionMessage('Unable to find class: "' . $vendorClassToTest . '"');
 
         $reflection = new \ReflectionClass($autoloader);
         $method = $reflection->getMethod('experienceAutoload');
         $method->setAccessible(true);
 
-        $method->invoke($autoloader, 'Psr\Log\LoggerInterface');
+        // 3. Invoking autoload lancerà l'eccezione poiché il file non esiste in tempDir
+        $method->invoke($autoloader, $vendorClassToTest);
     }
 
     public function testAutoloaderExceptionDefaultErrorCode(): void
