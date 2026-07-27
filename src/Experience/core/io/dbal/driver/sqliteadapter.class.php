@@ -113,7 +113,7 @@
 
             try {
                 // $this->config['path'] deve contenere il percorso del file .db
-                $this->connection = new SQLite3($this->config['path']);
+                $this->connection = new SQLite3($this->connData['path']);
                 
                 // Abilitiamo le eccezioni per errori SQL
                 $this->connection->enableExceptions(true);

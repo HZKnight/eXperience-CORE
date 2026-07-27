@@ -40,9 +40,6 @@
     use Experience\Core\Io\Storage\Driver\StorageDriver;
     use Experience\Core\Exceptions\EExceptionManager;
 
-    use \RecursiveDirectoryIterator;
-    use \RecursiveIteratorIterator;
-
 
     // Costanti per i segnaposto nei messaggi delle accezioni
     define("FILE", "[FILE]");
