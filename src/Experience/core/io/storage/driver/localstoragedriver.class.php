@@ -159,44 +159,19 @@
         public function rm(string $name): bool{
             settype($name,"string");
 
-            clearstatcache();
+            $fullPath = $this->getFullPath($name);
 
-            $source = $this->getFullPath($name);
-
-            if(!$this->fileExists($source)){
-                $vars = array(
-                    FILE => $source
-                );
-                EExceptionManager::throwException("StorageFileNotFoundException", $vars);
-            } elseif(!is_writable($source)){
-                $vars = array(
-                    FILE => $source
-                );
-                EExceptionManager::throwException("StorageFileNotWritableException", $vars);
-            } else {
-                if(is_dir($source)){
-                    $it = new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS);
-                    $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-                    foreach($files as $file) {
-                        $this->rm($file->getPathname());
-                    }
-                    rmdir($source);
-                } else {
-                    unlink($source);
-                }
-
-                clearstatcache();
-    
-                if(!$this->fileExists($source)){
-                    return true;
-                }
-                
-                $vars = array(
-                    FILE => $source
-                );
-                EExceptionManager::throwException("StorageFileNotWritableException", $vars);
+            // Deve verificare file_exists (che in PHP restituisce true sia per file che per directory)
+            if (!file_exists($fullPath)) {
+                EExceptionManager::throwException("StorageFileNotFoundException", ["FILE" => $fullPath]);
+                return false;
             }
-            return false;
+
+            if (is_dir($fullPath)) {
+                return $this->deleteDirectoryRecursive($fullPath);
+            }
+
+            return @unlink($fullPath);
         }
 
 
@@ -213,32 +188,31 @@
           
             clearstatcache();
 
-            $src = $this->getFullPath($source);
-            $dest = $this->getFullPath($target);
-          
-            if(!$this->fileExists($src)){
-                $vars = array(
-                    SOURCE => $src,
-                    TARGET => $dest
-                );
-                EExceptionManager::throwException("StorageCopyException", $vars);
-                return false;
-            }elseif(copy($src, $dest)){
-                clearstatcache();
-          
-                if($this->fileExists($dest) && $this->fileCompare($src, $dest)){
-                    return true;
-                }
-            }
-          
-            $this->rm($dest);
+            $fullSource = $this->getFullPath($source);
+            $fullDest = $this->getFullPath($target);
 
-            $vars = array(
-                SOURCE => $src,
-                TARGET => $dest
-            );
-            EExceptionManager::throwException("StorageCopyException", $vars);
-            return false;
+            if (!file_exists($fullSource)) {
+                EExceptionManager::throwException("StorageFileNotFoundException", ["FILE" => $fullSource]);
+                return false;
+            }
+
+            // Assicuriamoci che la cartella contenitrice della destinazione esista
+            $destDir = dirname($fullDest);
+            if (!is_dir($destDir)) {
+                mkdir($destDir, 0777, true);
+            }
+
+            $result = @copy($fullSource, $fullDest);
+
+            if (!$result) {
+                EExceptionManager::throwException("StorageFileCopyException", [
+                    "SOURCE" => $fullSource,
+                    "DESTINATION" => $fullDest
+                ]);
+                return false;
+            }
+
+            return true;
         }
 
 
@@ -253,33 +227,36 @@
             settype($dir,"string");
             settype($pattern,"string");
 
-            $source = $this->getFullPath($dir);
+            // Se la directory passa come stringa vuota, usiamo la webRoot configurata
+            $targetDir = $this->getFullPath($dir);
 
-            clearstatcache();
-
-            $ls=array();
-            $regexp=str_replace("/\\x5C\\x3F/",".",str_replace("/\\x5C\\x2A/",".*",preg_quote($pattern,"/")));
-
-            if($this->isDir($source)){
-                $it = new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS);
-                $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-                foreach($files as $file) {
-                    $fileName = $file->getFilename();
-                    if(preg_match("/^".$regexp."$/", $fileName)){
-                        array_push($ls, $fileName);
-                    }
-                }
-
-                sort($ls,SORT_STRING);
-                return $ls;
+            if (!is_dir($targetDir)) {
+                EExceptionManager::throwException("StorageFileListingException", [
+                    "SOURCE" => $targetDir,
+                    "PATTERN" => $pattern
+                ]);
+                return [];
             }
-           
-            $vars = array(
-                SOURCE => $source,
-                PATTERN => $pattern
-            );
-            EExceptionManager::throwException("StorageFileListingException", $vars);
-            return [];
+
+            // Aggiunge lo slash finale prima del pattern se non presente
+            $searchPattern = rtrim($targetDir, '/\\') . '/' . $pattern;
+            $matches = glob($searchPattern);
+
+            if ($matches === false) {
+                EExceptionManager::throwException("StorageFileListingException", [
+                    "SOURCE" => $targetDir,
+                    "PATTERN" => $pattern
+                ]);
+                return [];
+            }
+
+            // Restituisce solo i nomi relativi/basename dei file trovati
+            $result = [];
+            foreach ($matches as $filePath) {
+                $result[] = basename($filePath);
+            }
+
+            return $result;
         }
 
 
@@ -391,6 +368,16 @@
                 return $this->webRoot;
             }
             return $this->webRoot . $trimmed;
+        }
+
+
+        private function deleteDirectoryRecursive(string $dir): bool {
+            $items = array_diff(scandir($dir) ?: [], ['.', '..']);
+            foreach ($items as $item) {
+                $path = $dir . DIRECTORY_SEPARATOR . $item;
+                is_dir($path) ? $this->deleteDirectoryRecursive($path) : @unlink($path);
+            }
+            return @rmdir($dir);
         }
 
     }
