@@ -66,7 +66,7 @@
         private \mysqli $connection;
         private string $error = '';
         private array $connData;
-        private string $tbprefix;
+        private string $tbprefix = '';
         private EConfigManager|array $config;
         private int $transactionCounter = 0;
 
@@ -88,7 +88,7 @@
                 $this->connData['port'] = $config['port'] ?? self::DEFAULT_PORT;
                 $this->connData['uname'] = $config['uname'];
                 $this->connData['passwd'] = $config['passwd'];
-                $this->tbprefix = $config['tb_prefix'];
+                $this->tbprefix = (string)($config['tbprefix'] ?? $config['dbprefix'] ?? $config['prefix'] ?? '');
                 $this->connData['db'] = $config['db'] ?? '';
             } else {
                 // Usa EConfigManager
@@ -96,7 +96,7 @@
                 $this->connData['port'] = $config->getParam('db.port', self::DEFAULT_PORT);
                 $this->connData['uname'] = $config->getParam('db.uname', '');
                 $this->connData['passwd'] = $config->getParam('db.passwd', '');
-                $this->tbprefix = $config->getParam('db.tb_prefix', '');
+                $this->tbprefix = (string)($config->getParam('db.tbprefix', '') ?: $config->getParam('db.prefix', ''));
                 $this->connData['db'] = $config->getParam('db.db', '');
             }
         }

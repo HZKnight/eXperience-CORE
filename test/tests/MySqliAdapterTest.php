@@ -15,7 +15,7 @@ class MysqliAdapterTest extends TestCase
     {
         parent::setUp();
 
-        // Garantiamo che tutte le chiavi (specie i prefissi) siano stringhe non-null
+        // Inseriamo tutti i possibili naming per il prefisso come stringhe non-null
         $this->dbConfig = [
             'host'     => getenv('DB_HOST') ?: '127.0.0.1',
             'user'     => getenv('DB_USER') ?: 'root',
@@ -23,7 +23,8 @@ class MysqliAdapterTest extends TestCase
             'dbname'   => getenv('DB_NAME') ?: 'test_db',
             'port'     => (int)(getenv('DB_PORT') ?: 3306),
             'tbprefix' => 'exp_',
-            'prefix'   => 'exp_' // Supporto fallback per entrambe le chiavi
+            'dbprefix' => 'exp_',
+            'prefix'   => 'exp_'
         ];
     }
 
@@ -74,23 +75,23 @@ class MysqliAdapterTest extends TestCase
         $this->assertEmpty($adapter->getError());
     }
 
-
     public function testConstructWithEConfigManager(): void
     {
         $configMock = $this->createMock(EConfigManager::class);
         
-        // Risoluzione dei parametri con stringhe esplicite invece di null
+        // Ritorna sempre stringhe valide per qualsiasi variant della chiave del prefisso
         $configMock->method('getParam')
             ->willReturnCallback(function (string $key, $default = '') {
                 return match ($key) {
-                    'db.host', 'host'         => '127.0.0.1',
-                    'db.user', 'user'         => 'root',
-                    'db.pass', 'pass'         => '',
-                    'db.dbname', 'dbname'     => 'test_db',
-                    'db.port', 'port'         => 3306,
-                    'db.tbprefix', 'db.prefix',
-                    'tbprefix', 'prefix'      => 'exp_',
-                    default                   => is_string($default) ? $default : ''
+                    'db.host', 'host'                   => '127.0.0.1',
+                    'db.user', 'user'                   => 'root',
+                    'db.pass', 'pass'                   => '',
+                    'db.dbname', 'dbname'               => 'test_db',
+                    'db.port', 'port'                   => 3306,
+                    'db.tbprefix', 'db.dbprefix', 
+                    'db.prefix', 'tbprefix', 
+                    'dbprefix', 'prefix'                => 'exp_',
+                    default                             => is_string($default) ? $default : ''
                 };
             });
 
