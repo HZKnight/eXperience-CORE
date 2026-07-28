@@ -15,14 +15,15 @@ class MysqliAdapterTest extends TestCase
     {
         parent::setUp();
 
-        // Configurazione DB da ambiente (es. CI/GitHub Actions) o fallback locale
+        // Garantiamo che tutte le chiavi (specie i prefissi) siano stringhe non-null
         $this->dbConfig = [
-            'host' => getenv('DB_HOST') ?: '127.0.0.1',
-            'user' => getenv('DB_USER') ?: 'root',
-            'pass' => getenv('DB_PASS') ?: '',
-            'dbname' => getenv('DB_NAME') ?: 'test_db',
-            'port' => (int)(getenv('DB_PORT') ?: 3306),
-            'tbprefix' => 'exp_'
+            'host'     => getenv('DB_HOST') ?: '127.0.0.1',
+            'user'     => getenv('DB_USER') ?: 'root',
+            'pass'     => getenv('DB_PASS') !== false ? getenv('DB_PASS') : '',
+            'dbname'   => getenv('DB_NAME') ?: 'test_db',
+            'port'     => (int)(getenv('DB_PORT') ?: 3306),
+            'tbprefix' => 'exp_',
+            'prefix'   => 'exp_' // Supporto fallback per entrambe le chiavi
         ];
     }
 
@@ -73,18 +74,25 @@ class MysqliAdapterTest extends TestCase
         $this->assertEmpty($adapter->getError());
     }
 
+
     public function testConstructWithEConfigManager(): void
     {
         $configMock = $this->createMock(EConfigManager::class);
+        
+        // Risoluzione dei parametri con stringhe esplicite invece di null
         $configMock->method('getParam')
-            ->willReturnMap([
-                ['db.host', 'localhost', '127.0.0.1'],
-                ['db.user', 'root', 'root'],
-                ['db.pass', '', 'secret'],
-                ['db.dbname', '', 'test_db'],
-                ['db.port', 3306, 3306],
-                ['db.tbprefix', '', 'exp_']
-            ]);
+            ->willReturnCallback(function (string $key, $default = '') {
+                return match ($key) {
+                    'db.host', 'host'         => '127.0.0.1',
+                    'db.user', 'user'         => 'root',
+                    'db.pass', 'pass'         => '',
+                    'db.dbname', 'dbname'     => 'test_db',
+                    'db.port', 'port'         => 3306,
+                    'db.tbprefix', 'db.prefix',
+                    'tbprefix', 'prefix'      => 'exp_',
+                    default                   => is_string($default) ? $default : ''
+                };
+            });
 
         $adapter = new MysqliAdapter($configMock);
         $this->assertInstanceOf(MysqliAdapter::class, $adapter);
