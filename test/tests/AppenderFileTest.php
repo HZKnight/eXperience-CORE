@@ -141,8 +141,8 @@ class AppenderFileTest extends TestCase
 
         $appender = new AppenderFile($this->logName, $this->cfgMock, $this->storageMock);
         
-        // Impostiamo il livello di log dell'Appender a 1
-        $appender->setLovelog(1);
+        // Impostiamo il livello minimo di log dell'Appender
+        $appender->setLogLevel(1);
 
         $logRow = $this->createLogRow(1, 'Database connection error', '2026-07-28 10:15:00');
 
@@ -168,7 +168,7 @@ class AppenderFileTest extends TestCase
         $this->storageMock->method('fileExists')->willReturn(true);
 
         $appender = new AppenderFile($this->logName, $this->cfgMock, $this->storageMock);
-        $appender->setLovelog(1);
+        $appender->setLogLevel(1);
 
         $logRow = $this->createLogRow(2, 'Warning message');
 
@@ -187,10 +187,10 @@ class AppenderFileTest extends TestCase
 
         $appender = new AppenderFile($this->logName, $this->cfgMock, $this->storageMock);
         
-        // Sogliamo il livello di log a 3 (es. ERROR)
-        $appender->setLovelog(3);
+        // Impostiamo il livello di log a 3 (es. ERROR)
+        $appender->setLogLevel(3);
 
-        // Inviamo una riga con livello 1 (es. INFO)
+        // Inviamo un log di livello 1 (es. INFO) -> non deve scrivere
         $logRow = $this->createLogRow(1, 'Debug message');
 
         // Non deve tentare né di creare né di scrivere sul file
