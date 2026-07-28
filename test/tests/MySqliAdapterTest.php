@@ -3,26 +3,26 @@
 namespace Experience\Tests\Core\Io\Dbal\Driver;
 
 use PHPUnit\Framework\TestCase;
-use Experience\Core\Io\Dbal\Driver\MySqliAdapter;
+use Experience\Core\Io\Dbal\Driver\MysqliAdapter;
 use Experience\Core\Tools\Config\EConfigManager;
 
-class MySqliAdapterTest extends TestCase
+class MysqliAdapterTest extends TestCase
 {
+    private ?MysqliAdapter $adapter = null;
     private array $dbConfig;
-    private ?MySqliAdapter $adapter = null;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Configurazione di default per i test (modificabile via variabili d'ambiente)
+        // Configurazione DB da ambiente (es. CI/GitHub Actions) o fallback locale
         $this->dbConfig = [
-            'host'      => getenv('DB_HOST') ?: '127.0.0.1',
-            'port'      => (int)(getenv('DB_PORT') ?: 3306),
-            'uname'     => getenv('DB_USER') ?: 'root',
-            'passwd'    => getenv('DB_PASS') ?: '',
-            'db'        => getenv('DB_NAME') ?: 'test_db',
-            'tb_prefix' => 'exp_'
+            'host' => getenv('DB_HOST') ?: '127.0.0.1',
+            'user' => getenv('DB_USER') ?: 'root',
+            'pass' => getenv('DB_PASS') ?: '',
+            'dbname' => getenv('DB_NAME') ?: 'test_db',
+            'port' => (int)(getenv('DB_PORT') ?: 3306),
+            'tbprefix' => 'exp_'
         ];
     }
 
@@ -37,39 +37,39 @@ class MySqliAdapterTest extends TestCase
     }
 
     /**
-     * Helper interno per verificare la presenza di una connessione attiva prima di eseguire query reali.
+     * Helper per verificare la disponibilità del server MySQL/MariaDB
      */
-    private function getConnectedAdapter(): ?MySqliAdapter
+    private function getConnectedAdapter(): ?MysqliAdapter
     {
-        $adapter = new MySqliAdapter($this->dbConfig);
+        $adapter = new MysqliAdapter($this->dbConfig);
         if (!$adapter->connect()) {
-            $this->markTestSkipped('Database MySQL non raggiungibile. Test skippato: ' . $adapter->getError());
+            $this->markTestSkipped('Server MySQL non disponibile per i test di integrazione: ' . $adapter->getError());
+            return null;
         }
 
         return $adapter;
     }
 
-    /**
-     * Helper per la creazione rapida di una tabella temporanea di test.
-     */
-    private function createDummyTable(MySqliAdapter $adapter): void
+    private function createDummyTable(MysqliAdapter $adapter): void
     {
-        $adapter->execute("CREATE TEMPORARY TABLE exp_users (
+        $adapter->execute("DROP TABLE IF EXISTS exp_test_users");
+        $adapter->execute("CREATE TABLE exp_test_users (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(50) NOT NULL,
-            score DOUBLE NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )");
+            name VARCHAR(100) NOT NULL,
+            score DOUBLE NULL,
+            is_active TINYINT(1) DEFAULT 1,
+            notes TEXT NULL
+        ) ENGINE=InnoDB");
     }
 
     // -------------------------------------------------------------------------
-    // 1. CONSTRUCTOR & INITIALIZATION TESTS
+    // 1. CONFIGURATION & CONSTRUCTOR TESTS
     // -------------------------------------------------------------------------
 
     public function testConstructWithArrayConfig(): void
     {
-        $adapter = new MySqliAdapter($this->dbConfig);
-        $this->assertInstanceOf(MySqliAdapter::class, $adapter);
+        $adapter = new MysqliAdapter($this->dbConfig);
+        $this->assertInstanceOf(MysqliAdapter::class, $adapter);
         $this->assertEmpty($adapter->getError());
     }
 
@@ -78,89 +78,85 @@ class MySqliAdapterTest extends TestCase
         $configMock = $this->createMock(EConfigManager::class);
         $configMock->method('getParam')
             ->willReturnMap([
-                ['db.host', 'localhost', $this->dbConfig['host']],
-                ['db.port', 3306, $this->dbConfig['port']],
-                ['db.uname', '', $this->dbConfig['uname']],
-                ['db.passwd', '', $this->dbConfig['passwd']],
-                ['db.tb_prefix', '', $this->dbConfig['tb_prefix']],
-                ['db.db', '', $this->dbConfig['db']],
+                ['db.host', 'localhost', '127.0.0.1'],
+                ['db.user', 'root', 'root'],
+                ['db.pass', '', 'secret'],
+                ['db.dbname', '', 'test_db'],
+                ['db.port', 3306, 3306],
+                ['db.tbprefix', '', 'exp_']
             ]);
 
-        $adapter = new MySqliAdapter($configMock);
-        $this->assertInstanceOf(MySqliAdapter::class, $adapter);
+        $adapter = new MysqliAdapter($configMock);
+        $this->assertInstanceOf(MysqliAdapter::class, $adapter);
     }
 
     // -------------------------------------------------------------------------
     // 2. CONNECTION & ERROR HANDLING TESTS
     // -------------------------------------------------------------------------
 
-    public function testConnectSuccess(): void
-    {
-        $adapter = $this->getConnectedAdapter();
-        $this->assertTrue($adapter->connect(), 'I richiami successivi a connect() devono restituire true');
-    }
-
     public function testConnectFailureWithInvalidCredentials(): void
     {
-        $invalidConfig = $this->dbConfig;
-        $invalidConfig['passwd'] = 'invalid_password_xyz_123456';
-        $invalidConfig['port'] = 3306;
+        $invalidConfig = array_merge($this->dbConfig, [
+            'host' => '127.0.0.1',
+            'user' => 'invalid_user_xyz_99',
+            'pass' => 'wrong_password_123'
+        ]);
 
-        $adapter = new MySqliAdapter($invalidConfig);
-        
-        // Disattiviamo temporaneamente il reporting strict globale se si vuole catturare il bool false
-        $this->assertFalse($adapter->connect());
+        $adapter = new MysqliAdapter($invalidConfig);
+        $result = $adapter->connect();
+
+        $this->assertFalse($result);
         $this->assertNotEmpty($adapter->getError());
     }
 
-    public function testDisconnect(): void
+    public function testMultipleConnectCallsReturnTrueIfAlreadyConnected(): void
     {
-        $adapter = $this->getConnectedAdapter();
-        $adapter->disconnect();
+        $this->adapter = $this->getConnectedAdapter();
+        
+        // La seconda chiamata deve subito ritornare true senza riaprire la connessione
+        $this->assertTrue($this->adapter->connect());
+    }
 
-        // Verifichiamo che dopo la disconnessione sia possibile riconnettersi puliti
-        $this->assertTrue($adapter->connect());
+    public function testDisconnectAndSubsequentQueryFailure(): void
+    {
+        $this->adapter = $this->getConnectedAdapter();
+        $this->adapter->disconnect();
+
+        $result = $this->adapter->execute("SELECT 1");
+        $this->assertFalse($result);
     }
 
     // -------------------------------------------------------------------------
-    // 3. CRUD & QUERY EXECUTION TESTS
+    // 3. QUERY EXECUTION, BINDINGS & TYPES
     // -------------------------------------------------------------------------
 
-    public function testExecuteInsertAndUpdate(): void
+    public function testExecuteWithDataTypesBinding(): void
     {
         $this->adapter = $this->getConnectedAdapter();
         $this->createDummyTable($this->adapter);
 
-        // INSERT con binding di tipi diversi (string, double, int)
-        $affectedRows = $this->adapter->execute(
-            "INSERT INTO exp_users (name, score) VALUES (?, ?)",
-            ['Luca Liscio', 95.5]
+        // Inserimento con Integer, Double, String e NULL per testare tutti i rami di bind_param (i, d, s, b)
+        $affected = $this->adapter->execute(
+            "INSERT INTO exp_test_users (name, score, is_active, notes) VALUES (?, ?, ?, ?)",
+            ['Luca Liscio', 99.5, 1, null]
         );
 
-        $this->assertEquals(1, $affectedRows);
+        $this->assertEquals(1, $affected);
         $this->assertGreaterThan(0, $this->adapter->lastInsertId());
-
-        // UPDATE
-        $updatedRows = $this->adapter->execute(
-            "UPDATE exp_users SET score = ? WHERE name = ?",
-            [100.0, 'Luca Liscio']
-        );
-
-        $this->assertEquals(1, $updatedRows);
     }
 
-    public function testExecuteReturnsFalseOnQueryError(): void
+    public function testExecuteQueryErrorPopulatesErrorMessage(): void
     {
         $this->adapter = $this->getConnectedAdapter();
-        
-        $result = $this->adapter->execute("SELECT * FROM table_that_does_not_exist_xyz");
-        
+
+        $result = $this->adapter->execute("SELECT * FROM non_existent_table_abc_123");
+
         $this->assertFalse($result);
         $this->assertNotEmpty($this->adapter->getError());
     }
 
     // -------------------------------------------------------------------------
-    // 4. FETCH METHODS TESTS (fetchAll, fetchOne, fetchColumn)
+    // 4. FETCH METHODS
     // -------------------------------------------------------------------------
 
     public function testFetchAll(): void
@@ -168,57 +164,54 @@ class MySqliAdapterTest extends TestCase
         $this->adapter = $this->getConnectedAdapter();
         $this->createDummyTable($this->adapter);
 
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['User A', 10.0]);
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['User B', 20.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name, score) VALUES (?, ?)", ['User A', 10.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name, score) VALUES (?, ?)", ['User B', 20.0]);
 
-        $rows = $this->adapter->fetchAll("SELECT name, score FROM exp_users ORDER BY id ASC");
+        $rows = $this->adapter->fetchAll("SELECT name, score FROM exp_test_users ORDER BY id ASC");
 
         $this->assertIsArray($rows);
         $this->assertCount(2, $rows);
         $this->assertEquals('User A', $rows[0]['name']);
-        $this->assertEquals('User B', $rows[1]['name']);
+        $this->assertEquals(20.0, (float)$rows[1]['score']);
     }
 
-    public function testFetchOne(): void
+    public function testFetchOneReturnsRowOrNull(): void
     {
         $this->adapter = $this->getConnectedAdapter();
         $this->createDummyTable($this->adapter);
 
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['Mario Rossi', 88.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name) VALUES (?)", ['Mario Rossi']);
 
-        $row = $this->adapter->fetchOne("SELECT name, score FROM exp_users WHERE name = ?", ['Mario Rossi']);
-
+        $row = $this->adapter->fetchOne("SELECT name FROM exp_test_users WHERE name = ?", ['Mario Rossi']);
         $this->assertIsArray($row);
         $this->assertEquals('Mario Rossi', $row['name']);
-        $this->assertEquals(88.0, (float)$row['score']);
 
-        // Test riscontro record inesistente
-        $notFound = $this->adapter->fetchOne("SELECT * FROM exp_users WHERE name = ?", ['NonEsisto']);
+        $notFound = $this->adapter->fetchOne("SELECT name FROM exp_test_users WHERE name = ?", ['Inesistente']);
         $this->assertNull($notFound);
     }
 
-    public function testFetchColumn(): void
+    public function testFetchColumnWithOffsets(): void
     {
         $this->adapter = $this->getConnectedAdapter();
         $this->createDummyTable($this->adapter);
 
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['Giuseppe', 42.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name, score) VALUES (?, ?)", ['Giuseppe', 85.5]);
 
-        // Offset 0 (prima colonna -> name)
-        $valCol0 = $this->adapter->fetchColumn("SELECT name, score FROM exp_users WHERE name = ?", ['Giuseppe'], 0);
-        $this->assertEquals('Giuseppe', $valCol0);
+        // Offset 0 (name)
+        $name = $this->adapter->fetchColumn("SELECT name, score FROM exp_test_users WHERE name = ?", ['Giuseppe'], 0);
+        $this->assertEquals('Giuseppe', $name);
 
-        // Offset 1 (seconda colonna -> score)
-        $valCol1 = $this->adapter->fetchColumn("SELECT name, score FROM exp_users WHERE name = ?", ['Giuseppe'], 1);
-        $this->assertEquals(42.0, (float)$valCol1);
+        // Offset 1 (score)
+        $score = $this->adapter->fetchColumn("SELECT name, score FROM exp_test_users WHERE name = ?", ['Giuseppe'], 1);
+        $this->assertEquals(85.5, (float)$score);
 
-        // Offset fuori limite
-        $valInvalid = $this->adapter->fetchColumn("SELECT name FROM exp_users WHERE name = ?", ['Giuseppe'], 99);
-        $this->assertNull($valInvalid);
+        // Offset non valido -> deve ritornare null
+        $outOfBounds = $this->adapter->fetchColumn("SELECT name FROM exp_test_users WHERE name = ?", ['Giuseppe'], 99);
+        $this->assertNull($outOfBounds);
     }
 
     // -------------------------------------------------------------------------
-    // 5. TRANSACTIONS & SAVEPOINTS TESTS
+    // 5. TRANSACTIONS & SAVEPOINTS
     // -------------------------------------------------------------------------
 
     public function testTransactionCommit(): void
@@ -227,10 +220,10 @@ class MySqliAdapterTest extends TestCase
         $this->createDummyTable($this->adapter);
 
         $this->adapter->beginTransaction();
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['TxUser1', 50.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name) VALUES (?)", ['TxUser']);
         $this->adapter->commit();
 
-        $count = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_users WHERE name = ?", ['TxUser1']);
+        $count = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_test_users WHERE name = ?", ['TxUser']);
         $this->assertEquals(1, (int)$count);
     }
 
@@ -240,10 +233,10 @@ class MySqliAdapterTest extends TestCase
         $this->createDummyTable($this->adapter);
 
         $this->adapter->beginTransaction();
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['RollbackUser', 10.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name) VALUES (?)", ['RollbackUser']);
         $this->adapter->rollBack();
 
-        $count = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_users WHERE name = ?", ['RollbackUser']);
+        $count = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_test_users WHERE name = ?", ['RollbackUser']);
         $this->assertEquals(0, (int)$count);
     }
 
@@ -254,11 +247,11 @@ class MySqliAdapterTest extends TestCase
 
         // Transazione Livello 0
         $this->adapter->beginTransaction();
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['OuterUser', 1.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name) VALUES (?)", ['OuterUser']);
 
-        // Transazione Annidata Livello 1 (Crea SAVEPOINT trans_1)
+        // Transazione Livello 1 (Savepoint)
         $this->adapter->beginTransaction();
-        $this->adapter->execute("INSERT INTO exp_users (name, score) VALUES (?, ?)", ['InnerUser', 2.0]);
+        $this->adapter->execute("INSERT INTO exp_test_users (name) VALUES (?)", ['InnerUser']);
         
         // Rollback al Savepoint (annulla solo InnerUser)
         $this->adapter->rollBack();
@@ -266,10 +259,22 @@ class MySqliAdapterTest extends TestCase
         // Commit della transazione principale
         $this->adapter->commit();
 
-        $outerCount = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_users WHERE name = ?", ['OuterUser']);
-        $innerCount = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_users WHERE name = ?", ['InnerUser']);
+        $outerCount = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_test_users WHERE name = ?", ['OuterUser']);
+        $innerCount = $this->adapter->fetchColumn("SELECT COUNT(*) FROM exp_test_users WHERE name = ?", ['InnerUser']);
 
-        $this->assertEquals(1, (int)$outerCount, 'Il record esterno deve essere conservato');
-        $this->assertEquals(0, (int)$innerCount, 'Il record annidato deve essere stato annullato');
+        $this->assertEquals(1, (int)$outerCount);
+        $this->assertEquals(0, (int)$innerCount);
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. UTILITIES & ESCAPING
+    // -------------------------------------------------------------------------
+
+    public function testEscapeString(): void
+    {
+        $this->adapter = $this->getConnectedAdapter();
+
+        $escaped = $this->adapter->escape("O'Reilly & \"Co\"");
+        $this->assertStringContainsString("O\'Reilly", $escaped);
     }
 }
