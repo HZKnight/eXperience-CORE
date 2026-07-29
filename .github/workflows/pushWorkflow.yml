@@ -53,9 +53,9 @@ jobs:
         DB_PORT: 3306
       run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml
 
-    - name: Check Clover Coverage Output
+    - name: Check MysqliAdapter Coverage in Clover
       run: |
-        head -n 40 test/coverage.xml
+        grep -A 15 -i "mysqliadapter.class.php" test/coverage.xml
 
     # Avvia lo scan di SonarCloud leggendo la coverage generata
     - name: SonarCloud Scan
