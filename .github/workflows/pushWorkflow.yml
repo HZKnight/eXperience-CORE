@@ -51,7 +51,7 @@ jobs:
         DB_PASS: root
         DB_NAME: test_db
         DB_PORT: 3306
-      run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml
+      run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml --display-skipped --display-errors
 
     - name: Check MysqliAdapter Coverage in Clover
       run: |

@@ -15,17 +15,62 @@ class MysqliAdapterTest extends TestCase
     {
         parent::setUp();
 
-        // Inseriamo tutti i possibili naming per il prefisso come stringhe non-null
+        // Forza TCP/IP usando 127.0.0.1 anziché socket locale
+        $host = getenv('DB_HOST') ?: '127.0.0.1';
+        if ($host === 'localhost') {
+            $host = '127.0.0.1';
+        }
+
         $this->dbConfig = [
-            'host'     => getenv('DB_HOST') ?: '127.0.0.1',
+            'host'     => $host,
             'user'     => getenv('DB_USER') ?: 'root',
-            'pass'     => getenv('DB_PASS') !== false ? getenv('DB_PASS') : '',
+            'pass'     => getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'root',
             'dbname'   => getenv('DB_NAME') ?: 'test_db',
             'port'     => (int)(getenv('DB_PORT') ?: 3306),
             'tbprefix' => 'exp_',
             'dbprefix' => 'exp_',
             'prefix'   => 'exp_'
         ];
+
+        // Creiamo la struttura minima della tabella di test sul DB reale
+        $conn = @mysqli_connect(
+            $this->dbConfig['host'],
+            $this->dbConfig['user'],
+            $this->dbConfig['pass'],
+            $this->dbConfig['dbname'],
+            $this->dbConfig['port']
+        );
+
+        if (!$conn) {
+            $this->fail("Impossibile connettersi al DB MySQL di test: " . mysqli_connect_error());
+        }
+
+        // Tabella di test fittizia per far girare i test di fetch/query
+        mysqli_query($conn, "CREATE TABLE IF NOT EXISTS exp_test_table (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            val VARCHAR(255) NULL
+        )");
+
+        mysqli_close($conn);
+    }
+
+
+    public function createAdapter(): MysqliAdapter
+    {
+        $adapter = new MysqliAdapter($this->dbConfig);
+        $adapter->connect();
+        return $adapter;
+    }
+
+    public function testExecuteAndFetch(): void
+    {
+        $adapter = $this->createAdapter();
+        
+        // Eseguiamo query reali per coprire i metodi della classe
+        $adapter->execute("INSERT INTO exp_test_table (val) VALUES (?)", ['s', 'hello']);
+        $rows = $adapter->fetchAll("SELECT * FROM exp_test_table");
+        
+        $this->assertNotEmpty($rows);
     }
 
     protected function tearDown(): void
@@ -294,7 +339,7 @@ class MysqliAdapterTest extends TestCase
         $adapter = new MysqliAdapter($configMock);
         $this->assertInstanceOf(MysqliAdapter::class, $adapter);
     }
-    
+
 
     // -------------------------------------------------------------------------
     // 6. UTILITIES & ESCAPING
