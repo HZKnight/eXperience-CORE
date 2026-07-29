@@ -12,28 +12,45 @@ jobs:
   unit_test_and_quality:
     runs-on: ubuntu-latest
 
+    # Avviamo il servizio MySQL 8.0 affiancato al runner
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v4 # Aggiornato alla v4 stabile ufficiale
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    # Configura l'ambiente PHP unico e nativo sulla macchina Linux
+    # Configura l'ambiente PHP con estensioni MySQL e PCOV per la coverage
     - name: Setup PHP Environment
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: dom, curl, libxml, mbstring, pdo_sqlite, gettext # Inclusa gettext per dgettext()
-        coverage: xdebug
+        extensions: dom, curl, libxml, mbstring, mysqli, pdo_mysql, pdo_sqlite, gettext
+        coverage: pcov # Molto più rapido ed efficiente di xdebug in CI
 
-    # Installa le dipendenze (incluso PHPUnit)
+    # Installa le dipendenze
     - name: Install Dependencies
       run: |
         composer require --dev phpunit/phpunit:"^11.3" --no-progress --prefer-dist
         composer install --prefer-dist --no-progress
 
-    # Esegui i test chiamando direttamente phpunit tramite composer (più sicuro sui percorsi)
+    # Esegui i test passando le credenziali del DB di test via env
     - name: Run PHPUnit Tests
+      env:
+        DB_HOST: 127.0.0.1
+        DB_USER: root
+        DB_PASS: root
+        DB_NAME: test_db
+        DB_PORT: 3306
       run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml
 
     # Avvia lo scan di SonarCloud leggendo la coverage generata
