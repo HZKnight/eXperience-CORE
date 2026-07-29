@@ -64,3 +64,7 @@ jobs:
           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
           -Dsonar.organization=${{ secrets.SONAR_ORG }}
           -Dsonar.php.coverage.reportPaths=test/coverage.xml
+
+    - name: Check Clover Coverage Output
+      run: |
+        head -n 40 test/coverage.xml

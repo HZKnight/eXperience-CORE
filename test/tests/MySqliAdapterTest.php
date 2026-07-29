@@ -275,6 +275,27 @@ class MysqliAdapterTest extends TestCase
         $this->assertEquals(0, (int)$innerCount);
     }
 
+
+    public function testConstructAndSettersWithoutRealDb(): void
+    {
+        $configMock = $this->createMock(EConfigManager::class);
+        $configMock->method('getParam')->willReturnCallback(function($key, $default = '') {
+            return match($key) {
+                'db.host', 'host' => '127.0.0.1',
+                'db.user', 'user' => 'root',
+                'db.pass', 'pass' => 'root',
+                'db.dbname', 'dbname' => 'test_db',
+                'db.port', 'port' => 3306,
+                'db.tbprefix', 'tbprefix', 'dbprefix', 'prefix' => 'exp_',
+                default => ''
+            };
+        });
+
+        $adapter = new MysqliAdapter($configMock);
+        $this->assertInstanceOf(MysqliAdapter::class, $adapter);
+    }
+    
+
     // -------------------------------------------------------------------------
     // 6. UTILITIES & ESCAPING
     // -------------------------------------------------------------------------
