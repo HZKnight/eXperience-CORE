@@ -53,6 +53,10 @@ jobs:
         DB_PORT: 3306
       run: composer exec phpunit -- --configuration test/phpunit.xml --coverage-clover test/coverage.xml
 
+    - name: Check Clover Coverage Output
+      run: |
+        head -n 40 test/coverage.xml
+
     # Avvia lo scan di SonarCloud leggendo la coverage generata
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
@@ -64,7 +68,3 @@ jobs:
           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
           -Dsonar.organization=${{ secrets.SONAR_ORG }}
           -Dsonar.php.coverage.reportPaths=test/coverage.xml
-
-    - name: Check Clover Coverage Output
-      run: |
-        head -n 40 test/coverage.xml
